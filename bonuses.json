@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-07-test",
+  "updated": "2026-09-07",
   "bonuses": [
     {
       "id": "toolkit-membership",
@@ -22,7 +22,7 @@
       "vendor": "Summit",
       "value": "$25 USD",
       "image": "images/destinations-map-2027.jpg",
-      "description": "TEST EDIT \u2014 pushed live via Claude at 2026-09-07. If you see this sentence on the preview page, the Airtable-to-GitHub-to-page pattern works end to end.",
+      "description": "Our 2027 summit destination experts revealed their top destinations for first time visits this year. In this interactive map, you'll be able to reference each of their recommended locations all in one place.",
       "highlights": []
     }
   ]
