@@ -1,0 +1,29 @@
+{
+  "updated": "2026-09-07",
+  "bonuses": [
+    {
+      "id": "toolkit-membership",
+      "title": "30 Days Free - Intentional Travelers Toolkit Membership",
+      "vendor": "Intentional Travelers",
+      "value": "$29 USD",
+      "image": "images/toolkit-membership.jpg",
+      "description": "Unlock the secrets to crafting unforgettable itineraries, discovering hidden gems, and enjoying seamless travels — all while saving time and avoiding costly pitfalls. Enjoy full access to all of Michelle's travel courses with our growing library of video tutorials, checklists, destination resources, and monthly travel tips, at no cost for the first 30 days.",
+      "highlights": [
+        "Learn the secrets to making the most of your time and trip budget",
+        "Harness simple tools to find hidden gems in any destination",
+        "Gain confidence that you're not missing out on better experiences elsewhere",
+        "Eliminate hours of fruitless trip research with shortcuts for building your own itineraries",
+        "Arrive in new destinations with more confidence and ease"
+      ]
+    },
+    {
+      "id": "destinations-map-2027",
+      "title": "Map of Recommended Destinations for 2027",
+      "vendor": "Summit",
+      "value": "$25 USD",
+      "image": "images/destinations-map-2027.jpg",
+      "description": "Our 2027 summit destination experts revealed their top destinations for first time visits this year. In this interactive map, you'll be able to reference each of their recommended locations all in one place.",
+      "highlights": []
+    }
+  ]
+}
