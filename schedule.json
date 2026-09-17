@@ -1,0 +1,62 @@
+{
+  "updated": "2026-09-17",
+  "cycle": "2027",
+  "region": "Asia",
+  "cta": {
+    "label": "Save My Free Seat",
+    "href": "#register",
+    "note": "Set href to your ConvertBox hash trigger or on-page form anchor."
+  },
+  "placeholders": {
+    "speakers_tba": "Speakers for this day announced soon",
+    "topic_tba": "Topic announced soon",
+    "time_tba": "Time announced soon"
+  },
+  "days": [
+    {
+      "n": 1,
+      "theme": "DREAM",
+      "blurb": "Discover what your perfect Asia trip could look like with inspiring, approachable trip ideas. Your dream starts here!",
+      "cta_after_speakers": true,
+      "expert_session": {
+        "title": "Gem Destinations for First Time Trips",
+        "intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts"
+      },
+      "live_call": {
+        "heading": "Live Kick Off Call on Zoom",
+        "topic": "",
+        "time": "",
+        "note": "Register for Summit to get the Zoom link",
+        "cta_after": true
+      }
+    },
+    {
+      "n": 2,
+      "theme": "PLAN",
+      "blurb": "Learn the strategies, tips, and tools you'll need to turn your dream trip into a custom itinerary, saving time and money. Let's get planning!",
+      "cta_after_speakers": true,
+      "expert_session": null,
+      "live_call": {
+        "heading": "Live Session With Expert Panelists",
+        "topic": "",
+        "time": "",
+        "note": "Register for Summit to get the Zoom link",
+        "cta_after": true
+      }
+    },
+    {
+      "n": 3,
+      "theme": "GO!",
+      "blurb": "On the final day, you'll gain insider advice for smarter, safer, deeper travel once you depart. Let's go!",
+      "cta_after_speakers": true,
+      "expert_session": null,
+      "live_call": {
+        "heading": "Live Session With Expert Panelists",
+        "topic": "",
+        "time": "",
+        "note": "Register for Summit to get the Zoom link",
+        "cta_after": true
+      }
+    }
+  ]
+}
