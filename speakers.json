@@ -1,0 +1,109 @@
+{
+  "updated": "2026-09-17",
+  "cycle": "2027",
+  "region": "Asia",
+  "groups": [
+    {
+      "id": "speakers",
+      "label": "Your Summit Speakers",
+      "subtitle": "Full sessions released across three days"
+    },
+    {
+      "id": "experts",
+      "label": "Your Destination Experts",
+      "subtitle": "Short country briefings from travelers who know the ground"
+    }
+  ],
+  "speakers": [
+    {
+      "slug": "jedd-chang",
+      "name": "Jedd Chang",
+      "brand": "Intentional Travelers",
+      "session": "",
+      "group": "speakers",
+      "photo": "",
+      "link": ""
+    },
+    {
+      "slug": "jim-and-chris",
+      "name": "Jim and Chris",
+      "brand": "Geeks on Tour",
+      "session": "Phone Photography for Travelers",
+      "group": "speakers",
+      "photo": "",
+      "link": "https://learngooglephotos.com/"
+    },
+    {
+      "slug": "jo-anne-dragoun",
+      "name": "Jo Anne Dragoun",
+      "brand": "Retirement Bestie",
+      "session": "Using AI to Plan Your Asia Trip",
+      "group": "speakers",
+      "photo": "",
+      "link": ""
+    },
+    {
+      "slug": "megan-johnston",
+      "name": "Megan Johnston",
+      "brand": "Daily Drop Pro",
+      "session": "Award Travel",
+      "group": "speakers",
+      "photo": "",
+      "link": "https://faredrop.com/"
+    },
+    {
+      "slug": "robyn-dirk",
+      "name": "Robyn Dirk",
+      "brand": "Two Empty Passports",
+      "session": "Traveling With Limited Mobility in Asia",
+      "group": "speakers",
+      "photo": "",
+      "link": "https://twoemptypassports.com/travel-tips/"
+    },
+    {
+      "slug": "tyke-and-tina",
+      "name": "Tyke & Tina",
+      "brand": "Tyke & Tina Adventures",
+      "session": "Travel Health Habits and Mistakes to Avoid in Asia",
+      "group": "speakers",
+      "photo": "",
+      "link": "https://www.youtube.com/@TykeandTinaAdventures"
+    },
+    {
+      "slug": "harry-vu",
+      "name": "Harry Vu",
+      "brand": "Angiee Adventures",
+      "session": "Vietnam",
+      "group": "experts",
+      "photo": "",
+      "link": ""
+    },
+    {
+      "slug": "jaclynn-seah",
+      "name": "Jaclynn Seah",
+      "brand": "The Occasional Traveller",
+      "session": "Singapore",
+      "group": "experts",
+      "photo": "",
+      "link": "https://theoccasionaltraveller.com/"
+    },
+    {
+      "slug": "paula-morgan",
+      "name": "Paula Morgan",
+      "brand": "Thailand Awaits",
+      "session": "Thailand",
+      "group": "experts",
+      "photo": "",
+      "link": "https://thailandawaits.com/"
+    },
+    {
+      "slug": "vicki",
+      "name": "Vicki",
+      "brand": "Vickipedia China",
+      "session": "China",
+      "group": "experts",
+      "photo": "",
+      "link": ""
+    }
+  ]
+}
