@@ -3,9 +3,10 @@
   "cycle": "2027",
   "region": "Asia",
   "cta": {
-    "label": "Save My Free Seat",
-    "href": "#register",
-    "note": "Set href to your ConvertBox hash trigger or on-page form anchor."
+    "label": "Save my free seat",
+    "href": "https://diy-trip-summit.ck.page/6dad53ca77",
+    "formkit_uid": "6dad53ca77",
+    "note": "formkit_uid opens the ConvertKit modal; href is the fallback if the CK script is not on the page. Swap both when moving from waitlist to registration."
   },
   "placeholders": {
     "speakers_tba": "Speakers for this day announced soon",
@@ -18,10 +19,6 @@
       "theme": "DREAM",
       "blurb": "Discover what your perfect Asia trip could look like with inspiring, approachable trip ideas. Your dream starts here!",
       "cta_after_speakers": true,
-      "expert_session": {
-        "title": "Gem Destinations for First Time Trips",
-        "intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts"
-      },
       "live_call": {
         "heading": "Live Kick Off Call on Zoom",
         "topic": "",
@@ -35,7 +32,6 @@
       "theme": "PLAN",
       "blurb": "Learn the strategies, tips, and tools you'll need to turn your dream trip into a custom itinerary, saving time and money. Let's get planning!",
       "cta_after_speakers": true,
-      "expert_session": null,
       "live_call": {
         "heading": "Live Session With Expert Panelists",
         "topic": "",
@@ -49,7 +45,6 @@
       "theme": "GO!",
       "blurb": "On the final day, you'll gain insider advice for smarter, safer, deeper travel once you depart. Let's go!",
       "cta_after_speakers": true,
-      "expert_session": null,
       "live_call": {
         "heading": "Live Session With Expert Panelists",
         "topic": "",
@@ -58,5 +53,6 @@
         "cta_after": true
       }
     }
-  ]
+  ],
+  "compilation_intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts"
 }
