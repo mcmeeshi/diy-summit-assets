@@ -2,108 +2,169 @@
   "updated": "2026-09-17",
   "cycle": "2027",
   "region": "Asia",
-  "groups": [
-    {
-      "id": "speakers",
-      "label": "Your Summit Speakers",
-      "subtitle": "Full sessions released across three days"
-    },
-    {
-      "id": "experts",
-      "label": "Your Destination Experts",
-      "subtitle": "Short country briefings from travelers who know the ground"
-    }
-  ],
+  "_field_notes": {
+    "role": "host | sponsor | speaker | expert - drives speaker-page ordering and the expert label",
+    "day": "1 | 2 | 3 | null - from the Airtable Day field (Dream=1, Plan=2, Go=3)",
+    "session": "Presentation title. Empty for experts, who use country instead.",
+    "country": "Experts only. Renders as '[country] Expert' on the speaker page.",
+    "photo": "Repo path, e.g. images/speakers/jaclynn-seah.jpg. Empty = initials avatar.",
+    "watch_url": "Day-page watch button target. Empty until that day goes live.",
+    "source": "airtable | manual - manual records are not in the Summit Speakers table"
+  },
   "speakers": [
-    {
-      "slug": "jedd-chang",
-      "name": "Jedd Chang",
-      "brand": "Intentional Travelers",
-      "session": "",
-      "group": "speakers",
-      "photo": "",
-      "link": ""
-    },
-    {
-      "slug": "jim-and-chris",
-      "name": "Jim and Chris",
-      "brand": "Geeks on Tour",
-      "session": "Phone Photography for Travelers",
-      "group": "speakers",
-      "photo": "",
-      "link": "https://learngooglephotos.com/"
-    },
-    {
-      "slug": "jo-anne-dragoun",
-      "name": "Jo Anne Dragoun",
-      "brand": "Retirement Bestie",
-      "session": "Using AI to Plan Your Asia Trip",
-      "group": "speakers",
-      "photo": "",
-      "link": ""
-    },
-    {
-      "slug": "megan-johnston",
-      "name": "Megan Johnston",
-      "brand": "Daily Drop Pro",
-      "session": "Award Travel",
-      "group": "speakers",
-      "photo": "",
-      "link": "https://faredrop.com/"
-    },
-    {
-      "slug": "robyn-dirk",
-      "name": "Robyn Dirk",
-      "brand": "Two Empty Passports",
-      "session": "Traveling With Limited Mobility in Asia",
-      "group": "speakers",
-      "photo": "",
-      "link": "https://twoemptypassports.com/travel-tips/"
-    },
-    {
-      "slug": "tyke-and-tina",
-      "name": "Tyke & Tina",
-      "brand": "Tyke & Tina Adventures",
-      "session": "Travel Health Habits and Mistakes to Avoid in Asia",
-      "group": "speakers",
-      "photo": "",
-      "link": "https://www.youtube.com/@TykeandTinaAdventures"
-    },
     {
       "slug": "harry-vu",
       "name": "Harry Vu",
       "brand": "Angiee Adventures",
-      "session": "Vietnam",
-      "group": "experts",
+      "role": "expert",
+      "day": null,
+      "session": "",
+      "country": "Vietnam",
+      "link": "",
       "photo": "",
-      "link": ""
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
     },
     {
       "slug": "jaclynn-seah",
       "name": "Jaclynn Seah",
       "brand": "The Occasional Traveller",
-      "session": "Singapore",
-      "group": "experts",
+      "role": "expert",
+      "day": null,
+      "session": "",
+      "country": "Singapore",
+      "link": "https://theoccasionaltraveller.com/",
       "photo": "",
-      "link": "https://theoccasionaltraveller.com/"
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "jedd-chang",
+      "name": "Jedd Chang",
+      "brand": "Intentional Travelers",
+      "role": "host",
+      "day": null,
+      "session": "",
+      "country": "",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "jim-and-chris",
+      "name": "Jim and Chris",
+      "brand": "Geeks on Tour",
+      "role": "speaker",
+      "day": null,
+      "session": "Phone Photography for Travelers",
+      "country": "",
+      "link": "https://learngooglephotos.com/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "jo-anne-dragoun",
+      "name": "Jo Anne Dragoun",
+      "brand": "Retirement Bestie",
+      "role": "speaker",
+      "day": null,
+      "session": "Using AI to Plan Your Asia Trip",
+      "country": "",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "megan-johnston",
+      "name": "Megan Johnston",
+      "brand": "Daily Drop Pro",
+      "role": "sponsor",
+      "day": null,
+      "session": "Award Travel",
+      "country": "",
+      "link": "https://faredrop.com/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "michelle-chang",
+      "name": "Michelle Chang",
+      "brand": "Intentional Travelers",
+      "role": "host",
+      "day": null,
+      "session": "",
+      "country": "",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "manual"
     },
     {
       "slug": "paula-morgan",
       "name": "Paula Morgan",
       "brand": "Thailand Awaits",
-      "session": "Thailand",
-      "group": "experts",
+      "role": "expert",
+      "day": null,
+      "session": "",
+      "country": "Thailand",
+      "link": "https://thailandawaits.com/",
       "photo": "",
-      "link": "https://thailandawaits.com/"
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "robyn-dirk",
+      "name": "Robyn Dirk",
+      "brand": "Two Empty Passports",
+      "role": "speaker",
+      "day": null,
+      "session": "Traveling With Limited Mobility in Asia",
+      "country": "",
+      "link": "https://twoemptypassports.com/travel-tips/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
+    },
+    {
+      "slug": "tyke-and-tina",
+      "name": "Tyke & Tina",
+      "brand": "Tyke & Tina Adventures",
+      "role": "speaker",
+      "day": null,
+      "session": "Travel Health Habits and Mistakes to Avoid in Asia",
+      "country": "",
+      "link": "https://www.youtube.com/@TykeandTinaAdventures",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
     },
     {
       "slug": "vicki",
       "name": "Vicki",
       "brand": "Vickipedia China",
-      "session": "China",
-      "group": "experts",
+      "role": "expert",
+      "day": null,
+      "session": "",
+      "country": "China",
+      "link": "",
       "photo": "",
-      "link": ""
+      "bio": "",
+      "watch_url": "",
+      "source": "airtable"
     }
   ]
 }
