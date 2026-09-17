@@ -1,0 +1,97 @@
+{
+  "updated": "2026-09-17",
+  "cycle": "2027",
+  "_notes": {
+    "source": "Airtable Presentation Topics: Claimed = true AND Speaker not empty",
+    "day": "From the Theme field (Dream=1, Plan=2, Go=3). Day lives on the SESSION, not the speaker, so one speaker can appear on multiple days.",
+    "kind": "single = one presenter. compilation = multi-speaker session rendered as its own sub-section with a grid of experts.",
+    "title": "Emoji prefix and '(Destination Experts)' suffix stripped at generation."
+  },
+  "sessions": [
+    {
+      "id": "recloy12U2NUqfq7T",
+      "title": "Gem Destinations in Asia for First Time Visitors",
+      "day": 1,
+      "kind": "compilation",
+      "speakers": [
+        "michelle-chang",
+        "jaclynn-seah",
+        "paula-morgan",
+        "harry-vu",
+        "vicki"
+      ]
+    },
+    {
+      "id": "recToCxy9PV9J1tvv",
+      "title": "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence",
+      "day": 2,
+      "kind": "single",
+      "speakers": [
+        "jo-anne-dragoun"
+      ]
+    },
+    {
+      "id": "reckwwXN1OyeEtBxU",
+      "title": "Free Tools You’re Not Using To Find Deals (But Should Be)",
+      "day": 2,
+      "kind": "single",
+      "speakers": [
+        "jedd-chang"
+      ]
+    },
+    {
+      "id": "recYL87ldqwH87nEW",
+      "title": "How To Use Miles and Points to Save on Flights to Asia",
+      "day": 2,
+      "kind": "single",
+      "speakers": [
+        "megan-johnston"
+      ]
+    },
+    {
+      "id": "recoZ4kXTIcMzSFNT",
+      "title": "Smart Planning Tips for Traveling with Limited Mobility in Asia",
+      "day": 2,
+      "kind": "single",
+      "speakers": [
+        "robyn-dirk"
+      ]
+    },
+    {
+      "id": "recFt9zJsB7GCqyEz",
+      "title": "Must Have Smartphone Apps & Best Practices In Asia",
+      "day": 3,
+      "kind": "single",
+      "speakers": [
+        "michelle-chang"
+      ]
+    },
+    {
+      "id": "recmpw3IOqNPusCeT",
+      "title": "Phone Photography",
+      "day": 3,
+      "kind": "single",
+      "speakers": [
+        "jim-and-chris"
+      ]
+    },
+    {
+      "id": "recqoSwfpZX0h3WYO",
+      "title": "Travel Health Habits and Mistakes to Avoid in Asia",
+      "day": 3,
+      "kind": "single",
+      "speakers": [
+        "tyke-and-tina"
+      ]
+    },
+    {
+      "id": "rec0vFHb0DlLYFYsF",
+      "title": "Your First 12 Hours Arriving in Asia On Your Own",
+      "day": 3,
+      "kind": "single",
+      "speakers": [
+        "jedd-chang"
+      ]
+    }
+  ]
+}
