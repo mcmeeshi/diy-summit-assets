@@ -4,7 +4,7 @@
 
    Usage on a page:
      <div class="itrav-block" data-block="schedule" data-cta="on"></div>
-     <script src="https://cdn.jsdelivr.net/gh/mcmeeshi/diy-summit-assets@main/itrav-blocks.js" defer></script>
+     <script src="https://cdn.jsdelivr.net/gh/mcmeeshi/diy-summit-assets@main/itrav-blocks.js" defer>
 
    Blocks available:
      schedule  - day-by-day lineup (registration page + schedule overview)
@@ -25,7 +25,9 @@
 
     ".itrav-day{margin:0 0 56px;}",
     ".itrav-day:last-child{margin-bottom:0;}",
-    ".itrav-day-band{background:#657a9d;border-radius:8px;padding:22px 26px;margin:0 0 22px;}",
+    ".itrav-day-band{background:#657a9d;border-radius:0;padding:26px 24px;margin:0 0 28px;}",
+    ".itrav-fullbleed .itrav-day-band{width:100vw;margin-left:calc(50% - 50vw);}",
+    ".itrav-day-band-inner{max-width:1000px;margin:0 auto;}",
     ".itrav-day-band h3{font-family:inherit;margin:0 0 8px;font-size:25px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:.5px;}",
     ".itrav-day-band h3 em{font-style:normal;color:#F2C181;}",
     ".itrav-day-band p{font-family:inherit;margin:0;font-size:16px;line-height:1.55;color:#fff;opacity:.95;}",
@@ -53,9 +55,11 @@
 
     ".itrav-cta-wrap{text-align:center;margin:28px 0 0;}",
     ".itrav-cta{display:inline-block;font-family:inherit;background:#657a9d;color:#fff !important;",
-    "font-size:16px;font-weight:700;letter-spacing:.3px;padding:15px 38px;border-radius:40px;",
+    "font-size:16px;font-weight:700;letter-spacing:.8px;padding:16px 38px;border-radius:3px;",
+    "text-transform:uppercase;",
     "text-decoration:none !important;line-height:1.2;transition:opacity .15s ease;}",
     ".itrav-cta:hover{opacity:.88;color:#fff !important;}",
+    '.itrav-cta::after{content:" \\2192";margin-left:2px;}',
 
     ".itrav-empty{font-family:inherit;font-size:15px;color:#999;font-style:italic;text-align:center;margin:0;padding:14px 0;}",
 
@@ -70,7 +74,8 @@
     ".itrav-card-name{font-size:15px;}",
     ".itrav-card-session{font-size:13px;}",
     ".itrav-live{padding:18px 18px;}",
-    ".itrav-cta{padding:14px 28px;font-size:15px;width:100%;max-width:320px;}",
+    ".itrav-cta{padding:15px 24px;font-size:15px;width:100%;max-width:340px;}",
+    ".itrav-day-band{padding:22px 20px;}",
     "}"
   ].join("");
 
@@ -140,6 +145,7 @@
     var cta = sched.cta || {};
     var ph = sched.placeholders || {};
     var ctaOn = el.getAttribute("data-cta") !== "off";
+    if (el.getAttribute("data-fullbleed") !== "off") el.className += " itrav-fullbleed";
     var html = "";
 
     days.forEach(function (day) {
@@ -150,10 +156,10 @@
       html += '<div class="itrav-day">';
 
       /* day banner */
-      html += '<div class="itrav-day-band">' +
+      html += '<div class="itrav-day-band"><div class="itrav-day-band-inner">' +
                 "<h3>DAY " + esc(day.n) + ": <em>" + esc(day.theme) + "</em></h3>" +
                 (day.blurb ? "<p>" + esc(day.blurb) + "</p>" : "") +
-              "</div>";
+              "</div></div>";
 
       /* presenters */
       html += presenters.length
