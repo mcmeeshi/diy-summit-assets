@@ -8,7 +8,8 @@
     "photo": "Repo path, e.g. images/speakers/jaclynn-seah.jpg. Empty = initials avatar.",
     "watch_url": "Day-page watch button target. Empty until that day goes live.",
     "source": "airtable | manual - manual records are not in the Summit Speakers table",
-    "note": "Day and talk titles live in sessions.json, not here. This file is the people directory."
+    "talk_titles": "Array, generated from sessions.json. A speaker can present more than once (Jedd has a Day 2 and a Day 3 session), so this is never a single string. Destination experts show country instead of a title on speaker pages.",
+    "day": "Not stored here. Day lives on the session in sessions.json."
   },
   "speakers": [
     {
@@ -21,7 +22,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
     },
     {
       "slug": "jaclynn-seah",
@@ -33,7 +37,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
     },
     {
       "slug": "jedd-chang",
@@ -45,7 +52,11 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Free Tools You’re Not Using To Find Deals (But Should Be)",
+        "Your First 12 Hours Arriving in Asia On Your Own"
+      ]
     },
     {
       "slug": "jim-and-chris",
@@ -57,7 +68,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Phone Photography"
+      ]
     },
     {
       "slug": "jo-anne-dragoun",
@@ -69,7 +83,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence"
+      ]
     },
     {
       "slug": "megan-johnston",
@@ -81,7 +98,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "How To Use Miles and Points to Save on Flights to Asia"
+      ]
     },
     {
       "slug": "michelle-chang",
@@ -93,7 +113,11 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "manual"
+      "source": "manual",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors",
+        "Must Have Smartphone Apps & Best Practices In Asia"
+      ]
     },
     {
       "slug": "paula-morgan",
@@ -105,7 +129,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
     },
     {
       "slug": "robyn-dirk",
@@ -117,7 +144,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Smart Planning Tips for Traveling with Limited Mobility in Asia"
+      ]
     },
     {
       "slug": "tyke-and-tina",
@@ -129,7 +159,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Travel Health Habits and Mistakes to Avoid in Asia"
+      ]
     },
     {
       "slug": "vicki",
@@ -141,7 +174,10 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable"
+      "source": "airtable",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
     }
   ]
 }
