@@ -41,7 +41,7 @@
     ".itrav-sub h4{font-family:inherit;margin:0 0 6px;font-size:20px;font-weight:700;color:#657a9d;line-height:1.3;}",
     ".itrav-sub p{font-family:inherit;margin:0;font-size:15px;line-height:1.55;color:#555;}",
 
-    ".itrav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:30px 20px;}",
+    ".itrav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:26px 12px;}",
     ".itrav-card{text-align:center;}",
     ".itrav-photo,.itrav-initials{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;display:block;border:3px solid #657a9d;}",
     ".itrav-photo{object-fit:cover;object-position:center top;}",
@@ -69,7 +69,6 @@
     ".itrav-empty{font-family:inherit;font-size:15px;color:#999;font-style:italic;text-align:center;margin:0;padding:14px 0;}",
 
     "@media (max-width:640px){",
-    ".itrav-grid{grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:26px 14px;}",
     ".itrav-photo,.itrav-initials{width:84px;height:84px;}",
     ".itrav-initials{font-size:25px;line-height:78px;}",
     ".itrav-day-band{padding:22px 20px;}",
@@ -80,7 +79,15 @@
     ".itrav-card-session{font-size:13px;}",
     ".itrav-live{padding:18px;}",
     ".itrav-cta{padding:15px 24px;font-size:15px;width:100%;max-width:340px;}",
-    "}"
+    "}",
+
+    "@media (max-width:900px){.itrav-grid{grid-template-columns:repeat(4,1fr);}}",
+    "@media (max-width:700px){.itrav-grid{grid-template-columns:repeat(3,1fr);gap:24px 12px;}",
+    ".itrav-photo,.itrav-initials{width:92px;height:92px;}",
+    ".itrav-initials{font-size:27px;line-height:86px;}}",
+    "@media (max-width:480px){.itrav-grid{grid-template-columns:repeat(2,1fr);gap:24px 10px;}",
+    ".itrav-photo,.itrav-initials{width:84px;height:84px;}",
+    ".itrav-initials{font-size:25px;line-height:78px;}}"
   ].join("");
 
   function injectCSS() {
