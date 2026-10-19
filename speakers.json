@@ -1,28 +1,204 @@
 {
-  "updated": "2026-09-17",
+  "updated": "2026-10-19",
   "cycle": "2027",
   "region": "Asia",
   "_field_notes": {
-    "role": "host | sponsor | speaker | expert - drives speaker-page ordering and the expert label",
-    "country": "Experts only. Renders as '[country] Expert' on the speaker page.",
+    "source": "brand and link come from Presenter RSVP when the speaker has submitted one, else Summit Speakers",
+    "role": "host | sponsor | expert | speaker - drives speaker-page ordering and the expert label",
+    "country": "Destination experts only, from Topic to pitch. Renders as '[country] Expert'.",
     "photo": "Repo path, e.g. images/speakers/jaclynn-seah.jpg. Empty = initials avatar.",
-    "watch_url": "Day-page watch button target. Empty until that day goes live.",
-    "source": "airtable | manual - manual records are not in the Summit Speakers table",
-    "talk_titles": "Array, generated from sessions.json. A speaker can present more than once (Jedd has a Day 2 and a Day 3 session), so this is never a single string. Destination experts show country instead of a title on speaker pages.",
-    "day": "Not stored here. Day lives on the session in sessions.json."
+    "talk_titles": "Generated from sessions.json. Array because a speaker can present more than once.",
+    "day": "Not stored here - day lives on the session in sessions.json."
   },
   "speakers": [
+    {
+      "slug": "amanda-kendle",
+      "name": "Amanda Kendle",
+      "brand": "The Thoughtful Travel Podcast",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.notaballerina.com/podcast",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recvrqNa7S047hOVM",
+      "talk_titles": [
+        "Slow Travel"
+      ]
+    },
+    {
+      "slug": "angela-jane",
+      "name": "Angela Jane",
+      "brand": "Angela50PlusLife",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.instagram.com/angela50pluslife",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "reck2huVPHUt2vQvq",
+      "talk_titles": [
+        "Solo in Asia After 50: A 5-Step Confidence Plan for Your First Trip"
+      ]
+    },
+    {
+      "slug": "aran",
+      "name": "Aran",
+      "brand": "K Guardian Angel",
+      "role": "expert",
+      "country": "Korea",
+      "link": "https://www.youtube.com/@Korea_expert",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recPBtZH49LLNbUvA",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "ashley-mccurdy",
+      "name": "Ashley McCurdy",
+      "brand": "In Search Of Traveler",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.instagram.com/insearchoftraveler",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "rec2LhLgyyGEfuyxi",
+      "talk_titles": [
+        "How to Find $50ish/night Hotels"
+      ]
+    },
+    {
+      "slug": "audra-morris",
+      "name": "Audra Morris",
+      "brand": "The Nerd Traveler",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.thenerdtraveler.com/about/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recxOnJQcAHzeqQKp",
+      "talk_titles": [
+        "Beyond the Checklist: How to Find, Research, and Experience UNESCO World Heritage Sites in Asia"
+      ]
+    },
+    {
+      "slug": "chris-christensen",
+      "name": "Chris Christensen",
+      "brand": "Amateur Traveler / Hotel Scoop",
+      "role": "speaker",
+      "country": "",
+      "link": "https://amateurtraveler.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recj3rDexvuZZmMzD",
+      "talk_titles": [
+        "Live panel: PLAN (Day 2)"
+      ]
+    },
+    {
+      "slug": "daniel-burnham",
+      "name": "Daniel Burnham",
+      "brand": "Daily Drop Pro",
+      "role": "sponsor",
+      "country": "",
+      "link": "https://www.dailydrop.com/?via=intentionaltravel",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": false,
+      "airtable_id": "recOikcqPr1RBUH54",
+      "talk_titles": [
+        "5 sweet spots to fly to Asia with points"
+      ]
+    },
+    {
+      "slug": "dannelle-gay",
+      "name": "Dannelle Gay",
+      "brand": "The Traveling Cheesehead",
+      "role": "speaker",
+      "country": "",
+      "link": "https://travelingcheesehead.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recVFQN2eQ7Qt6K81",
+      "talk_titles": [
+        "Splurge or Save: Budgeting Tips For Your Asia Trip"
+      ]
+    },
+    {
+      "slug": "deborah",
+      "name": "Deborah",
+      "brand": "Hong Kong Made Easy",
+      "role": "expert",
+      "country": "Hong Kong",
+      "link": "https://www.hongkongmadeeasy.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recOHveDfPwhtDiFF",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "erin-holmes",
+      "name": "Erin Holmes",
+      "brand": "Explore With Erin",
+      "role": "speaker",
+      "country": "",
+      "link": "https://explorewitherin.com/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recxvxba0QbzZh4gi",
+      "talk_titles": [
+        "Foodie Travel Tips for Asia"
+      ]
+    },
     {
       "slug": "harry-vu",
       "name": "Harry Vu",
       "brand": "Angiee Adventures",
       "role": "expert",
       "country": "Vietnam",
-      "link": "",
+      "link": "https://www.instagram.com/angieeadventures?stkn=MXRzMW10MnZmNWJpYw%3D%3D&utm_source=qr",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recB7vCW8USCw8adW",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "helen-foster",
+      "name": "Helen Foster",
+      "brand": "Japlanease",
+      "role": "expert",
+      "country": "Japan",
+      "link": "https://japlanease.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recBn2eqdCLYL1EB0",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
       ]
@@ -37,7 +213,8 @@
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recLGdby1PVwcvPrf",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
       ]
@@ -48,29 +225,48 @@
       "brand": "Intentional Travelers",
       "role": "host",
       "country": "",
-      "link": "",
+      "link": "https://intentionaltravelers.com",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recjZz5yacXn1lxss",
       "talk_titles": [
-        "Free Tools You’re Not Using To Find Deals (But Should Be)",
+        "Live call: DREAM (Day 1)",
+        "Free Tools You're Not Using To Find Deals (But Should Be)",
         "Your First 12 Hours Arriving in Asia On Your Own"
+      ]
+    },
+    {
+      "slug": "jen-and-stevo",
+      "name": "Jen and Stevo",
+      "brand": "Two Can Travel",
+      "role": "speaker",
+      "country": "",
+      "link": "https://youtube.com/twocantravel",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recIgyEkxETIiF2w7",
+      "talk_titles": [
+        "Creative accommodation ideas"
       ]
     },
     {
       "slug": "jim-and-chris",
       "name": "Jim and Chris",
-      "brand": "Geeks on Tour",
+      "brand": "Geeks On Tour",
       "role": "speaker",
       "country": "",
-      "link": "https://learngooglephotos.com/",
+      "link": "https://geeksontour.com/",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recjdRr7WAvUiZa9Y",
       "talk_titles": [
-        "Phone Photography"
+        "From Good to Great: Quick Edits for Travel Photos"
       ]
     },
     {
@@ -79,44 +275,192 @@
       "brand": "Retirement Bestie",
       "role": "speaker",
       "country": "",
-      "link": "",
+      "link": "https://retirementbestie.com",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recgz0b5K5EJEKYVq",
       "talk_titles": [
         "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence"
       ]
     },
     {
-      "slug": "megan-johnston",
-      "name": "Megan Johnston",
-      "brand": "Daily Drop Pro",
-      "role": "sponsor",
+      "slug": "judy-and-kevin",
+      "name": "Judy and Kevin",
+      "brand": "Finding Gina Marie",
+      "role": "speaker",
       "country": "",
-      "link": "https://faredrop.com/",
+      "link": "https://findingginamarie.com",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recUkkVqcNzgaQDrw",
       "talk_titles": [
-        "How To Use Miles and Points to Save on Flights to Asia"
+        "How to Handle Money Abroad"
+      ]
+    },
+    {
+      "slug": "kathy-buckworth",
+      "name": "Kathy Buckworth",
+      "brand": "The Ageless Adventuress Podcast",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.kathybuckworth.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recT85MSt7f0bT9e9",
+      "talk_titles": [
+        "Live panel: PLAN (Day 2)"
+      ]
+    },
+    {
+      "slug": "kieren-and-emily",
+      "name": "Kieren and Emily",
+      "brand": "Bali Untold",
+      "role": "expert",
+      "country": "Bali/Indonesia",
+      "link": "https://baliuntold.com/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recDK9JME5TjC0rEP",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "kristin-henning",
+      "name": "Kristin Henning",
+      "brand": "Travel Past 50",
+      "role": "speaker",
+      "country": "",
+      "link": "https://travelpast50.com/about-us/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recK6zmOl3Wy3hMSc",
+      "talk_titles": [
+        "Timing Your Trip & How Long to Spend in Each City"
+      ]
+    },
+    {
+      "slug": "lindsay-dow",
+      "name": "Lindsay Dow",
+      "brand": "Lindsay Does Languages",
+      "role": "speaker",
+      "country": "",
+      "link": "https://lindsaydoeslanguages.com/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recCkKx3Tv5MKjleO",
+      "talk_titles": [
+        "Language Tips for Visiting Asian Countries"
+      ]
+    },
+    {
+      "slug": "lynne",
+      "name": "Lynne",
+      "brand": "Travelynne",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.travelynne.ca/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recm9t2SCKM80cLse",
+      "talk_titles": [
+        "Travel That Gives Back: How to Be a Responsible Visitor"
+      ]
+    },
+    {
+      "slug": "malia-yoshioka",
+      "name": "Malia Yoshioka",
+      "brand": "Passport to Flavor Podcast",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.shoyusugar.com/podcast",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recnhE6eJ7OclxaIn",
+      "talk_titles": [
+        "Live panel: GO (Day 3)"
+      ]
+    },
+    {
+      "slug": "megan-johnston",
+      "name": "Megan Johnston",
+      "brand": "Daily Drop",
+      "role": "sponsor",
+      "country": "",
+      "link": "https://www.dailydrop.com/team/megan-johnston",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "reczVwR4Srcf4oRRm",
+      "talk_titles": [
+        "How to Use Award Point Hotel Stays in Asia"
       ]
     },
     {
       "slug": "michelle-chang",
       "name": "Michelle Chang",
-      "brand": "Intentional Travelers",
+      "brand": "Intentional Travelers Toolkit Membership",
       "role": "host",
+      "country": "",
+      "link": "https://intentionaltravelers.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recs6qFPPvjw2cINp",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors",
+        "Live call: DREAM (Day 1)",
+        "Must Have Smartphone Apps & Best Practices In Asia"
+      ]
+    },
+    {
+      "slug": "paul-and-heather",
+      "name": "Paul and Heather",
+      "brand": "The Freedom Strategy",
+      "role": "speaker",
+      "country": "",
+      "link": "https://www.youtube.com/@TheFreedomStrategy",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "reclBNdPRFNy2EQy4",
+      "talk_titles": [
+        "Surviving Long Flights and New Airports"
+      ]
+    },
+    {
+      "slug": "paula-barnes",
+      "name": "Paula Barnes",
+      "brand": "Truly Expat",
+      "role": "speaker",
       "country": "",
       "link": "",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "manual",
+      "has_rsvp": false,
+      "airtable_id": "recMcQ240O0kCSQvH",
       "talk_titles": [
-        "Gem Destinations in Asia for First Time Visitors",
-        "Must Have Smartphone Apps & Best Practices In Asia"
+        "Live panel: PLAN (Day 2)"
       ]
     },
     {
@@ -125,13 +469,46 @@
       "brand": "Thailand Awaits",
       "role": "expert",
       "country": "Thailand",
-      "link": "https://thailandawaits.com/",
+      "link": "https://thailandawaits.com",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recfBH3hiRpBeNeXT",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "preethi-chandrasekhar",
+      "name": "Preethi Chandrasekhar",
+      "brand": "",
+      "role": "speaker",
+      "country": "",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": false,
+      "airtable_id": "recYNmfWzQGHi4iX6",
+      "talk_titles": [
+        "DIY Hybrid: Using Day Tours and Self-Guided Packages in Asia"
+      ]
+    },
+    {
+      "slug": "rachel-heller",
+      "name": "Rachel Heller",
+      "brand": "Rachel's Ruminations",
+      "role": "speaker",
+      "country": "",
+      "link": "https://rachelsruminations.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recWxbOnP4L1jKxvG",
+      "talk_titles": [
+        "Minimalist Packing For Your Asia Trip"
       ]
     },
     {
@@ -140,26 +517,124 @@
       "brand": "Two Empty Passports",
       "role": "speaker",
       "country": "",
-      "link": "https://twoemptypassports.com/travel-tips/",
+      "link": "https://twoemptypassports.com/",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recdC3zOWDguDG25r",
       "talk_titles": [
         "Smart Planning Tips for Traveling with Limited Mobility in Asia"
       ]
     },
     {
-      "slug": "tyke-and-tina",
+      "slug": "sheri-howell",
+      "name": "Sheri Howell",
+      "brand": "Medjet",
+      "role": "sponsor",
+      "country": "",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recp5wFwC2eJ2zBCt",
+      "talk_titles": [
+        "How to Stay Safe in Asia: Tips & Types of Travel Protection You Need"
+      ]
+    },
+    {
+      "slug": "sojourner-white",
+      "name": "Sojourner White",
+      "brand": "Sojournies",
+      "role": "speaker",
+      "country": "",
+      "link": "https://sojournies.com/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recoaP1WESSQ2bZ0R",
+      "talk_titles": [
+        "Making the Most of Train Travel in Asia"
+      ]
+    },
+    {
+      "slug": "tanya-korteling",
+      "name": "Tanya Korteling",
+      "brand": "Can Travel Will Travel",
+      "role": "expert",
+      "country": "Cambodia",
+      "link": "https://www.cantravelwilltravel.com",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "rec5u5nrF3XewS68d",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "timathea-workman",
+      "name": "Timathea Workman",
+      "brand": "Timathea",
+      "role": "speaker",
+      "country": "",
+      "link": "https://timathea.com/field-notes",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recDfDMqVJrbCgTyR",
+      "talk_titles": [
+        "Deep and Thoughtful Travel"
+      ]
+    },
+    {
+      "slug": "tourism-malaysia",
+      "name": "Tourism Malaysia",
+      "brand": "Tourism Malaysia",
+      "role": "expert",
+      "country": "Malaysia",
+      "link": "https://www.malaysia.travel/explore/choose-your-malaysia-mix",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "recIhAsvoFffcRxFA",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
+      ]
+    },
+    {
+      "slug": "tracy-and-doug-collins",
+      "name": "Tracy and Doug Collins",
+      "brand": "Global Travel Planning",
+      "role": "speaker",
+      "country": "",
+      "link": "https://globaltravelplanning.com/about-tracy/",
+      "photo": "",
+      "bio": "",
+      "watch_url": "",
+      "has_rsvp": true,
+      "airtable_id": "reciV0xw7sqoMMIue",
+      "talk_titles": [
+        "Easy Multi-Country Itineraries for First Time Asia Trips"
+      ]
+    },
+    {
+      "slug": "tyke-tina",
       "name": "Tyke & Tina",
-      "brand": "Tyke & Tina Adventures",
+      "brand": "Adventures in Retirement",
       "role": "speaker",
       "country": "",
       "link": "https://www.youtube.com/@TykeandTinaAdventures",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recyU6dOFoj4qxO5x",
       "talk_titles": [
         "Travel Health Habits and Mistakes to Avoid in Asia"
       ]
@@ -170,11 +645,12 @@
       "brand": "Vickipedia China",
       "role": "expert",
       "country": "China",
-      "link": "",
+      "link": "https://www.youtube.com/@Vickipedia_China",
       "photo": "",
       "bio": "",
       "watch_url": "",
-      "source": "airtable",
+      "has_rsvp": true,
+      "airtable_id": "recoYNkEu4dzUejVg",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
       ]

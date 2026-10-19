@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-17",
+  "updated": "2026-10-19",
   "cycle": "2027",
   "region": "Asia",
   "cta": {
@@ -21,10 +21,12 @@
       "cta_after_speakers": true,
       "live_call": {
         "heading": "Live Kick Off Call on Zoom",
-        "topic": "",
+        "topic": "Tips for Your First Asia Trip in 2027",
         "time": "",
         "note": "Register for Summit to get the Zoom link",
-        "cta_after": true
+        "cta_after": true,
+        "_note": "Panelists for all three days now come from the Live call / Live panel sessions in Airtable.",
+        "_placeholder": "Topic is a placeholder - confirm before launch"
       }
     },
     {
@@ -34,10 +36,11 @@
       "cta_after_speakers": true,
       "live_call": {
         "heading": "Live Session With Expert Panelists",
-        "topic": "",
+        "topic": "Planning Your First Asia Trip in 2027",
         "time": "",
         "note": "Register for Summit to get the Zoom link",
-        "cta_after": true
+        "cta_after": true,
+        "_placeholder": "Topic is a placeholder - confirm before launch"
       }
     },
     {
@@ -47,10 +50,11 @@
       "cta_after_speakers": true,
       "live_call": {
         "heading": "Live Session With Expert Panelists",
-        "topic": "",
+        "topic": "Best Tools and Tricks for Asia Travel",
         "time": "",
         "note": "Register for Summit to get the Zoom link",
-        "cta_after": true
+        "cta_after": true,
+        "_placeholder": "Topic is a placeholder - confirm before launch"
       }
     }
   ],
