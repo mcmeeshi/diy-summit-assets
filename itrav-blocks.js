@@ -144,13 +144,15 @@
            "</div>";
   }
 
-  function ctaButton(cta, on) {
-    if (!on || !cta || !cta.label) return "";
+  function ctaButton(cta, on, labelOverride) {
+    if (!on || !cta) return "";
+    var label = labelOverride || cta.label;
+    if (!label) return "";
     var toggle = cta.formkit_uid
       ? ' data-formkit-toggle="' + esc(cta.formkit_uid) + '"'
       : "";
     return '<div class="itrav-cta-wrap"><a class="itrav-cta" href="' +
-             esc(cta.href || "#") + '"' + toggle + ">" + esc(cta.label) + "</a></div>";
+             esc(cta.href || "#") + '"' + toggle + ">" + esc(label) + "</a></div>";
   }
 
   function renderSchedule(el, data) {
@@ -197,15 +199,32 @@
                 (day.blurb ? "<p>" + esc(day.blurb) + "</p>" : "") +
               "</div></div>";
 
-      /* one card per presenter of each single-speaker session */
-      var cards = [];
+      /* One card per presenter. Compilation sessions contribute their
+         NON-expert presenters here (the hosts who front the session); the
+         destination experts stay in the sub-section below. */
+      var entries = [];
       singles.forEach(function (sess) {
         lookup(sess.speakers).forEach(function (p) {
-          cards.push(card(p, sess.title, ph.topic_tba));
+          entries.push({ person: p, title: sess.title, rank: sess.sort_rank });
         });
       });
-      html += cards.length
-        ? '<div class="itrav-grid">' + cards.join("") + "</div>"
+      comps.forEach(function (sess) {
+        lookup(sess.speakers).forEach(function (p) {
+          if (p.role !== "expert") {
+            entries.push({ person: p, title: sess.title, rank: sess.sort_rank });
+          }
+        });
+      });
+      // same rule the JSON is sorted by: hosts, then sponsors, then the rest
+      entries.sort(function (a, b) {
+        var ra = a.rank == null ? 2 : a.rank, rb = b.rank == null ? 2 : b.rank;
+        if (ra !== rb) return ra - rb;
+        return a.title.localeCompare(b.title);
+      });
+      html += entries.length
+        ? '<div class="itrav-grid">' +
+            entries.map(function (e) { return card(e.person, e.title, ph.topic_tba); }).join("") +
+          "</div>"
         : '<p class="itrav-empty">' + esc(ph.speakers_tba || "") + "</p>";
 
       if (day.cta_after_speakers) html += ctaButton(cta, ctaOn);
@@ -235,7 +254,7 @@
                     esc(lc.time || ph.time_tba || "") + "</p>" +
                   (lc.note ? '<p class="itrav-live-note">' + esc(lc.note) + "</p>" : "") +
                 "</div>" + panelFaces(panels, lc) + "</div>";
-        if (lc.cta_after) html += ctaButton(cta, ctaOn);
+        if (lc.cta_after) html += ctaButton(cta, ctaOn, cta.label_live);
       }
 
       html += "</div>";
