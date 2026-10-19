@@ -46,20 +46,28 @@
     ".itrav-photo,.itrav-initials{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;display:block;border:3px solid #657a9d;}",
     ".itrav-photo{object-fit:cover;object-position:center top;}",
     ".itrav-initials{background:#657a9d;color:#fff;font-family:inherit;font-size:30px;font-weight:700;line-height:94px;letter-spacing:1px;}",
-    ".itrav-card-name{font-family:inherit;font-size:17px;font-weight:700;color:#1a1a1a;margin:0 0 2px;line-height:1.3;}",
-    ".itrav-card-brand{font-family:inherit;font-size:13px;color:#888;margin:0 0 8px;line-height:1.3;}",
-    ".itrav-card-session{font-family:inherit;font-size:14px;color:#444;margin:0;line-height:1.45;}",
+    ".itrav-card-name{font-family:inherit;font-size:16px;font-weight:700;color:#657a9d;margin:0 0 2px;line-height:1.3;}",
+    ".itrav-card-brand{font-family:inherit;font-size:13px;color:#888;margin:0 0 7px;line-height:1.3;}",
+    ".itrav-card-session{font-family:inherit;font-size:18px;font-weight:600;color:#1a1a1a;margin:0;line-height:1.35;}",
     ".itrav-card-session.itrav-tba{color:#999;font-style:italic;}",
 
-    ".itrav-live{background:#f6f5f3;border-left:5px solid #F2C181;border-radius:4px;padding:22px 24px;margin:38px 0 0;}",
-    ".itrav-live h4{font-family:inherit;margin:0 0 8px;font-size:19px;font-weight:700;color:#657a9d;line-height:1.3;}",
+    ".itrav-live{background:#F4F8E2;border-left:6px solid #D4E17D;border-radius:4px;padding:22px 24px;margin:38px 0 0;display:flex;gap:28px;align-items:center;justify-content:space-between;}",
+    ".itrav-live-main{flex:1 1 auto;min-width:0;}",
+    ".itrav-live-panel{flex:0 0 auto;display:flex;gap:16px;}",
+    ".itrav-panelist{width:86px;text-align:center;}",
+    ".itrav-live-panel .itrav-photo,.itrav-live-panel .itrav-initials{width:66px;height:66px;margin:0 auto 7px;border-width:2px;}",
+    ".itrav-live-panel .itrav-initials{font-size:21px;line-height:62px;}",
+    ".itrav-panelist-name{font-family:inherit;font-size:12px;font-weight:600;color:#444;margin:0;line-height:1.3;}",
+    ".itrav-live h4{font-family:inherit;margin:0 0 8px;font-size:19px;font-weight:700;color:#4a6b1f;line-height:1.3;}",
     ".itrav-live .itrav-live-topic{font-family:inherit;margin:0 0 4px;font-size:17px;font-weight:600;color:#1a1a1a;line-height:1.4;}",
     ".itrav-live .itrav-live-time{font-family:inherit;margin:0 0 8px;font-size:15px;color:#444;}",
+    ".itrav-live .itrav-live-with{font-family:inherit;margin:0 0 8px;font-size:15px;color:#444;}",
+    ".itrav-live .itrav-live-with strong{font-weight:600;}",
     ".itrav-live .itrav-live-note{font-family:inherit;margin:0;font-size:14px;color:#666;font-style:italic;}",
     ".itrav-live .itrav-tba{color:#999;font-style:italic;font-weight:400;}",
 
     ".itrav-cta-wrap{text-align:center;margin:30px 0 0;}",
-    ".itrav-cta{display:inline-block;font-family:inherit;background:#657a9d;color:#fff !important;",
+    ".itrav-cta{display:inline-block;font-family:inherit;background:#B0560F;color:#fff !important;",
     "font-size:16px;font-weight:700;letter-spacing:.8px;padding:16px 38px;border-radius:3px;",
     "text-transform:uppercase;text-decoration:none !important;line-height:1.2;",
     "transition:opacity .15s ease;cursor:pointer;}",
@@ -75,9 +83,13 @@
     ".itrav-day-band h3{font-size:21px;}",
     ".itrav-day-band p{font-size:15px;}",
     ".itrav-sub h4{font-size:18px;}",
-    ".itrav-card-name{font-size:15px;}",
-    ".itrav-card-session{font-size:13px;}",
-    ".itrav-live{padding:18px;}",
+    ".itrav-card-name{font-size:14px;}",
+    ".itrav-card-session{font-size:16px;}",
+    ".itrav-live{padding:18px;flex-direction:column;align-items:flex-start;gap:18px;}",
+    ".itrav-live-panel{gap:12px;flex-wrap:wrap;}",
+    ".itrav-panelist{width:74px;}",
+    ".itrav-live-panel .itrav-photo,.itrav-live-panel .itrav-initials{width:58px;height:58px;}",
+    ".itrav-live-panel .itrav-initials{font-size:18px;line-height:54px;}",
     ".itrav-cta{padding:15px 24px;font-size:15px;width:100%;max-width:340px;}",
     "}",
 
@@ -159,10 +171,25 @@
       return (slugs || []).map(function (sl) { return people[sl]; }).filter(Boolean);
     }
 
+    function panelFaces(panels, lc) {
+      var people_ = [];
+      panels.forEach(function (p) {
+        lookup(p.speakers).forEach(function (sp) { people_.push(sp); });
+      });
+      if (!people_.length && lc && lc.panelists) people_ = lookup(lc.panelists);
+      if (!people_.length) return "";
+      return '<div class="itrav-live-panel">' +
+        people_.map(function (sp) {
+          return '<div class="itrav-panelist">' + avatar(sp) +
+                 '<p class="itrav-panelist-name">' + esc(sp.name) + "</p></div>";
+        }).join("") + "</div>";
+    }
+
     days.forEach(function (day) {
       var mine = sessions.filter(function (s) { return Number(s.day) === Number(day.n); });
-      var singles = mine.filter(function (s) { return s.kind !== "compilation"; });
+      var singles = mine.filter(function (s) { return s.kind === "single"; });
       var comps = mine.filter(function (s) { return s.kind === "compilation"; });
+      var panels = mine.filter(function (s) { return s.kind === "live_panel"; });
 
       html += '<div class="itrav-day">';
       html += '<div class="itrav-day-band"><div class="itrav-day-band-inner">' +
@@ -200,14 +227,14 @@
       /* live Zoom session */
       if (day.live_call) {
         var lc = day.live_call;
-        html += '<div class="itrav-live">' +
+        html += '<div class="itrav-live"><div class="itrav-live-main">' +
                   "<h4>Day " + esc(day.n) + ": " + esc(lc.heading) + "</h4>" +
                   '<p class="itrav-live-topic' + (lc.topic ? "" : " itrav-tba") + '">' +
                     esc(lc.topic || ph.topic_tba || "") + "</p>" +
                   '<p class="itrav-live-time' + (lc.time ? "" : " itrav-tba") + '">' +
                     esc(lc.time || ph.time_tba || "") + "</p>" +
                   (lc.note ? '<p class="itrav-live-note">' + esc(lc.note) + "</p>" : "") +
-                "</div>";
+                "</div>" + panelFaces(panels, lc) + "</div>";
         if (lc.cta_after) html += ctaButton(cta, ctaOn);
       }
 
