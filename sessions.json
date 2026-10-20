@@ -1,13 +1,14 @@
 {
   "updated": "2026-10-20",
   "cycle": "2027",
-  "_notes": {
-    "source": "Airtable Presentation Topics with a linked Speaker",
-    "day": "From the Theme field (Dream=1, Plan=2, Go=3). Day lives on the SESSION so one speaker can appear on several days.",
-    "sort_rank": "0 host, 1 sponsor, 2 everyone else. Sessions are stored in display order.",
-    "kind": "single = normal session. compilation = multi-expert session, own sub-section. live_panel = that day's live Zoom call.",
-    "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count.",
-    "display_order": "From 'Display Order for Schedule' in Presentation Topics (fldBVLlDe9XZwhDPf). Michelle maintains this by hand; it is the only thing that should be edited to reorder a day. Blank sinks to the bottom."
+  "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
+  "_field_notes": {
+    "day": "1, 2 or 3, from the Theme field.",
+    "kind": "single | compilation (multi-expert, own sub-section) | live_panel (that day's Zoom call).",
+    "display_order": "From 'Display Order for Schedule' in Presentation Topics. Maintained by hand in Airtable and it is the ONLY thing to edit to reorder a day. Blank sinks to the bottom.",
+    "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count - counting breaks on co-presented sessions.",
+    "page_url": "Squarespace Page from Airtable. Day-page rows link here as soon as it is filled.",
+    "sort_rank": "0 host, 1 sponsor, 2 everyone else. Only a tiebreaker when display_order is blank."
   },
   "sessions": [
     {
@@ -16,6 +17,8 @@
       "day": 1,
       "kind": "compilation",
       "sort_rank": 0,
+      "display_order": 10,
+      "page_url": "",
       "speakers": [
         "michelle-chang",
         "jaclynn-seah",
@@ -27,9 +30,8 @@
         "deborah",
         "helen-foster",
         "tanya-korteling",
-        "tourism-malaysia"
-      ],
-      "display_order": 10
+        "linawati-ismail"
+      ]
     },
     {
       "id": "recCmY5n4LgqWYozL",
@@ -37,10 +39,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 20,
+      "page_url": "",
       "speakers": [
         "tracy-and-doug-collins"
-      ],
-      "display_order": 20
+      ]
     },
     {
       "id": "rec21vvtSc3vhQMZq",
@@ -48,10 +51,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 30,
+      "page_url": "",
       "speakers": [
         "angela-jane"
-      ],
-      "display_order": 30
+      ]
     },
     {
       "id": "recE398g5FWMPNQi2",
@@ -59,10 +63,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 40,
+      "page_url": "",
       "speakers": [
         "amanda-kendle"
-      ],
-      "display_order": 40
+      ]
     },
     {
       "id": "recGrCFTTfSXWWKe3",
@@ -70,10 +75,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 50,
+      "page_url": "",
       "speakers": [
         "preethi-chandrasekhar"
-      ],
-      "display_order": 50
+      ]
     },
     {
       "id": "rec4Fhr7oh0PeVmvy",
@@ -81,10 +87,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 60,
+      "page_url": "",
       "speakers": [
         "erin-holmes"
-      ],
-      "display_order": 60
+      ]
     },
     {
       "id": "rec5OINTtDaA7cUlM",
@@ -92,10 +99,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 70,
+      "page_url": "",
       "speakers": [
         "jen-and-stevo"
-      ],
-      "display_order": 70
+      ]
     },
     {
       "id": "recnYQZo5S7ngQdtR",
@@ -103,10 +111,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 80,
+      "page_url": "",
       "speakers": [
         "timathea-workman"
-      ],
-      "display_order": 80
+      ]
     },
     {
       "id": "recPQ8ZVQ0Wqw7k6M",
@@ -114,10 +123,11 @@
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 90,
+      "page_url": "",
       "speakers": [
         "audra-morris"
-      ],
-      "display_order": 90
+      ]
     },
     {
       "id": "rec7d5iSzeBcT0GAZ",
@@ -125,22 +135,24 @@
       "day": 1,
       "kind": "live_panel",
       "sort_rank": 0,
+      "display_order": 100,
+      "page_url": "",
       "speakers": [
         "jedd-chang",
         "michelle-chang"
-      ],
-      "display_order": 100
+      ]
     },
     {
       "id": "reckwwXN1OyeEtBxU",
-      "title": "Free Tools You're Not Using To Find Deals (But Should Be)",
+      "title": "Free Tools You’re Not Using To Find Deals (But Should Be)",
       "day": 2,
       "kind": "single",
       "sort_rank": 0,
+      "display_order": 10,
+      "page_url": "",
       "speakers": [
         "jedd-chang"
-      ],
-      "display_order": 10
+      ]
     },
     {
       "id": "recYL87ldqwH87nEW",
@@ -148,10 +160,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 1,
+      "display_order": 20,
+      "page_url": "",
       "speakers": [
         "daniel-burnham"
-      ],
-      "display_order": 20
+      ]
     },
     {
       "id": "recdULRxI81ZLPqhi",
@@ -159,10 +172,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 1,
+      "display_order": 30,
+      "page_url": "",
       "speakers": [
         "megan-johnston"
-      ],
-      "display_order": 30
+      ]
     },
     {
       "id": "recKDhKTYmQ2Qpg4V",
@@ -170,10 +184,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 40,
+      "page_url": "",
       "speakers": [
         "kristin-henning"
-      ],
-      "display_order": 40
+      ]
     },
     {
       "id": "recoZ4kXTIcMzSFNT",
@@ -181,10 +196,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 50,
+      "page_url": "",
       "speakers": [
         "robyn-dirk"
-      ],
-      "display_order": 50
+      ]
     },
     {
       "id": "recuo6ceLumwLFLVy",
@@ -192,10 +208,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 60,
+      "page_url": "",
       "speakers": [
         "ashley-mccurdy"
-      ],
-      "display_order": 60
+      ]
     },
     {
       "id": "rec0EVmQKwVM5LWnR",
@@ -203,10 +220,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 70,
+      "page_url": "",
       "speakers": [
         "sojourner-white"
-      ],
-      "display_order": 70
+      ]
     },
     {
       "id": "recToCxy9PV9J1tvv",
@@ -214,10 +232,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 80,
+      "page_url": "",
       "speakers": [
         "jo-anne-dragoun"
-      ],
-      "display_order": 80
+      ]
     },
     {
       "id": "recgdXsxOmCZcqYDm",
@@ -225,10 +244,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 90,
+      "page_url": "",
       "speakers": [
         "rachel-heller"
-      ],
-      "display_order": 90
+      ]
     },
     {
       "id": "recGHvMMXzJ34NLYV",
@@ -236,10 +256,11 @@
       "day": 2,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 100,
+      "page_url": "",
       "speakers": [
         "dannelle-gay"
-      ],
-      "display_order": 100
+      ]
     },
     {
       "id": "rec1iXKqA8dt3B7XF",
@@ -247,12 +268,13 @@
       "day": 2,
       "kind": "live_panel",
       "sort_rank": 2,
+      "display_order": 110,
+      "page_url": "",
       "speakers": [
         "chris-christensen",
         "kathy-buckworth",
         "paula-barnes"
-      ],
-      "display_order": 110
+      ]
     },
     {
       "id": "recFt9zJsB7GCqyEz",
@@ -260,10 +282,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 0,
+      "display_order": 10,
+      "page_url": "",
       "speakers": [
         "michelle-chang"
-      ],
-      "display_order": 10
+      ]
     },
     {
       "id": "rec0vFHb0DlLYFYsF",
@@ -271,10 +294,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 0,
+      "display_order": 20,
+      "page_url": "",
       "speakers": [
         "jedd-chang"
-      ],
-      "display_order": 20
+      ]
     },
     {
       "id": "recICDIhvsOzoKrkG",
@@ -282,10 +306,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 1,
+      "display_order": 30,
+      "page_url": "",
       "speakers": [
         "sheri-howell"
-      ],
-      "display_order": 30
+      ]
     },
     {
       "id": "recY3oQMkrZcaTmwg",
@@ -293,10 +318,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 40,
+      "page_url": "",
       "speakers": [
         "paul-and-heather"
-      ],
-      "display_order": 40
+      ]
     },
     {
       "id": "reccDMJYggwV0WnMi",
@@ -304,10 +330,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 50,
+      "page_url": "",
       "speakers": [
         "judy-and-kevin"
-      ],
-      "display_order": 50
+      ]
     },
     {
       "id": "recqoSwfpZX0h3WYO",
@@ -315,10 +342,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 60,
+      "page_url": "",
       "speakers": [
         "tyke-tina"
-      ],
-      "display_order": 60
+      ]
     },
     {
       "id": "recQeIAWGNXWpQ0ac",
@@ -326,10 +354,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 70,
+      "page_url": "",
       "speakers": [
         "lindsay-dow"
-      ],
-      "display_order": 70
+      ]
     },
     {
       "id": "recVSNsCzkphswptH",
@@ -337,10 +366,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 80,
+      "page_url": "",
       "speakers": [
         "lynne"
-      ],
-      "display_order": 80
+      ]
     },
     {
       "id": "recmpw3IOqNPusCeT",
@@ -348,10 +378,11 @@
       "day": 3,
       "kind": "single",
       "sort_rank": 2,
+      "display_order": 90,
+      "page_url": "",
       "speakers": [
         "jim-and-chris"
-      ],
-      "display_order": 90
+      ]
     },
     {
       "id": "recmoydtYl5RFluce",
@@ -359,10 +390,11 @@
       "day": 3,
       "kind": "live_panel",
       "sort_rank": 2,
+      "display_order": 110,
+      "page_url": "",
       "speakers": [
         "malia-yoshioka"
-      ],
-      "display_order": 110
+      ]
     }
   ]
 }

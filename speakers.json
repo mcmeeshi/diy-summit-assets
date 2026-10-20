@@ -2,14 +2,15 @@
   "updated": "2026-10-20",
   "cycle": "2027",
   "region": "Asia",
+  "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
     "source": "brand and link come from Presenter RSVP when the speaker has submitted one, else Summit Speakers",
-    "role": "host | sponsor | expert | speaker - drives speaker-page ordering and the expert label",
+    "role": "host | sponsor | expert | speaker - drives directory ordering and the expert label",
     "country": "Destination experts only, from Topic to pitch. Renders as '[country] Expert'.",
-    "photo": "Repo path, e.g. images/speakers/jaclynn-seah.jpg. Empty = initials avatar.",
-    "talk_titles": "From sessions.json. Hosts' live calls are omitted; other live-panel speakers show 'Expert Panelist' instead of the session title. Array because a speaker can present more than once.",
-    "day": "Not stored here - day lives on the session in sessions.json.",
-    "bio": "From Presenter RSVP. Shown in the speaker directory accordion only."
+    "photo": "Always empty. The renderer looks for images/speakers/{slug}.jpg and falls back to initials.",
+    "talk_titles": "Hosts' live calls are omitted; other live-panel speakers show 'Expert Panelist'.",
+    "has_headshot": "Whether Presenter RSVP holds an attachment - not whether the repo has the image.",
+    "day": "Not stored here - day lives on the session in sessions.json."
   },
   "speakers": [
     {
@@ -21,8 +22,8 @@
       "link": "https://www.notaballerina.com/podcast",
       "photo": "",
       "bio": "Amanda Kendle is the host and producer of the decade-old The Thoughtful Travel Podcast, focusing on how we can travel in thoughtful ways that are better for the traveller and the places being visited. Based in Western Australia, she has lived and travelled extensively in Asia and Europe, and considers Japan and Thailand as two of her very favourite places to re-visit regularly. Along with publishing The Thoughtful Travel Podcast, Amanda is a lecturer in Media and Communication at Murdoch University in Perth, a sought-after speaker and workshop facilitator for travel, tourism and digital marketing topics, and is also Vice President of the Board at RISE Travel Institute.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recvrqNa7S047hOVM",
       "talk_titles": [
         "Slow Travel"
@@ -37,8 +38,8 @@
       "link": "https://instagram.com/angela50pluslife",
       "photo": "",
       "bio": "Angela Jane is a travel creator, educator and founder of Travels of the World, as well as the voice behind @Angela50PlusLife. Drawing on decades of experience in the travel and airline industries and her own independent journeys, she helps women over 50 explore the world with greater confidence, freedom and ease. Through practical advice, honest stories and a focus on wellbeing, Angela shows that solo travel does not require fearlessness - it begins with taking one manageable step. Her guiding message is that life after 50 is just getting started.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "reck2huVPHUt2vQvq",
       "talk_titles": [
         "Solo in Asia After 50: A 5-Step Confidence Plan for Your First Trip"
@@ -53,8 +54,8 @@
       "link": "https://www.youtube.com/@Korea_expert",
       "photo": "",
       "bio": "Aran is the founder and independent creator behind K Guardian Angel, a global YouTube channel, providing highly detailed survival guides and travel hacks for international visitors to South Korea. A distinguished media professional, she graduated magna cum laude from New York University (NYU) with a double major in Journalism and Psychology. Aran boasts a stellar career in mainstream broadcasting, having served as a news anchor, reporter, and podcast host for Korea’s top national networks—including YTN (24-hour news), Arirang TV (global English network), and SBS Radio. Leveraging her elite editorial precision and seasoned local insights, Aran acts as a true \"Guardian Angel\" for independent travelers, ensuring absolute ease, safety and confidence.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recPBtZH49LLNbUvA",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -69,8 +70,8 @@
       "link": "https://instagram.com/insearchoftraveler",
       "photo": "",
       "bio": "Ashley McCurdy has been traveling and living in hotels full-time for the last 6 years. After losing her job, she gave up her Southern California apartment to save money and figured traveling full-time would be cheaper. What started as an adventure has become a flexible digital nomad lifestyle, and she is now known for finding $50ish/night Marriott hotels around the world.\n\nToday, Ashley lives in a Marriott hotel in Dubai, where she recently negotiated a 12 month contract for just $59/night. Her corner hotel room has floor to ceiling windows, a washer/dryer and full kitchen. Her rate also includes a daily breakfast buffet, evening appetizers and a complimentary shuttle to the Mall of the Emirates and the beach.\n\nAshley believes elevated travel doesn't have to be expensive and shares her best tips and strategies through her travel blog, Travel Tips For Broke People, and free Hotel Deals Newsletter, Deal Of The Day.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "rec2LhLgyyGEfuyxi",
       "talk_titles": [
         "How to Find $50ish/night Hotels"
@@ -85,8 +86,8 @@
       "link": "https://www.thenerdtraveler.com/about/",
       "photo": "",
       "bio": "Audra Morris is the founder of The Nerd Traveler, a history-first travel brand dedicated to UNESCO World Heritage Sites, sharing stories and guides through her blog, YouTube channel, TikTok, and Instagram. She has explored more than 50 World Heritage Sites across Europe, Asia, and North America, from one of the oldest universities in the world in Portugal to the Great Wall of China. Audra believes a World Heritage Site is not a box to check, but a place to understand.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recxOnJQcAHzeqQKp",
       "talk_titles": [
         "Beyond the Checklist: How to Find, Research, and Experience UNESCO World Heritage Sites in Asia"
@@ -101,8 +102,8 @@
       "link": "https://amateurtraveler.com",
       "photo": "",
       "bio": "Chris is the award-winning creator of AmateurTraveler.com. Amateur Traveler is a popular online travel podcast and blog that focuses primarily on travel destinations. The podcast, which is 21+ years old, has 1000+ episodes and was downloaded over 1.98 million times in 2025. Chris is in the Podcast Hall of Fame.\n\nIn 2025, 52 different episodes of the Amateur Traveler were available on the entertainment systems of 8 different airlines",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recj3rDexvuZZmMzD",
       "talk_titles": [
         "Expert Panelist"
@@ -117,8 +118,8 @@
       "link": "https://www.dailydrop.com/?via=intentionaltravel",
       "photo": "",
       "bio": "",
-      "watch_url": "",
       "has_rsvp": false,
+      "has_headshot": false,
       "airtable_id": "recOikcqPr1RBUH54",
       "talk_titles": [
         "5 sweet spots to fly to Asia with points"
@@ -133,8 +134,8 @@
       "link": "https://travelingcheesehead.com",
       "photo": "",
       "bio": "Dannelle Fraser Gay, known as The Traveling Cheesehead, is an award-winning travel writer, television host, podcaster, author, and professional chef with a passion for uncovering unforgettable destinations, unique experiences, and incredible food. Her television series, The Traveling Cheesehead Visits, airs on 91 stations across five states, while her travel writing, podcast, and social media platforms inspire audiences to explore beyond the ordinary. She is also the founder and editor of The Adapted Adventurer, an accessibility-focused travel publication dedicated to making travel more inclusive for everyone. Through authentic storytelling, engaging video content, and a loyal community of travelers, Dannelle helps destinations and brands connect with audiences ready to discover their next adventure.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recVFQN2eQ7Qt6K81",
       "talk_titles": [
         "Splurge or Save: Budgeting Tips For Your Asia Trip"
@@ -149,8 +150,8 @@
       "link": "https://www.hongkongmadeeasy.com",
       "photo": "",
       "bio": "Deborah Rogers is the creator of Hong Kong Made Easy, a travel site for first-time visitors to Hong Kong. She grew up in Hong Kong and has more than 45 years of experience with the city, both as a resident and a frequent visitor. She shares practical advice on where to stay, how to get around and what to prioritise, based on what she has personally tested and would recommend today. She also helps travellers use Hong Kong as a starting point for exploring more of Asia.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recOHveDfPwhtDiFF",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -165,8 +166,8 @@
       "link": "https://explorewitherin.com/",
       "photo": "",
       "bio": "Erin Holmes is the founder of Explore With Erin, an established travel blog sharing stories, destination guides and travel inspiration from more than 80 countries. With over 14 years of experience in travel blogging, content creation and influencer marketing, Erin works with tourism boards, hotels and travel brands to create engaging, SEO-driven content that inspires travellers and delivers long-term value. She is also a speaker, sharing her expertise in travel blogging, digital marketing and creator partnerships, and hosts small-group international trips that bring like-minded travellers together for immersive, locally connected experiences. Through her blog, social media platforms, and hosted adventures, Erin helps brands connect with audiences while inspiring people to see more of the world.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recxvxba0QbzZh4gi",
       "talk_titles": [
         "Foodie Travel Tips for Asia"
@@ -181,8 +182,8 @@
       "link": "https://instagram.com/angieeadventures",
       "photo": "",
       "bio": "Harry Vu is the founder of Angiee Adventures, a locally rooted travel company based in Hoi An, Central Vietnam. Born and raised in the region, Harry has spent years helping international travelers discover Vietnam beyond the usual tourist trail through local food, family traditions, rural communities, and meaningful cultural connections. Through Angiee Adventures, he creates immersive experiences in Hoi An and Central Vietnam that connect travelers with the people and stories behind each destination. Harry believes the most memorable journeys are not just about seeing a place, but about understanding its people, culture, and everyday life.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recB7vCW8USCw8adW",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -197,8 +198,8 @@
       "link": "https://japlanease.com",
       "photo": "",
       "bio": "Helen Foster is a journalist, author and content creator living in Sydney. She runs Japlanease, a website and online community helping people plan their first trips to Japan. \nWhen she first visited Japan, Helen wasn't convinced she'd ever go back - it was the most confusing place she'd ever been. Wrong! A second trip unearthed a passion for the country, and Helen has since explored more than 50 Japanese cities and towns across nine visits. \nAs founder of Japlanease, she now turns that first-hand experience into practical advice that helps first-time visitors navigate the often overwhelming experience of planning a Japan trip. Her knowledge and enthusiasm cut through confusion, helping visitors create their own perfect Japan trip with less stress and more confidence. \nAlongside creating detailed travel guides and planning resources on the Japlanease website, Helen has also built an engaged online Facebook community of over 100,000 members.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recBn2eqdCLYL1EB0",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -213,8 +214,8 @@
       "link": "https://theoccasionaltraveller.com/",
       "photo": "",
       "bio": "Jaclynn Seah is The Occasional Traveller, an avid Singaporean traveller, writer, and tourist guide who perpetually juggles work and wanderlust with a full-time job and limited annual leave. She hopes to inspire other busy folk like herself to travel more.\n\nJaclynn is an avid solo traveller who loves exploring the world, documenting her stories and travel tips on her blog since 2010. An established travel writer, her work has appeared in The Straits Times, Culture Trip and South China Morning Post. \n\nBack home, Jaclynn is a licensed Singapore tourist guide who loves sharing about the culture, history and lesser-known sides of her home with visitors. She is a contributing writer to the latest edition of the Lonely Planet Singapore guidebook.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recLGdby1PVwcvPrf",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -229,11 +230,11 @@
       "link": "https://intentionaltravelers.com",
       "photo": "",
       "bio": "test diy",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recjZz5yacXn1lxss",
       "talk_titles": [
-        "Free Tools You're Not Using To Find Deals (But Should Be)",
+        "Free Tools You’re Not Using To Find Deals (But Should Be)",
         "Your First 12 Hours Arriving in Asia On Your Own"
       ]
     },
@@ -246,8 +247,8 @@
       "link": "https://youtube.com/twocantravel",
       "photo": "",
       "bio": "Jen and Stevo left the US in 2011 to teach English in Asia for one year, and that was 15 years ago. They lived and worked in China and Cambodia, then hit the road as long-term slow travelers in 2018. In 2019, they discovered house sitting as a way to save money and add more unique experiences, places, people, and animals to their travels. Since then, they have had over 1,000 nights of free accommodation worldwide through house sitting, including six countries in Asia. They can’t wait to share how you can start house sitting too!",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recIgyEkxETIiF2w7",
       "talk_titles": [
         "Creative accommodation ideas"
@@ -262,8 +263,8 @@
       "link": "https://geeksontour.com/",
       "photo": "",
       "bio": "Geeks on Tour is Jim and Chris Guld. They live on a cruise ship and travel the world. Before that they lived in an RV and traveled the USA. They have been teaching travelers to make better use of their technology since 2004 with email newsletters, live classes, short tutorial videos, and longer, live YouTube shows.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recjdRr7WAvUiZa9Y",
       "talk_titles": [
         "From Good to Great: Quick Edits for Travel Photos"
@@ -278,8 +279,8 @@
       "link": "https://retirementbestie.com",
       "photo": "",
       "bio": "Jo Anne Dragoun is the founder of Retirement Bestie, a lifestyle brand helping women 50+ use AI with more confidence in everyday life. After more than 30 years in corporate leadership, she now focuses on making emerging technology practical, approachable, and genuinely useful for real people. Through Retirement Bestie, Jo Anne teaches women how to use AI for smarter planning, travel, organization, safety, and everyday decision-making without feeling overwhelmed by technology. Her approach is rooted in curiosity, common sense, and helping people use AI as a powerful research partner while still knowing when to question, verify, and trust their own judgment.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recgz0b5K5EJEKYVq",
       "talk_titles": [
         "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence"
@@ -294,8 +295,8 @@
       "link": "https://findingginamarie.com",
       "photo": "",
       "bio": "Judy and Kevin Hoctor are the creators of Finding Gina Marie, a YouTube channel, website, and free community forum, La Famiglia, focused on independent, long-term travel. In 2022, they retired early, sold nearly everything they owned, and set out to travel the world full time with just a carry-on and backpack each. They share practical lessons from life on the road while looking beyond the must-see sights to explore the history, culture, people, and everyday life of the places they visit. They are also the founders of Voyage Vault, the personal finance app for people who love to travel. The name Finding Gina Marie comes from Judy reconnecting with her birth family after 55 years—an experience that helped inspire their belief that it’s never too late to create a very different next chapter.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recUkkVqcNzgaQDrw",
       "talk_titles": [
         "How to Handle Money Abroad"
@@ -310,8 +311,8 @@
       "link": "https://www.kathybuckworth.com",
       "photo": "",
       "bio": "Kathy Buckworth is the host of Journeywoman's The Ageless Adventuress Podcast. She is a freelance travel writer for Hello! Canada, TravelLife, Dreamscapes and TravelPulse Canada. She is the author of eight books, including \"How Women Can Get Started in Solo Travel.\"",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recT85MSt7f0bT9e9",
       "talk_titles": [
         "Expert Panelist"
@@ -326,8 +327,8 @@
       "link": "https://baliuntold.com/",
       "photo": "",
       "bio": "Bali Untold is a leading travel blog that helps travellers plan an unforgettable trip to Bali. It was created by British couple Kieren and Emily, who have spent years exploring every corner of the island. They love highlighting lesser-known areas that help visitors escape the crowds and experience the 'untold' side of Bali. Each recommendation is tried-and-tested, from things to do and places to eat to general Bali travel tips around visas, getting around, and avoiding tourist traps.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recDK9JME5TjC0rEP",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -342,11 +343,27 @@
       "link": "https://travelpast50.com/about-us/",
       "photo": "",
       "bio": "Kristin Henning is a writer, travel blogger, marketing consultant, and fan of fresh air. She and her husband, Tom Bartel, former newspaper and magazine publishers in Minneapolis/St. Paul (MN), turned to world travel in 2010. Since then, they've visited around 80 countries on seven continents. Kristin keeps up her writing and photography work with the award-winning blog, TravelPast50.com, is a regular reporter for Travel Writers Radio, a columnist for International Travel News, and contributes to other travel and lifestyle publications.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recK6zmOl3Wy3hMSc",
       "talk_titles": [
         "Timing Your Trip & How Long to Spend in Each City"
+      ]
+    },
+    {
+      "slug": "linawati-ismail",
+      "name": "Linawati Ismail",
+      "brand": "Tourism Malaysia",
+      "role": "expert",
+      "country": "Malaysia",
+      "link": "https://www.malaysia.travel/explore/choose-your-malaysia-mix",
+      "photo": "",
+      "bio": "Linawati Ismail is Deputy Director, Americas at Tourism Malaysia.\n\nMalaysia Tourism Promotion Board, also known as Tourism Malaysia, is an agency under the Ministry of Tourism, Arts and Culture Malaysia (MOTAC). It focuses on promoting Malaysia as a preferred tourism destination and has, since its establishment, played a significant role in strengthening the country’s presence and competitiveness in the global tourism landscape.\n\nVisit Malaysia 2026/2027 (VM2026/2027) underscores Malaysia’s commitment to sustainable tourism development, in line with the United Nations Sustainable Development Goals (UNSDGs). The campaign aims to showcase the nation’s diverse natural attractions, rich cultural heritage, and vibrant tourism offerings, while driving inclusive growth and long-term value for local communities and industry stakeholders.",
+      "has_rsvp": true,
+      "has_headshot": true,
+      "airtable_id": "recIhAsvoFffcRxFA",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
       ]
     },
     {
@@ -358,8 +375,8 @@
       "link": "https://lindsaydoeslanguages.com/",
       "photo": "",
       "bio": "Lindsay Does Languages makes language learning feel easy without it taking over your life. Through personal language coaching suitable for all languages at any level, you can finally move beyond the first page of your coursebook and have something to show for that Duolingo streak you've been keeping so dutifully! Lindsay has studied 15+ languages to a decent level in the past (even if some take a little tuning back into!) and has dabbled in many more - often for travel. She is currently slow travelling in Asia.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recCkKx3Tv5MKjleO",
       "talk_titles": [
         "Language Tips for Visiting Asian Countries"
@@ -374,8 +391,8 @@
       "link": "https://www.travelynne.ca/",
       "photo": "",
       "bio": "Lynne is a Canadian travel advisor, blogger and marketer based between Southeast Asia and Canada. Since 2019, she has lived and worked in Asia, first with an international NGO in Malaysia and later at a luxury resort in Indonesia.\n\nSeeing tourism from behind the scenes changed the way she thinks about travel and shaped her boutique travel consultancy, Travelynne. Her approach is rooted in curiosity, connection and care for the places she visits and recommends, with a focus on nature, culture and making sure host communities and businesses benefit from tourism.\n\nToday, she helps independent travellers go on trips that are as thoughtful as they are exciting, with personalized itineraries, trusted recommendations and destination guides.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recm9t2SCKM80cLse",
       "talk_titles": [
         "Travel That Gives Back: How to Be a Responsible Visitor"
@@ -390,8 +407,8 @@
       "link": "https://www.shoyusugar.com/podcast",
       "photo": "",
       "bio": "Malia Yoshioka is a freelance food and travel writer from Hawaii, Lonely Planet guidebook author, and host of the Passport to Flavor podcast. A fourth-generation Japanese American, she has eaten her way through 43 countries and spent a decade based in Türkiye. Her work has appeared in The Washington Post, New York Magazine, Business Insider, Matador Network, and Hawaii Magazine. On Passport to Flavor, she uses food and language study as entry points into conversations that help travelers engage more deeply with the places they visit. At the heart of her work is a simple reminder: every destination is someone else’s home.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recnhE6eJ7OclxaIn",
       "talk_titles": [
         "Expert Panelist"
@@ -406,8 +423,8 @@
       "link": "https://www.dailydrop.com/team/megan-johnston",
       "photo": "",
       "bio": "Megan is the Community Manager at Daily Drop. She grew up going on many road trips with her family but didn’t actually leave the country (or own a passport!) until she was 23. That first international trip truly had her hooked. Her love and knowledge of travel hacking actually came by accident. A serendipitous visit to an airport lounge sparked a conversation with a couple who were travel hacking their way around the world. Megan found that learning and sharing travel tips and wins with others was (and still is) more valuable than any Google search!",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "reczVwR4Srcf4oRRm",
       "talk_titles": [
         "How to Use Award Point Hotel Stays in Asia"
@@ -422,8 +439,8 @@
       "link": "https://intentionaltravelers.com",
       "photo": "",
       "bio": "Michelle helps travelers plan and travel smarter, even if they didn't grow up with today's technology. As a lifelong traveler, questioner, and introvert, she is passionate about cross-cultural exchange, the power of transformational travel, and the importance of intentional living.\n \nMichelle and her husband, Jedd, quit their traditional jobs in 2011 and served as Peace Corps Volunteers in rural Jamaica. They have been location-independent digital nomads since 2014, running their online businesses while they explore new places, and have now traveled across more than 30 countries.\n \nMichelle hosts the annual DIY Trip Summit and founded the Intentional Travelers Toolkit Membership, which helps independent travelers cut through information overload, plan trips faster, and feel confident in their own decisions on the ground.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recs6qFPPvjw2cINp",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors",
@@ -439,8 +456,8 @@
       "link": "https://www.youtube.com/@TheFreedomStrategy",
       "photo": "",
       "bio": "Paul and Heather share practical strategies to help you explore the world with confidence, comfort, and zero fluff on The Freedom Strategy YouTube Channel. Why limit yourself to just one way to travel? We believe the ultimate retirement lifestyle embraces it all—exploring across the roads, the rails, and the waves.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "reclBNdPRFNy2EQy4",
       "talk_titles": [
         "Surviving Long Flights and New Airports"
@@ -455,8 +472,8 @@
       "link": "",
       "photo": "",
       "bio": "",
-      "watch_url": "",
       "has_rsvp": false,
+      "has_headshot": false,
       "airtable_id": "recMcQ240O0kCSQvH",
       "talk_titles": [
         "Expert Panelist"
@@ -471,8 +488,8 @@
       "link": "https://thailandawaits.com",
       "photo": "",
       "bio": "Plenty of travelers would love to see Thailand on their own but worry it will be too hard to organize. Thailand Awaits was set up to change that.\n\nThe site is run by writer and publisher Paula Morgan and her partner Charles Akkary, who live in Hua Hin. They write easy to follow trip planning articles with up-to-the-minute local information, so readers know what to expect before they arrive.\n\nYou don't need a tour group to get around. Paula and Charles show you how to use public transport, where to eat local food, and how to find small hotels and restaurants worth your time. They also encourage travelers to think about their footprint along the way.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recfBH3hiRpBeNeXT",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -487,8 +504,8 @@
       "link": "",
       "photo": "",
       "bio": "",
-      "watch_url": "",
       "has_rsvp": false,
+      "has_headshot": false,
       "airtable_id": "recYNmfWzQGHi4iX6",
       "talk_titles": [
         "DIY Hybrid: Using Day Tours and Self-Guided Packages in Asia"
@@ -503,8 +520,8 @@
       "link": "https://rachelsruminations.com",
       "photo": "",
       "bio": "Rachel has traveled in over 80 countries so far, and is pleased to be able to share the minimalist packing routine she's developed over the years. \nRachel blogs at her long-established travel website, Rachel's Ruminations, offering useful information and advice for independent travel based on her own experiences. \nHer newer website, World Heritage Travel, was born of her love of history and historical sites. Her goal is for it to include travel information for every single UNESCO site in the world; almost half have been published so far. She writes what she can, and over 230 other writers have contributed articles too.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recWxbOnP4L1jKxvG",
       "talk_titles": [
         "Minimalist Packing For Your Asia Trip"
@@ -519,8 +536,8 @@
       "link": "https://twoemptypassports.com/",
       "photo": "",
       "bio": "Robyn is a slow travel expert and founder of Two Empty Passports, where she shares detailed travel guides and practical advice for travelers who want to explore the world at a slower, more intentional pace.\n\nHaving traveled to 48 countries while navigating her own mobility challenges, she understands the importance of planning a trip that works with—not against—your body.\n\nShe also organizes accessible small-group tours for travelers with mobility challenges or those who simply prefer to experience the world at a slower pace, with thoughtful planning and support. Robyn is passionate about showing travelers with limited mobility that their travel options are far greater than they may realize.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recdC3zOWDguDG25r",
       "talk_titles": [
         "Smart Planning Tips for Traveling with Limited Mobility in Asia"
@@ -535,8 +552,8 @@
       "link": "https://medjetassist.com/",
       "photo": "",
       "bio": "Sheri Howell spent 14 years at MTV (“during the good years”), where as VP Music & Talent she helped evolve a \"little niche music television channel\" into one of the most internationally recognized brands in history. She currently oversees all aspects of marketing for Medjet, the premier global air medical transport and security response membership program for travelers. “I love Medjet and cannot believe I wasn’t a member my whole life.\"",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recp5wFwC2eJ2zBCt",
       "talk_titles": [
         "How to Stay Safe in Asia: Tips & Types of Travel Protection You Need"
@@ -551,8 +568,8 @@
       "link": "https://sojournies.com/",
       "photo": "",
       "bio": "Sojourner White, also known as the “Train Travel Queen,” is the award-winning travel vlogger and writer behind Sojournies. A late-night Google search led her to a 52-hour Amtrak journey from Chicago to California, sparking a passion for rail travel that has taken her across the U.S. and to destinations including Vietnam, Japan, Uzbekistan, and India. Blending train travel with her love of food, Black history, and culture, Sojourner has partnered with brands including Tripadvisor, Uzbekistan Tourism, Travel Alaska, Explore Georgia, and Intrepid Travel. Through vibrant videos and slow travel storytelling, she invites her 450K+ audience to explore the world one meal, museum, and meaningful connection at a time.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recoaP1WESSQ2bZ0R",
       "talk_titles": [
         "Making the Most of Train Travel in Asia"
@@ -567,8 +584,8 @@
       "link": "https://www.cantravelwilltravel.com",
       "photo": "",
       "bio": "Tanya Korteling runs Can Travel Will Travel, a travel blog following her and her husband Andy as they travel, live and work around the world. The blog focuses on independent travel, culture, food, outdoor experiences, slower travel and finding places beyond the obvious tourist trail, alongside practical advice based on first-hand experience. Tanya has lived in Cambodia twice for extended periods, travelled extensively across Southeast Asia and also shares solo female travel experiences.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "rec5u5nrF3XewS68d",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -583,27 +600,11 @@
       "link": "https://timathea.com/field-notes",
       "photo": "",
       "bio": "Timathea Workman has spent a lifetime collecting extraordinary experiences, exploring 61 countries across six continents and discovering that adventure is about far more than the places we visit. An award-winning travel writer, photographer, and storyteller, she leads international adventures and teaches travelers to use journaling, mindfulness, and meaningful connection to move beyond sightseeing and experience the world, and themselves, more deeply. Through her transformational program, The Journey to You, she has helped more than 2,000 people rediscover their voices, embrace their dreams, and stop waiting for “someday” to live fully. Featured on Good Morning America and The Oprah Winfrey Show, Timathea draws on a lifetime of unconventional adventures, from managing rock bands to working with Lucasfilm, and 37 years as an educator, to share a simple but powerful belief: the greatest journeys don’t just change how we see the world; they change how we see ourselves.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recDfDMqVJrbCgTyR",
       "talk_titles": [
         "Deep and Thoughtful Travel"
-      ]
-    },
-    {
-      "slug": "tourism-malaysia",
-      "name": "Tourism Malaysia",
-      "brand": "Tourism Malaysia",
-      "role": "expert",
-      "country": "Malaysia",
-      "link": "https://www.malaysia.travel/explore/choose-your-malaysia-mix",
-      "photo": "",
-      "bio": "Linawati Ismail is Deputy Director, Americas at Tourism Malaysia.\n\nMalaysia Tourism Promotion Board, also known as Tourism Malaysia, is an agency under the Ministry of Tourism, Arts and Culture Malaysia (MOTAC). It focuses on promoting Malaysia as a preferred tourism destination and has, since its establishment, played a significant role in strengthening the country’s presence and competitiveness in the global tourism landscape.\n\nVisit Malaysia 2026/2027 (VM2026/2027) underscores Malaysia’s commitment to sustainable tourism development, in line with the United Nations Sustainable Development Goals (UNSDGs). The campaign aims to showcase the nation’s diverse natural attractions, rich cultural heritage, and vibrant tourism offerings, while driving inclusive growth and long-term value for local communities and industry stakeholders.",
-      "watch_url": "",
-      "has_rsvp": true,
-      "airtable_id": "recIhAsvoFffcRxFA",
-      "talk_titles": [
-        "Gem Destinations in Asia for First Time Visitors"
       ]
     },
     {
@@ -615,8 +616,8 @@
       "link": "https://globaltravelplanning.com/about-tracy/",
       "photo": "",
       "bio": "Tracy and Doug Collins are a British couple based in Australia who help independent travellers plan their own trips, with advice from people who have actually been there. Tracy has travelled independently through more than 60 countries over 40 years and has now been to all seven continents. Together they run Global Travel Planning and host The Global Travel Planning Podcast, as well as UK Travel Planning, London Travel Planning and The UK Travel Planning Podcast. Doug spent over 25 years working on the UK rail network, so sleeper trains, cross-border buses and overland routes are a favourite part of every trip they plan.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "reciV0xw7sqoMMIue",
       "talk_titles": [
         "Easy Multi-Country Itineraries for First Time Asia Trips"
@@ -631,8 +632,8 @@
       "link": "https://www.youtube.com/@TykeandTinaAdventures",
       "photo": "",
       "bio": "Tyke and Tina are the creators of Tyke & Tina Adventures, a travel and early-retirement brand documenting what life looks like after leaving the traditional 9-to-5 behind. After retiring early, they traded the conventional retirement path for a life of slow travel, spending extended time exploring Asia and destinations around the world. Through YouTube and social media, they share the real costs, logistics, experiences, and lessons behind building a life with more freedom, adventure, and time together. Their goal is to show that retirement doesn’t have to mean waiting until 65—and that with intentional planning, it’s possible to retire sooner, travel longer, and make the most of the healthiest years ahead.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recyU6dOFoj4qxO5x",
       "talk_titles": [
         "Travel Health Habits and Mistakes to Avoid in Asia"
@@ -647,8 +648,8 @@
       "link": "https://www.youtube.com/@Vickipedia_China",
       "photo": "",
       "bio": "Chinese creator and founder of Vickipedia China, helping international travelers discover and navigate China with more confidence. A former marketer, global traveler to 20+ countries, and local friend sharing practical travel advice, real experiences, and a more human side of China. Making China feel less unfamiliar, one story at a time.",
-      "watch_url": "",
       "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recoYNkEu4dzUejVg",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
