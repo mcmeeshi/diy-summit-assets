@@ -1,0 +1,77 @@
+---
+# Rebuilds speakers.json and sessions.json from Airtable and commits them.
+#
+# To run it: Actions tab -> "Publish page data from Airtable" (left sidebar)
+# -> "Run workflow" button -> Run workflow. That button is the whole point.
+#
+# Needs one repository secret, AIRTABLE_TOKEN: an Airtable personal access
+# token with data.records:read on the Summit '27 base.
+# Settings -> Secrets and variables -> Actions -> New repository secret.
+#
+# It does NOT touch schedule.json. That file is hand-maintained config.
+
+name: Publish page data from Airtable
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Report only, do not commit"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Never let two runs race each other onto the same branch.
+concurrency:
+  group: publish-page-data
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # No dependencies on purpose - the script uses only the standard
+      # library, so there is nothing to install and nothing to go stale.
+      - name: Build the JSON from Airtable
+        env:
+          AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
+        run: python scripts/publish.py
+
+      - name: Show what changed
+        run: |
+          git --no-pager diff --stat -- speakers.json sessions.json
+          echo "--- speakers.json / sessions.json diff ---"
+          git --no-pager diff -- speakers.json sessions.json | head -200
+
+      - name: Commit
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if git diff --quiet -- speakers.json sessions.json; then
+            echo "Airtable matches what is already published. Nothing to commit."
+            echo "Nothing changed - the published files already match Airtable." \
+              >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add speakers.json sessions.json
+          git commit -m "Publish page data from Airtable"
+          # Someone may have pushed while this ran; rebase rather than fail.
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "Published. The summit pages pick this up within about a minute." \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Dry run notice
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo "Dry run - nothing was committed. Untick 'Report only' to publish." \
+            >> "$GITHUB_STEP_SUMMARY"
