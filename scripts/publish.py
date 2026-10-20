@@ -272,6 +272,47 @@ def build(speaker_rows, rsvp_rows, topic_rows):
 
 # ---------------------------------------------------------------- reports --
 
+IMAGE_DIR = "images/speakers"
+
+
+def headshot_audit(speakers):
+    """Cross-check the repo's headshots against the current slugs.
+
+    Renaming a speaker in Airtable changes their slug, which orphans their
+    image: no error, the card just quietly loses its face. So report both
+    directions - speakers with no file, and files matching nobody - and when
+    the counts line up, say so, because that pairing is almost always a
+    rename rather than two unrelated problems.
+    """
+    if not os.path.isdir(IMAGE_DIR):
+        return None
+
+    files = sorted(f for f in os.listdir(IMAGE_DIR) if not f.startswith("."))
+    stems = {}
+    wrong_type = []
+    for f in files:
+        stem, ext = os.path.splitext(f)
+        if ext.lower() != ".jpg":
+            wrong_type.append(f)
+            continue
+        stems.setdefault(stem, f)
+
+    slugs = {p["slug"] for p in speakers}
+    missing = [p["name"] for p in speakers if p["slug"] not in stems]
+    # -2, -3 suffixes are extra submissions from scenario 4, not orphans
+    orphans = [f for stem, f in sorted(stems.items())
+               if stem not in slugs and not re.search(r"-\d+$", stem)]
+    extras = [f for stem, f in sorted(stems.items()) if re.search(r"-\d+$", stem)]
+
+    return {
+        "missing": missing,
+        "orphans": orphans,
+        "wrong_type": wrong_type,
+        "extras": extras,
+        "likely_rename": bool(missing and orphans),
+    }
+
+
 def report(speakers, sessions, link_report):
     def names(rows, key):
         return ", ".join(r[key] for r in rows) or "none"
@@ -295,6 +336,28 @@ def report(speakers, sessions, link_report):
     ]
     for label, rows, key in buckets:
         lines.append(f"- {label} ({len(rows)}): {names(rows, key)}")
+
+    shots = headshot_audit(speakers)
+    if shots:
+        lines += ["", "### Headshots in the repo", ""]
+        lines.append(f"- No image file (`{IMAGE_DIR}/<slug>.jpg`) ({len(shots['missing'])}): "
+                     + (", ".join(shots["missing"]) or "none"))
+        lines.append(f"- Image files matching nobody ({len(shots['orphans'])}): "
+                     + (", ".join(shots["orphans"]) or "none"))
+        if shots["wrong_type"]:
+            lines.append(f"- Wrong file type, will never load ({len(shots['wrong_type'])}): "
+                         + ", ".join(shots["wrong_type"]) + " — the renderer only loads `.jpg`")
+        if shots["extras"]:
+            lines.append(f"- Spare submissions ({len(shots['extras'])}): "
+                         + ", ".join(shots["extras"]) + " — harmless, ignored by the page")
+        if shots["likely_rename"]:
+            lines += [
+                "",
+                "> **Someone was probably renamed in Airtable.** A speaker with no image "
+                "plus an image matching nobody is usually the same person. Check whether "
+                "one of the files above is one of the people above, and if so rename the "
+                "file to `<new-slug>.jpg`. Until then that card shows initials.",
+            ]
 
     lines += ["", f"### Links adjusted automatically ({len(link_report)})", ""]
     if link_report:
