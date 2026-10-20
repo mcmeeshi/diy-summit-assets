@@ -28,10 +28,7 @@
         "cta_after": true,
         "_note": "Panelists for all three days now come from the Live call / Live panel sessions in Airtable.",
         "_placeholder": "Topic is a placeholder - confirm before launch"
-      },
-      "opens": "2027-01-19T14:00:00Z",
-      "closes": "2027-01-21T14:00:00Z",
-      "_window_placeholder": "PLACEHOLDER DATES - replace with the real 2027 open/close times before launch. Must keep the trailing Z (UTC)."
+      }
     },
     {
       "n": 2,
@@ -45,10 +42,7 @@
         "note": "Register for Summit to get the Zoom link",
         "cta_after": true,
         "_placeholder": "Topic is a placeholder - confirm before launch"
-      },
-      "opens": "2027-01-20T14:00:00Z",
-      "closes": "2027-01-22T14:00:00Z",
-      "_window_placeholder": "PLACEHOLDER DATES - replace with the real 2027 open/close times before launch. Must keep the trailing Z (UTC)."
+      }
     },
     {
       "n": 3,
@@ -62,10 +56,7 @@
         "note": "Register for Summit to get the Zoom link",
         "cta_after": true,
         "_placeholder": "Topic is a placeholder - confirm before launch"
-      },
-      "opens": "2027-01-21T14:00:00Z",
-      "closes": "2027-01-23T14:00:00Z",
-      "_window_placeholder": "PLACEHOLDER DATES - replace with the real 2027 open/close times before launch. Must keep the trailing Z (UTC)."
+      }
     }
   ],
   "compilation_intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts",
@@ -98,9 +89,6 @@
   "day_page": {
     "watch_label": "Watch",
     "soon_label": "Coming soon",
-    "ended_label": "Get access",
-    "ended_href": "https://diytripsummit.com/expired",
-    "_ended_href_check": "CONFIRM THIS URL before launch - inferred, not given.",
-    "_note": "Buttons are decided by the clock, not by whether a page_url exists. Before the day's opens: Coming soon, not clickable. Between opens and closes: watch_label, links to the session's Squarespace Page from Airtable. After closes: ended_label, links to ended_href (the upgrade offer). Set opens/closes per day under days[]. A session may override with its own opens/closes."
+    "_note": "Rows show watch_label and link to the session's Squarespace Page from Airtable as soon as that field is filled, so links can be tested before launch. No field yet = soon_label, greyed and unclickable. Access during and after the event is controlled by setting the session page active/inactive in Squarespace; an inactive page redirects to the expired page with the upgrade offer. The per-day Coming Soon / Watch Now / Expired button below each day's list is maintained by hand in Squarespace and is deliberately not generated here."
   }
 }

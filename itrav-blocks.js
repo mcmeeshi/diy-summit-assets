@@ -136,10 +136,6 @@
     "text-decoration:none !important;line-height:1.2;}",
     ".itrav-watch:hover{opacity:.88;color:#1A1A1A !important;}",
     ".itrav-watch.itrav-soon{background:#ece9e4;color:#8a8a8a !important;pointer-events:none;}",
-    /* ended: still clickable, visibly not the primary action. Existing
-       palette only - slate outline, no new colors. */
-    ".itrav-watch.itrav-ended{background:transparent;border:2px solid #657a9d;color:#657a9d !important;}",
-    ".itrav-watch.itrav-ended:hover{background:#657a9d;color:#ffffff !important;opacity:1;}",
 
     "@media (max-width:900px){.itrav-dir{grid-template-columns:repeat(2,1fr);}}",
     "@media (max-width:560px){.itrav-dir{grid-template-columns:1fr;gap:30px;}",
@@ -404,57 +400,6 @@
     }
   }
 
-  /* Three states for a session button, decided by the clock - never by
-     whether a URL happens to exist, because the URL is filled in weeks
-     before the session opens.
-
-       before opens            -> "Coming soon", grey, not clickable
-       between opens & closes  -> "Watch", gold, links to the session page
-       after closes            -> "Get access", links to the expired page
-                                  that carries the upgrade offer
-
-     opens/closes live per day in schedule.json and MUST carry a timezone
-     (the trailing Z), so every visitor worldwide flips at the same instant.
-     A session can override its day with its own opens/closes if it ever
-     needs a different window. Missing or unparseable dates fall back to
-     "Coming soon" - fail closed, never publish a link by accident. */
-  function winState(sess, dayCfg) {
-    function t(v) {
-      if (!v) return null;
-      var ms = Date.parse(v);
-      return isNaN(ms) ? null : ms;
-    }
-    var opens = t(sess.opens) || t(dayCfg && dayCfg.opens);
-    var closes = t(sess.closes) || t(dayCfg && dayCfg.closes);
-    var now = Date.now();
-    if (opens == null) return "soon";
-    if (now < opens) return "soon";
-    if (closes != null && now >= closes) return "ended";
-    return "open";
-  }
-
-  function sessionButton(sess, dayCfg, cfg) {
-    var state = winState(sess, dayCfg);
-    var url = sess.page_url || "";
-
-    if (state === "open" && url) {
-      return '<a class="itrav-watch" href="' + esc(url) + '">' +
-               esc(cfg.watch_label || "Watch") + "</a>";
-    }
-    if (state === "ended") {
-      var endedHref = cfg.ended_href || "";
-      return endedHref
-        ? '<a class="itrav-watch itrav-ended" href="' + esc(endedHref) + '">' +
-            esc(cfg.ended_label || "Get access") + "</a>"
-        : '<span class="itrav-watch itrav-soon">' +
-            esc(cfg.ended_label || "Get access") + "</span>";
-    }
-    /* "open" with no URL yet lands here too - a missing link shows as
-       Coming soon rather than a dead button. */
-    return '<span class="itrav-watch itrav-soon">' +
-             esc(cfg.soon_label || "Coming soon") + "</span>";
-  }
-
   /* ---------- block: day ---------- */
   function renderDay(el, data) {
     var people = {};
@@ -465,9 +410,6 @@
     var dayNum = Number(el.getAttribute("data-day"));
     if (!dayNum) { console.warn("itrav-blocks: day block needs data-day"); return; }
     var showPhotos = el.getAttribute("data-photos") !== "off";
-    var dayCfg = (sched.days || []).filter(function (d) {
-      return Number(d.n) === dayNum;
-    })[0] || {};
 
 
     var mine = sessions.filter(function (s) {
