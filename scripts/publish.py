@@ -47,7 +47,12 @@ DAY_FROM_THEME = {"Dream (Day 1)": 1, "Plan (Day 2)": 2, "Go (Day 3)": 3}
 ROLE_RANK = {"host": 0, "sponsor": 1, "expert": 2, "speaker": 2}
 KIND_RANK = {"single": 0, "compilation": 1, "live_panel": 2}
 
-GROUP_MARKER = "\U0001F465"  # the 👥 that marks a multi-speaker session
+# How a session's kind is spotted in the Presentation Topic title. These are
+# per-summit conventions, not fixed rules - confirm them with Michelle at the
+# start of a cycle rather than assuming last year's. Set them here, and nowhere
+# else: the renderer reads "kind" out of sessions.json and never re-derives it.
+GROUP_MARKERS = ["\U0001F465"]                       # 👥 = multi-speaker session
+LIVE_SESSION_PREFIXES = ["live panel:", "live call:"]  # + a marker = that day's Zoom call
 
 
 # --------------------------------------------------------------- fetching --
@@ -104,15 +109,16 @@ def clean_title(t):
 
 
 def session_kind(raw_title):
-    """The 👥 marker decides this, never the number of speakers - counting
-    breaks on co-presented sessions like Slow Travel."""
+    """A marker in the title decides this, never the number of speakers -
+    counting breaks on co-presented sessions. Markers are configured above."""
     raw = str(raw_title or "")
     clean = clean_title(raw).lower()
-    if GROUP_MARKER in raw and re.match(r"^live (panel|call):", clean):
+    marked = any(m in raw for m in GROUP_MARKERS)
+    if not marked:
+        return "single"
+    if any(clean.startswith(p) for p in LIVE_SESSION_PREFIXES):
         return "live_panel"
-    if GROUP_MARKER in raw:
-        return "compilation"
-    return "single"
+    return "compilation"
 
 
 def role_of(record_id, types):
