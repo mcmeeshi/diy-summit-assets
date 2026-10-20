@@ -116,9 +116,6 @@
     ".itrav-acc.open .itrav-acc-btn::after{content:\" \\2212\";}",
     ".itrav-acc-body{display:none;padding:12px 14px 2px;font-family:inherit;font-size:14.5px;line-height:1.6;color:#444;}",
     ".itrav-acc.open .itrav-acc-body{display:block;}",
-    ".itrav-dir-group{font-family:inherit;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;",
-    "color:#888;margin:46px 0 18px;padding-bottom:8px;border-bottom:1px solid #e4e4e4;}",
-    ".itrav-dir-group:first-child{margin-top:0;}",
 
     /* ---- day page ---- */
     ".itrav-sessions{margin:0;}",
@@ -344,15 +341,26 @@
       { roles: ["sponsor"], label: "Our Sponsors" },
       { roles: ["speaker", "expert"], label: "Your Speakers" }
     ];
-    var html = "";
-
+    /* One continuous grid - no headings, no dividing rules. The groups
+       config still sets the ORDER (hosts, then sponsors, then the rest);
+       inside each group it stays alphabetical. Anyone whose role is not
+       covered by a group goes last so nobody silently disappears. */
+    var ordered = [];
+    var placed = {};
     groups.forEach(function (g) {
-      var mine = speakers.filter(function (s) { return g.roles.indexOf(s.role) > -1; });
-      if (!mine.length) return;
+      var mine = speakers.filter(function (s) {
+        return g.roles.indexOf(s.role) > -1 && !placed[s.slug];
+      });
       mine.sort(function (a, b) { return a.name.localeCompare(b.name); });
-      html += (g.label ? '<p class="itrav-dir-group">' + esc(g.label) + "</p>" : "") +
-              '<div class="itrav-dir">' + mine.map(dirCard).join("") + "</div>";
+      mine.forEach(function (s) { placed[s.slug] = true; ordered.push(s); });
     });
+    var leftovers = speakers.filter(function (s) { return !placed[s.slug]; });
+    leftovers.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    ordered = ordered.concat(leftovers);
+
+    var html = ordered.length
+      ? '<div class="itrav-dir">' + ordered.map(dirCard).join("") + "</div>"
+      : "";
 
     function dirCard(s) {
       var line = s.role === "expert" && s.country

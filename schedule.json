@@ -84,7 +84,7 @@
         "label": "Your Speakers & Destination Experts"
       }
     ],
-    "_note": "Order is group order, then alphabetical inside each group. bio_label {name} is the first name."
+    "_note": "Groups set ORDER ONLY - the directory renders as one continuous 3-across grid with no headings or dividing rules. The labels are kept here to document intent. Order is group order, then alphabetical inside each group; anyone whose role matches no group is appended last. bio_label {name} is the first name."
   },
   "day_page": {
     "watch_label": "Watch now",
