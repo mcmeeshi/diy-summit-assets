@@ -353,7 +353,8 @@ def main():
         "_field_notes": {
             "day": "1, 2 or 3, from the Theme field.",
             "kind": "single | compilation (multi-expert, own sub-section) | live_panel (that day's Zoom call).",
-            "display_order": "Display Order for Schedule from Airtable. This is the real on-page order.",
+            "display_order": "From 'Display Order for Schedule' in Presentation Topics. Maintained by hand in Airtable and it is the ONLY thing to edit to reorder a day. Blank sinks to the bottom.",
+            "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count - counting breaks on co-presented sessions.",
             "page_url": "Squarespace Page from Airtable. Day-page rows link here as soon as it is filled.",
             "sort_rank": "0 host, 1 sponsor, 2 everyone else. Only a tiebreaker when display_order is blank.",
         },
