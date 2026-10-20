@@ -28,7 +28,10 @@
         "cta_after": true,
         "_note": "Panelists for all three days now come from the Live call / Live panel sessions in Airtable.",
         "_placeholder": "Topic is a placeholder - confirm before launch"
-      }
+      },
+      "opens": "2027-01-19T14:00:00Z",
+      "closes": "2027-01-21T14:00:00Z",
+      "_window_placeholder": "PLACEHOLDER DATES - replace with the real 2027 open/close times before launch. Must keep the trailing Z (UTC)."
     },
     {
       "n": 2,
@@ -42,7 +45,10 @@
         "note": "Register for Summit to get the Zoom link",
         "cta_after": true,
         "_placeholder": "Topic is a placeholder - confirm before launch"
-      }
+      },
+      "opens": "2027-01-20T14:00:00Z",
+      "closes": "2027-01-22T14:00:00Z",
+      "_window_placeholder": "PLACEHOLDER DATES - replace with the real 2027 open/close times before launch. Must keep the trailing Z (UTC)."
     },
     {
       "n": 3,
@@ -56,7 +62,10 @@
         "note": "Register for Summit to get the Zoom link",
         "cta_after": true,
         "_placeholder": "Topic is a placeholder - confirm before launch"
-      }
+      },
+      "opens": "2027-01-21T14:00:00Z",
+      "closes": "2027-01-23T14:00:00Z",
+      "_window_placeholder": "PLACEHOLDER DATES - replace with the real 2027 open/close times before launch. Must keep the trailing Z (UTC)."
     }
   ],
   "compilation_intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts",
@@ -87,8 +96,11 @@
     "_note": "Groups set ORDER ONLY - the directory renders as one continuous 3-across grid with no headings or dividing rules. The labels are kept here to document intent. Order is group order, then alphabetical inside each group; anyone whose role matches no group is appended last. bio_label {name} is the first name."
   },
   "day_page": {
-    "watch_label": "Watch now",
+    "watch_label": "Watch",
     "soon_label": "Coming soon",
-    "_note": "Watch buttons read watch_url on each speaker in speakers.json. Empty = greyed Coming soon."
+    "ended_label": "Get access",
+    "ended_href": "https://diytripsummit.com/expired",
+    "_ended_href_check": "CONFIRM THIS URL before launch - inferred, not given.",
+    "_note": "Buttons are decided by the clock, not by whether a page_url exists. Before the day's opens: Coming soon, not clickable. Between opens and closes: watch_label, links to the session's Squarespace Page from Airtable. After closes: ended_label, links to ended_href (the upgrade offer). Set opens/closes per day under days[]. A session may override with its own opens/closes."
   }
 }
