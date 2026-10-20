@@ -1,94 +1,15 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "cycle": "2027",
   "_notes": {
     "source": "Airtable Presentation Topics with a linked Speaker",
     "day": "From the Theme field (Dream=1, Plan=2, Go=3). Day lives on the SESSION so one speaker can appear on several days.",
     "sort_rank": "0 host, 1 sponsor, 2 everyone else. Sessions are stored in display order.",
     "kind": "single = normal session. compilation = multi-expert session, own sub-section. live_panel = that day's live Zoom call.",
-    "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count."
+    "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count.",
+    "display_order": "From 'Display Order for Schedule' in Presentation Topics (fldBVLlDe9XZwhDPf). Michelle maintains this by hand; it is the only thing that should be edited to reorder a day. Blank sinks to the bottom."
   },
   "sessions": [
-    {
-      "id": "recPQ8ZVQ0Wqw7k6M",
-      "title": "Beyond the Checklist: How to Find, Research, and Experience UNESCO World Heritage Sites in Asia",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "audra-morris"
-      ]
-    },
-    {
-      "id": "rec5OINTtDaA7cUlM",
-      "title": "Creative accommodation ideas",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "jen-and-stevo"
-      ]
-    },
-    {
-      "id": "recGrCFTTfSXWWKe3",
-      "title": "DIY Hybrid: Using Day Tours and Self-Guided Packages in Asia",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "preethi-chandrasekhar"
-      ]
-    },
-    {
-      "id": "recnYQZo5S7ngQdtR",
-      "title": "Deep and Thoughtful Travel",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "timathea-workman"
-      ]
-    },
-    {
-      "id": "recCmY5n4LgqWYozL",
-      "title": "Easy Multi-Country Itineraries for First Time Asia Trips",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "tracy-and-doug-collins"
-      ]
-    },
-    {
-      "id": "rec4Fhr7oh0PeVmvy",
-      "title": "Foodie Travel Tips for Asia",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "erin-holmes"
-      ]
-    },
-    {
-      "id": "recE398g5FWMPNQi2",
-      "title": "Slow Travel",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "amanda-kendle"
-      ]
-    },
-    {
-      "id": "rec21vvtSc3vhQMZq",
-      "title": "Solo in Asia After 50: A 5-Step Confidence Plan for Your First Trip",
-      "day": 1,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "angela-jane"
-      ]
-    },
     {
       "id": "recloy12U2NUqfq7T",
       "title": "Gem Destinations in Asia for First Time Visitors",
@@ -107,7 +28,96 @@
         "helen-foster",
         "tanya-korteling",
         "tourism-malaysia"
-      ]
+      ],
+      "display_order": 10
+    },
+    {
+      "id": "recCmY5n4LgqWYozL",
+      "title": "Easy Multi-Country Itineraries for First Time Asia Trips",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "tracy-and-doug-collins"
+      ],
+      "display_order": 20
+    },
+    {
+      "id": "rec21vvtSc3vhQMZq",
+      "title": "Solo in Asia After 50: A 5-Step Confidence Plan for Your First Trip",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "angela-jane"
+      ],
+      "display_order": 30
+    },
+    {
+      "id": "recE398g5FWMPNQi2",
+      "title": "Slow Travel",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "amanda-kendle"
+      ],
+      "display_order": 40
+    },
+    {
+      "id": "recGrCFTTfSXWWKe3",
+      "title": "DIY Hybrid: Using Day Tours and Self-Guided Packages in Asia",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "preethi-chandrasekhar"
+      ],
+      "display_order": 50
+    },
+    {
+      "id": "rec4Fhr7oh0PeVmvy",
+      "title": "Foodie Travel Tips for Asia",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "erin-holmes"
+      ],
+      "display_order": 60
+    },
+    {
+      "id": "rec5OINTtDaA7cUlM",
+      "title": "Creative accommodation ideas",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "jen-and-stevo"
+      ],
+      "display_order": 70
+    },
+    {
+      "id": "recnYQZo5S7ngQdtR",
+      "title": "Deep and Thoughtful Travel",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "timathea-workman"
+      ],
+      "display_order": 80
+    },
+    {
+      "id": "recPQ8ZVQ0Wqw7k6M",
+      "title": "Beyond the Checklist: How to Find, Research, and Experience UNESCO World Heritage Sites in Asia",
+      "day": 1,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "audra-morris"
+      ],
+      "display_order": 90
     },
     {
       "id": "rec7d5iSzeBcT0GAZ",
@@ -118,7 +128,8 @@
       "speakers": [
         "jedd-chang",
         "michelle-chang"
-      ]
+      ],
+      "display_order": 100
     },
     {
       "id": "reckwwXN1OyeEtBxU",
@@ -128,7 +139,8 @@
       "sort_rank": 0,
       "speakers": [
         "jedd-chang"
-      ]
+      ],
+      "display_order": 10
     },
     {
       "id": "recYL87ldqwH87nEW",
@@ -138,7 +150,8 @@
       "sort_rank": 1,
       "speakers": [
         "daniel-burnham"
-      ]
+      ],
+      "display_order": 20
     },
     {
       "id": "recdULRxI81ZLPqhi",
@@ -148,67 +161,8 @@
       "sort_rank": 1,
       "speakers": [
         "megan-johnston"
-      ]
-    },
-    {
-      "id": "recToCxy9PV9J1tvv",
-      "title": "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence",
-      "day": 2,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "jo-anne-dragoun"
-      ]
-    },
-    {
-      "id": "recuo6ceLumwLFLVy",
-      "title": "How to Find $50ish/night Hotels",
-      "day": 2,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "ashley-mccurdy"
-      ]
-    },
-    {
-      "id": "rec0EVmQKwVM5LWnR",
-      "title": "Making the Most of Train Travel in Asia",
-      "day": 2,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "sojourner-white"
-      ]
-    },
-    {
-      "id": "recgdXsxOmCZcqYDm",
-      "title": "Minimalist Packing For Your Asia Trip",
-      "day": 2,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "rachel-heller"
-      ]
-    },
-    {
-      "id": "recoZ4kXTIcMzSFNT",
-      "title": "Smart Planning Tips for Traveling with Limited Mobility in Asia",
-      "day": 2,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "robyn-dirk"
-      ]
-    },
-    {
-      "id": "recGHvMMXzJ34NLYV",
-      "title": "Splurge or Save: Budgeting Tips For Your Asia Trip",
-      "day": 2,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "dannelle-gay"
-      ]
+      ],
+      "display_order": 30
     },
     {
       "id": "recKDhKTYmQ2Qpg4V",
@@ -218,7 +172,74 @@
       "sort_rank": 2,
       "speakers": [
         "kristin-henning"
-      ]
+      ],
+      "display_order": 40
+    },
+    {
+      "id": "recoZ4kXTIcMzSFNT",
+      "title": "Smart Planning Tips for Traveling with Limited Mobility in Asia",
+      "day": 2,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "robyn-dirk"
+      ],
+      "display_order": 50
+    },
+    {
+      "id": "recuo6ceLumwLFLVy",
+      "title": "How to Find $50ish/night Hotels",
+      "day": 2,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "ashley-mccurdy"
+      ],
+      "display_order": 60
+    },
+    {
+      "id": "rec0EVmQKwVM5LWnR",
+      "title": "Making the Most of Train Travel in Asia",
+      "day": 2,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "sojourner-white"
+      ],
+      "display_order": 70
+    },
+    {
+      "id": "recToCxy9PV9J1tvv",
+      "title": "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence",
+      "day": 2,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "jo-anne-dragoun"
+      ],
+      "display_order": 80
+    },
+    {
+      "id": "recgdXsxOmCZcqYDm",
+      "title": "Minimalist Packing For Your Asia Trip",
+      "day": 2,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "rachel-heller"
+      ],
+      "display_order": 90
+    },
+    {
+      "id": "recGHvMMXzJ34NLYV",
+      "title": "Splurge or Save: Budgeting Tips For Your Asia Trip",
+      "day": 2,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "dannelle-gay"
+      ],
+      "display_order": 100
     },
     {
       "id": "rec1iXKqA8dt3B7XF",
@@ -230,7 +251,8 @@
         "chris-christensen",
         "kathy-buckworth",
         "paula-barnes"
-      ]
+      ],
+      "display_order": 110
     },
     {
       "id": "recFt9zJsB7GCqyEz",
@@ -240,7 +262,8 @@
       "sort_rank": 0,
       "speakers": [
         "michelle-chang"
-      ]
+      ],
+      "display_order": 10
     },
     {
       "id": "rec0vFHb0DlLYFYsF",
@@ -250,7 +273,8 @@
       "sort_rank": 0,
       "speakers": [
         "jedd-chang"
-      ]
+      ],
+      "display_order": 20
     },
     {
       "id": "recICDIhvsOzoKrkG",
@@ -260,37 +284,8 @@
       "sort_rank": 1,
       "speakers": [
         "sheri-howell"
-      ]
-    },
-    {
-      "id": "recmpw3IOqNPusCeT",
-      "title": "From Good to Great: Quick Edits for Travel Photos",
-      "day": 3,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "jim-and-chris"
-      ]
-    },
-    {
-      "id": "reccDMJYggwV0WnMi",
-      "title": "How to Handle Money Abroad",
-      "day": 3,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "judy-and-kevin"
-      ]
-    },
-    {
-      "id": "recQeIAWGNXWpQ0ac",
-      "title": "Language Tips for Visiting Asian Countries",
-      "day": 3,
-      "kind": "single",
-      "sort_rank": 2,
-      "speakers": [
-        "lindsay-dow"
-      ]
+      ],
+      "display_order": 30
     },
     {
       "id": "recY3oQMkrZcaTmwg",
@@ -300,7 +295,19 @@
       "sort_rank": 2,
       "speakers": [
         "paul-and-heather"
-      ]
+      ],
+      "display_order": 40
+    },
+    {
+      "id": "reccDMJYggwV0WnMi",
+      "title": "How to Handle Money Abroad",
+      "day": 3,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "judy-and-kevin"
+      ],
+      "display_order": 50
     },
     {
       "id": "recqoSwfpZX0h3WYO",
@@ -310,7 +317,19 @@
       "sort_rank": 2,
       "speakers": [
         "tyke-tina"
-      ]
+      ],
+      "display_order": 60
+    },
+    {
+      "id": "recQeIAWGNXWpQ0ac",
+      "title": "Language Tips for Visiting Asian Countries",
+      "day": 3,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "lindsay-dow"
+      ],
+      "display_order": 70
     },
     {
       "id": "recVSNsCzkphswptH",
@@ -320,7 +339,19 @@
       "sort_rank": 2,
       "speakers": [
         "lynne"
-      ]
+      ],
+      "display_order": 80
+    },
+    {
+      "id": "recmpw3IOqNPusCeT",
+      "title": "From Good to Great: Quick Edits for Travel Photos",
+      "day": 3,
+      "kind": "single",
+      "sort_rank": 2,
+      "speakers": [
+        "jim-and-chris"
+      ],
+      "display_order": 90
     },
     {
       "id": "recmoydtYl5RFluce",
@@ -330,7 +361,8 @@
       "sort_rank": 2,
       "speakers": [
         "malia-yoshioka"
-      ]
+      ],
+      "display_order": 110
     }
   ]
 }

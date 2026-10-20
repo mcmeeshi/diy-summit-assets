@@ -97,6 +97,53 @@
     "@media (max-width:700px){.itrav-grid{grid-template-columns:repeat(3,1fr);gap:24px 12px;}",
     ".itrav-photo,.itrav-initials{width:92px;height:92px;}",
     ".itrav-initials{font-size:27px;line-height:86px;}}",
+
+    /* ---- speaker directory ---- */
+    ".itrav-dir{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 24px;}",
+    ".itrav-dir-card{text-align:center;}",
+    ".itrav-dir .itrav-photo,.itrav-dir .itrav-initials{width:150px;height:150px;}",
+    ".itrav-dir .itrav-initials{font-size:44px;line-height:144px;}",
+    ".itrav-dir-name{font-family:inherit;font-size:19px;font-weight:700;color:#1a1a1a;margin:0 0 3px;line-height:1.3;}",
+    ".itrav-dir-session{font-family:inherit;font-size:16px;font-weight:600;color:#657a9d;margin:0 0 4px;line-height:1.4;}",
+    ".itrav-dir-brand{font-family:inherit;font-size:15px;color:#777;margin:0;line-height:1.4;}",
+    ".itrav-dir-link{font-family:inherit;color:#657a9d;text-decoration:underline;}",
+    ".itrav-dir-link:hover{color:#4e6180;}",
+    ".itrav-acc{margin:12px 0 0;text-align:left;}",
+    ".itrav-acc-btn{font-family:inherit;width:100%;background:#f6f5f3;border:0;border-left:4px solid #D4E17D;",
+    "padding:10px 14px;font-size:14px;font-weight:600;color:#1a1a1a;cursor:pointer;text-align:left;border-radius:3px;}",
+    ".itrav-acc-btn:hover{background:#efeeeb;}",
+    ".itrav-acc-btn::after{content:\" +\";float:right;color:#657a9d;font-weight:700;}",
+    ".itrav-acc.open .itrav-acc-btn::after{content:\" \\2212\";}",
+    ".itrav-acc-body{display:none;padding:12px 14px 2px;font-family:inherit;font-size:14.5px;line-height:1.6;color:#444;}",
+    ".itrav-acc.open .itrav-acc-body{display:block;}",
+    ".itrav-dir-group{font-family:inherit;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;",
+    "color:#888;margin:46px 0 18px;padding-bottom:8px;border-bottom:1px solid #e4e4e4;}",
+    ".itrav-dir-group:first-child{margin-top:0;}",
+
+    /* ---- day page ---- */
+    ".itrav-sessions{margin:0;}",
+    ".itrav-row{display:flex;gap:22px;align-items:center;padding:22px 0;border-bottom:1px solid #e9e7e4;}",
+    ".itrav-row:last-child{border-bottom:0;}",
+    ".itrav-row .itrav-photo,.itrav-row .itrav-initials{width:76px;height:76px;margin:0;flex:0 0 auto;}",
+    ".itrav-row .itrav-initials{font-size:23px;line-height:70px;}",
+    ".itrav-row-main{flex:1 1 auto;min-width:0;}",
+    ".itrav-row-title{font-family:inherit;font-size:19px;font-weight:700;color:#1a1a1a;margin:0 0 3px;line-height:1.35;}",
+    ".itrav-row-by{font-family:inherit;font-size:15px;color:#666;margin:0;line-height:1.4;}",
+    ".itrav-row-by strong{color:#444;font-weight:600;}",
+    ".itrav-watch{flex:0 0 auto;display:inline-block;font-family:inherit;background:#F2C181;color:#1A1A1A !important;",
+    "font-size:14px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:12px 26px;border-radius:6px;",
+    "text-decoration:none !important;line-height:1.2;}",
+    ".itrav-watch:hover{opacity:.88;color:#1A1A1A !important;}",
+    ".itrav-watch.itrav-soon{background:#ece9e4;color:#8a8a8a !important;pointer-events:none;}",
+
+    "@media (max-width:900px){.itrav-dir{grid-template-columns:repeat(2,1fr);}}",
+    "@media (max-width:560px){.itrav-dir{grid-template-columns:1fr;gap:30px;}",
+    ".itrav-dir .itrav-photo,.itrav-dir .itrav-initials{width:130px;height:130px;}",
+    ".itrav-dir .itrav-initials{font-size:38px;line-height:124px;}",
+    ".itrav-row{flex-wrap:wrap;gap:14px;}",
+    ".itrav-row-main{flex:1 1 60%;}",
+    ".itrav-watch{width:100%;text-align:center;padding:13px 20px;}}",
+
     "@media (max-width:480px){.itrav-grid{grid-template-columns:repeat(2,1fr);gap:24px 10px;}",
     ".itrav-photo,.itrav-initials{width:84px;height:84px;}",
     ".itrav-initials{font-size:25px;line-height:78px;}}"
@@ -124,12 +171,31 @@
     return words.slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join("");
   }
 
+  /* A speaker's photo is either an explicit repo path, or - if none is set -
+     images/speakers/<slug>.jpg by convention. Dropping a correctly named file
+     into the repo is therefore the whole job; no JSON edit needed. If the file
+     is missing the image errors and photoFallback() swaps in the initials. */
   function avatar(s) {
-    if (s.photo) {
-      return '<img class="itrav-photo" src="' + BASE + esc(s.photo) +
-             '" alt="' + esc(s.name) + '" loading="lazy">';
+    var path = s.photo || (s.slug ? "images/speakers/" + s.slug + ".jpg" : "");
+    if (!path) {
+      return '<div class="itrav-initials" aria-hidden="true">' + esc(initials(s.name)) + "</div>";
     }
-    return '<div class="itrav-initials" aria-hidden="true">' + esc(initials(s.name)) + "</div>";
+    return '<img class="itrav-photo" src="' + BASE + esc(path) + '" alt="' + esc(s.name) +
+           '" loading="lazy" data-initials="' + esc(initials(s.name)) + '">';
+  }
+
+  /* Image load errors do not bubble, but they do capture - so one listener on
+     the block catches every missing headshot without any inline handler. */
+  function photoFallback(el) {
+    el.addEventListener("error", function (ev) {
+      var img = ev.target;
+      if (!img || img.tagName !== "IMG" || !img.classList.contains("itrav-photo")) return;
+      var div = document.createElement("div");
+      div.className = "itrav-initials";
+      div.setAttribute("aria-hidden", "true");
+      div.textContent = img.getAttribute("data-initials") || "";
+      if (img.parentNode) img.parentNode.replaceChild(div, img);
+    }, true);
   }
 
   /* label = the talk title, or the country for a destination expert */
@@ -205,18 +271,21 @@
       var entries = [];
       singles.forEach(function (sess) {
         lookup(sess.speakers).forEach(function (p) {
-          entries.push({ person: p, title: sess.title, rank: sess.sort_rank });
+          entries.push({ person: p, title: sess.title, rank: sess.sort_rank, ord: sess.display_order });
         });
       });
       comps.forEach(function (sess) {
         lookup(sess.speakers).forEach(function (p) {
           if (p.role !== "expert") {
-            entries.push({ person: p, title: sess.title, rank: sess.sort_rank });
+            entries.push({ person: p, title: sess.title, rank: sess.sort_rank, ord: sess.display_order });
           }
         });
       });
-      // same rule the JSON is sorted by: hosts, then sponsors, then the rest
+      /* Display Order from Airtable wins. Blank falls back to the old
+         hosts-then-sponsors-then-alphabetical rule. */
       entries.sort(function (a, b) {
+        var oa = a.ord == null ? 9999 : a.ord, ob = b.ord == null ? 9999 : b.ord;
+        if (oa !== ob) return oa - ob;
         var ra = a.rank == null ? 2 : a.rank, rb = b.rank == null ? 2 : b.rank;
         if (ra !== rb) return ra - rb;
         return a.title.localeCompare(b.title);
@@ -263,7 +332,111 @@
     if (html) el.innerHTML = html;
   }
 
-  var RENDERERS = { schedule: renderSchedule };
+
+  /* ---------- block: directory ---------- */
+  function renderDirectory(el, data) {
+    var speakers = (data.speakers && data.speakers.speakers) || [];
+    var cfg = (data.schedule && data.schedule.directory) || {};
+    var expertLabel = cfg.expert_label || "{country} Expert";
+    var bioLabel = cfg.bio_label || "Get to know {name}";
+    var groups = cfg.groups || [
+      { roles: ["host"], label: "Your Hosts" },
+      { roles: ["sponsor"], label: "Our Sponsors" },
+      { roles: ["speaker", "expert"], label: "Your Speakers" }
+    ];
+    var html = "";
+
+    groups.forEach(function (g) {
+      var mine = speakers.filter(function (s) { return g.roles.indexOf(s.role) > -1; });
+      if (!mine.length) return;
+      mine.sort(function (a, b) { return a.name.localeCompare(b.name); });
+      html += (g.label ? '<p class="itrav-dir-group">' + esc(g.label) + "</p>" : "") +
+              '<div class="itrav-dir">' + mine.map(dirCard).join("") + "</div>";
+    });
+
+    function dirCard(s) {
+      var line = s.role === "expert" && s.country
+        ? expertLabel.replace("{country}", s.country)
+        : (s.talk_titles && s.talk_titles.length ? s.talk_titles.join(" &middot; ") : "");
+      var brandHtml = "";
+      if (s.brand) {
+        brandHtml = s.link
+          ? '<p class="itrav-dir-brand"><a class="itrav-dir-link" href="' + esc(s.link) +
+            '" target="_blank" rel="noopener">' + esc(s.brand) + "</a></p>"
+          : '<p class="itrav-dir-brand">' + esc(s.brand) + "</p>";
+      }
+      return '<div class="itrav-dir-card">' +
+               avatar(s) +
+               '<p class="itrav-dir-name">' + esc(s.name) + "</p>" +
+               (line ? '<p class="itrav-dir-session">' + line + "</p>" : "") +
+               brandHtml +
+               (s.bio
+                 ? '<div class="itrav-acc"><button type="button" class="itrav-acc-btn">' +
+                     esc(bioLabel.replace("{name}", s.name.split(" ")[0])) +
+                   '</button><div class="itrav-acc-body">' + esc(s.bio) + "</div></div>"
+                 : "") +
+             "</div>";
+    }
+
+    if (html) {
+      el.innerHTML = html;
+      el.addEventListener("click", function (ev) {
+        var btn = ev.target.closest && ev.target.closest(".itrav-acc-btn");
+        if (!btn) return;
+        btn.parentNode.classList.toggle("open");
+      });
+    }
+  }
+
+  /* ---------- block: day ---------- */
+  function renderDay(el, data) {
+    var people = {};
+    ((data.speakers && data.speakers.speakers) || []).forEach(function (s) { people[s.slug] = s; });
+    var sessions = (data.sessions && data.sessions.sessions) || [];
+    var sched = data.schedule || {};
+    var cfg = sched.day_page || {};
+    var dayNum = Number(el.getAttribute("data-day"));
+    if (!dayNum) { console.warn("itrav-blocks: day block needs data-day"); return; }
+    var showPhotos = el.getAttribute("data-photos") !== "off";
+
+    var mine = sessions.filter(function (s) {
+      return Number(s.day) === dayNum && s.kind !== "live_panel";
+    }).sort(function (a, b) {
+      var oa = a.display_order == null ? 9999 : a.display_order;
+      var ob = b.display_order == null ? 9999 : b.display_order;
+      return oa - ob;
+    });
+    if (!mine.length) {
+      el.innerHTML = '<p class="itrav-empty">' +
+        esc((sched.placeholders || {}).speakers_tba || "Sessions announced soon") + "</p>";
+      return;
+    }
+
+    el.innerHTML = '<div class="itrav-sessions">' + mine.map(function (sess) {
+      var cast = (sess.speakers || []).map(function (sl) { return people[sl]; }).filter(Boolean);
+      var names = cast.map(function (p) { return p.name; });
+      var joined = names.length <= 1 ? (names[0] || "")
+        : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+      var url = cast.length === 1 ? cast[0].watch_url : "";
+      if (!url) {
+        cast.some(function (p) { if (p.watch_url) { url = p.watch_url; return true; } return false; });
+      }
+      return '<div class="itrav-row">' +
+               (showPhotos && cast.length ? avatar(cast[0]) : "") +
+               '<div class="itrav-row-main">' +
+                 '<p class="itrav-row-title">' + esc(sess.title) + "</p>" +
+                 (joined ? '<p class="itrav-row-by">with <strong>' + esc(joined) + "</strong></p>" : "") +
+               "</div>" +
+               (url
+                 ? '<a class="itrav-watch" href="' + esc(url) + '">' +
+                     esc(cfg.watch_label || "Watch now") + "</a>"
+                 : '<span class="itrav-watch itrav-soon">' +
+                     esc(cfg.soon_label || "Coming soon") + "</span>") +
+             "</div>";
+    }).join("") + "</div>";
+  }
+
+  var RENDERERS = { schedule: renderSchedule, directory: renderDirectory, day: renderDay };
 
   function getJSON(file) {
     return fetch(BASE + file, { cache: "no-store" }).then(function (r) {
@@ -284,6 +457,7 @@
           var fn = RENDERERS[el.getAttribute("data-block")];
           if (!fn) return;
           if (el.getAttribute("data-fullbleed") !== "off") el.className += " itrav-fullbleed";
+          photoFallback(el);
           try { fn(el, data); }
           catch (e) { console.error("itrav-blocks render failed:", e); }
         });

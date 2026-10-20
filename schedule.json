@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "cycle": "2027",
   "region": "Asia",
   "cta": {
@@ -59,5 +59,36 @@
       }
     }
   ],
-  "compilation_intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts"
+  "compilation_intro": "In one action-packed presentation, you'll hear short and actionable tips from the following Destination Experts",
+  "directory": {
+    "expert_label": "{country} Expert",
+    "bio_label": "Get to know {name}",
+    "groups": [
+      {
+        "roles": [
+          "host"
+        ],
+        "label": "Your Hosts"
+      },
+      {
+        "roles": [
+          "sponsor"
+        ],
+        "label": "Our Sponsors"
+      },
+      {
+        "roles": [
+          "speaker",
+          "expert"
+        ],
+        "label": "Your Speakers & Destination Experts"
+      }
+    ],
+    "_note": "Order is group order, then alphabetical inside each group. bio_label {name} is the first name."
+  },
+  "day_page": {
+    "watch_label": "Watch now",
+    "soon_label": "Coming soon",
+    "_note": "Watch buttons read watch_url on each speaker in speakers.json. Empty = greyed Coming soon."
+  }
 }
