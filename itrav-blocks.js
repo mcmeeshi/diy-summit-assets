@@ -469,15 +469,6 @@
       return Number(d.n) === dayNum;
     })[0] || {};
 
-    /* Someone sitting on the page when a window opens or closes should see
-       the buttons change without reloading. Re-render once a minute, but
-       only while this block is still in the document. */
-    if (!el.getAttribute("data-ticking")) {
-      el.setAttribute("data-ticking", "1");
-      setInterval(function () {
-        if (document.body.contains(el)) renderDay(el, data);
-      }, 60000);
-    }
 
     var mine = sessions.filter(function (s) {
       return Number(s.day) === dayNum && s.kind !== "live_panel";
@@ -497,7 +488,17 @@
       var names = cast.map(function (p) { return p.name; });
       var joined = names.length <= 1 ? (names[0] || "")
         : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
-      var btn = sessionButton(sess, dayCfg, cfg);
+      /* Individual presentation rows are NOT time-gated. The button says
+         Watch and links as soon as Airtable has a Squarespace Page, so the
+         team can click through and test every link before launch. Access is
+         controlled by the session page being inactive in Squarespace, which
+         redirects to the expired/upgrade page. The time gate lives on the
+         day-level button instead. */
+      var btn = sess.page_url
+        ? '<a class="itrav-watch" href="' + esc(sess.page_url) + '">' +
+            esc(cfg.watch_label || "Watch") + "</a>"
+        : '<span class="itrav-watch itrav-soon">' +
+            esc(cfg.soon_label || "Coming soon") + "</span>";
       return '<div class="itrav-row">' +
                (showPhotos && cast.length ? avatar(cast[0]) : "") +
                '<div class="itrav-row-main">' +
