@@ -13,7 +13,7 @@
      data-cta="off"        hides all CTA buttons
      data-fullbleed="off"  day bands stay at content width
 
-   Content sources (fetched with no-store, so edits are instant):
+   Content sources (served from GitHub Pages; edits appear within ~1 min):
      speakers.json  - the people directory
      sessions.json  - what is presented, by whom, on which day
      schedule.json  - day themes, live calls, CTA config
@@ -21,7 +21,11 @@
 (function () {
   "use strict";
 
-  var BASE = "https://raw.githubusercontent.com/mcmeeshi/diy-summit-assets/main/";
+  /* GitHub Pages, not raw.githubusercontent. Pages serves .js with a real
+     JavaScript content type and invalidates within about a minute of a push.
+     raw.githubusercontent holds its own ~5 minute edge cache that no-store
+     does not bypass, so JSON edits used to lag. Serves the images too. */
+  var BASE = "https://mcmeeshi.github.io/diy-summit-assets/";
   var CSS_ID = "itrav-blocks-css";
 
   var CSS = [
