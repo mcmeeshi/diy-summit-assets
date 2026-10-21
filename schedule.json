@@ -112,6 +112,14 @@
     "by_label": "by",
     "sponsor_label": "Sponsor",
     "read_more": "Read more",
-    "show_less": "Show less"
+    "show_less": "Show less",
+    "cta": {
+      "href": "#checkout",
+      "labels": [
+        "Yes, I want this deal >",
+        "Yes, I'm ready to dive in! >"
+      ],
+      "_note": "Buttons sit after the featured cards and between category sections. href is an in-page anchor: put an HTML element containing <div id=\"checkout\"></div> just above the checkout on each ThriveCart page."
+    }
   }
 }

@@ -61,6 +61,8 @@ LIVE_SESSION_PREFIXES = ["live panel:", "live call:"]  # + a marker = that day's
 BONUS_APPROVED = "Approved for First Class Pass"
 BONUS_EXCLUDED_CATEGORIES = {"Separate callout on page"}
 BONUS_SPONSOR_FIELD = "Sponsor?"   # checkbox; ticked = SPONSOR label
+# Bonus images keep the filename of the Product Img attachment in Airtable,
+# so whoever uploads them to the repo never has to rename anything.
 BONUS_IMAGE_DIR = "images/bonuses"
 
 
@@ -349,8 +351,9 @@ def build_bonuses(rows):
     """Approved, non-excluded Contributor Submission records, in Display
     ranking order (blank sinks to the bottom). Pure, so it can be tested."""
     bonuses, issues = [], {"no_title": [], "no_category": [], "no_brand": [],
-                           "no_rank": [], "no_description": [], "duplicate_slug": []}
-    seen = {}
+                           "no_rank": [], "no_description": [], "no_image": [],
+                           "shared_image": []}
+    by_image = {}
     for r in rows:
         status = f(r, "Product Test Status") or ""
         if status != BONUS_APPROVED:
@@ -370,14 +373,12 @@ def build_bonuses(rows):
             rank = None
         description = rich_to_html(f(r, "Product description"))
 
-        slug = slugify(title)
-        if slug in seen:
-            issues["duplicate_slug"].append(title)
-            n = 2
-            while f"{slug}-{n}" in seen:
-                n += 1
-            slug = f"{slug}-{n}"
-        seen[slug] = True
+        attachments = f(r, "Product Img", []) or []
+        image = str(attachments[0].get("filename", "")).strip() if attachments else ""
+        if image:
+            by_image.setdefault(image, []).append(title)
+        else:
+            issues["no_image"].append(title)
 
         if not category:
             issues["no_category"].append(title)
@@ -389,8 +390,8 @@ def build_bonuses(rows):
             issues["no_description"].append(title)
 
         bonuses.append({
-            "slug": slug,
             "title": title,
+            "image": image,
             "brand": brand,
             "category": category,
             "sponsor": bool(f(r, BONUS_SPONSOR_FIELD, False)),
@@ -398,6 +399,10 @@ def build_bonuses(rows):
             "description_html": description,
             "airtable_id": r["id"],
         })
+
+    # Two bonuses whose attachments share a filename (Canva's "1.png") would
+    # both show whichever file is in the repo. Report it; rename in Airtable.
+    issues["shared_image"] = [f"`{img}` ({' / '.join(t)})" for img, t in by_image.items() if len(t) > 1]
 
     bonuses.sort(key=lambda b: (b["rank"] if b["rank"] is not None else 99999, b["title"].lower()))
     return bonuses, issues
@@ -507,16 +512,14 @@ def report(speakers, sessions, link_report):
 
 
 def bonus_image_audit(bonuses):
-    """Same idea as headshot_audit: images/bonuses/<slug>.jpg, where the slug
-    comes from the Product name. Renaming a product orphans its image."""
-    files = sorted(x for x in os.listdir(BONUS_IMAGE_DIR) if not x.startswith(".")) \
-        if os.path.isdir(BONUS_IMAGE_DIR) else []
-    stems = {os.path.splitext(x)[0]: x for x in files if os.path.splitext(x)[1].lower() == ".jpg"}
-    wrong_type = [x for x in files if os.path.splitext(x)[1].lower() != ".jpg"]
-    slugs = {b["slug"] for b in bonuses}
-    missing = [f"{b['title']} → `{b['slug']}.jpg`" for b in bonuses if b["slug"] not in stems]
-    orphans = [x for stem, x in sorted(stems.items()) if stem not in slugs]
-    return missing, orphans, wrong_type
+    """Which Product Img files are not in images/bonuses/ yet, and which
+    files there no bonus uses. Names must match exactly, capitals included."""
+    files = set(x for x in os.listdir(BONUS_IMAGE_DIR) if not x.startswith(".")) \
+        if os.path.isdir(BONUS_IMAGE_DIR) else set()
+    wanted = {b["image"] for b in bonuses if b["image"]}
+    missing = [f"`{b['image']}` ({b['title']})" for b in bonuses if b["image"] and b["image"] not in files]
+    orphans = sorted(f"`{x}`" for x in files - wanted)
+    return missing, orphans
 
 
 def bonus_report(bonuses, issues):
@@ -540,18 +543,18 @@ def bonus_report(bonuses, issues):
         f"- No Display ranking, sinks to the bottom ({len(issues['no_rank'])}): {j(issues['no_rank'])}",
         f"- No Brand ({len(issues['no_brand'])}): {j(issues['no_brand'])}",
         f"- No description ({len(issues['no_description'])}): {j(issues['no_description'])}",
-        f"- Two bonuses with the same Product name, second got a -2 slug ({len(issues['duplicate_slug'])}): {j(issues['duplicate_slug'])}",
+        f"- No Product Img in Airtable, shows a name tile ({len(issues['no_image'])}): {j(issues['no_image'])}",
+        f"- **Two bonuses share an image filename** — rename one attachment in Airtable before uploading "
+        f"({len(issues['shared_image'])}): {j(issues['shared_image'])}",
     ]
-    missing, orphans, wrong_type = bonus_image_audit(bonuses)
+    missing, orphans = bonus_image_audit(bonuses)
     lines += ["", "### Bonus images in the repo", "",
-              f"- No image file in `{BONUS_IMAGE_DIR}/` ({len(missing)}): {j(missing)}",
-              f"- Image files matching no bonus ({len(orphans)}): {j(orphans)}"]
-    if wrong_type:
-        lines.append(f"- Wrong file type, will never load ({len(wrong_type)}): {j(wrong_type)}"
-                     " — the page only loads `.jpg`")
+              f"- Waiting to be uploaded to `{BONUS_IMAGE_DIR}/` — these show a name tile until then "
+              f"({len(missing)}): {j(missing)}",
+              f"- Files no bonus uses ({len(orphans)}): {j(orphans)}"]
     if missing and orphans:
-        lines += ["", "> **A product was probably renamed in Airtable.** Rename its image file "
-                  "to the new name shown above. Until then that bonus shows initials."]
+        lines += ["", "> **A file name may not match exactly.** Names are case sensitive and must "
+                  "match the Airtable attachment, spaces included. Compare the two lists above."]
     return "\n".join(lines)
 
 
@@ -615,7 +618,7 @@ def main():
             "rank": "Display ranking. Lowest numbers are featured first; blank sinks to the bottom.",
             "category": "Matched against schedule.json -> bonuses.categories for the section headings and order.",
             "sponsor": f"The '{BONUS_SPONSOR_FIELD}' checkbox. Ticked shows a SPONSOR label.",
-            "image": f"Not stored here. The renderer loads {BONUS_IMAGE_DIR}/{{slug}}.jpg and falls back to brand initials.",
+            "image": f"Filename of the first Product Img attachment. The renderer loads {BONUS_IMAGE_DIR}/<image> and shows a name tile when it is missing.",
             "description_html": "Converted from the rich text field. Links keep their text but not the URL, so buyers are not sent off the checkout page.",
         },
         "bonuses": bonuses,

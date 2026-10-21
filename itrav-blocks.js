@@ -11,7 +11,9 @@
      directory - speaker directory
      day       - one day's session list (data-day="1|2|3")
      bonuses   - First Class Pass bonuses on the ThriveCart sales pages
-                 (data-featured="4" overrides how many get full cards)
+                 (data-featured="4" overrides how many get full cards;
+                  data-cta-href="#id" overrides where the buttons scroll;
+                  data-cta="off" hides the buttons)
 
    Data attributes:
      data-cta="off"        hides all CTA buttons
@@ -163,13 +165,23 @@
     ".itrav-bn-card>.itrav-bn-head{grid-area:head;min-width:0;}",
     ".itrav-bn-card>.itrav-bn-desc{grid-area:desc;min-width:0;}",
     ".itrav-bn-body[hidden]{display:none !important;}",
+    ".itrav-bn-cta-wrap{text-align:center;margin:0 0 44px;}",
+    "a.itrav-bn-cta{display:inline-block;font-family:inherit;background:#F3C180;color:#1a1a1a !important;",
+    "font-size:18px;font-weight:700;padding:16px 34px;border-radius:4.5px;text-decoration:none !important;",
+    "line-height:1.25;letter-spacing:normal;text-transform:none;border:0;box-shadow:none;transition:opacity .15s ease;}",
+    "a.itrav-bn-cta:hover{opacity:.88;color:#1a1a1a !important;}",
+    "a.itrav-bn-cta:focus-visible{outline:2px solid #657a9d;outline-offset:3px;}",
     ".itrav-bn-card{display:grid;grid-template-columns:160px minmax(0,1fr);grid-template-areas:\"img head\" \"img desc\";",
     "column-gap:28px;row-gap:0;align-items:start;",
     "background:#f6f5f3;border-radius:8px;padding:26px;}",
     ".itrav-bn-img,.itrav-bn-ph{display:block;width:100%;max-width:100%;aspect-ratio:1/1;border-radius:4px;margin:0;}",
     ".itrav-bn-img{object-fit:cover;background:#fff;box-shadow:0 4px 12px rgba(26,26,26,.12);}",
-    ".itrav-bn-ph{background:#657a9d;color:#fff;font-family:inherit;font-weight:700;font-size:30px;",
-    "display:flex;align-items:center;justify-content:center;letter-spacing:1px;}",
+    ".itrav-bn-ph{background:linear-gradient(160deg,#657a9d,#4e6180);color:#fff;font-family:inherit;",
+    "display:flex;flex-direction:column;justify-content:space-between;padding:10%;overflow:hidden;font-size:15px;}",
+    ".itrav-bn-ph-brand{font-size:.62em;letter-spacing:.06em;text-transform:uppercase;opacity:.9;line-height:1.3;}",
+    ".itrav-bn-ph-title{font-weight:700;line-height:1.2;display:-webkit-box;-webkit-box-orient:vertical;",
+    "-webkit-line-clamp:6;overflow:hidden;}",
+    ".itrav-bn-row .itrav-bn-ph span{display:none;}",
     ".itrav-bn-title{font-family:inherit;font-size:21px;font-weight:700;color:#1a1a1a;margin:0 0 6px;line-height:1.3;text-transform:none;letter-spacing:normal;}",
     ".itrav-bn-by{font-family:inherit;font-size:14px;color:#777;margin:0 0 12px;line-height:1.4;}",
     ".itrav-bn-sponsor{display:inline-block;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:1.2px;",
@@ -189,7 +201,6 @@
     ".itrav-bn-row{border-bottom:1px solid #e9e7e4;}",
     ".itrav-bn-top{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 0;}",
     ".itrav-bn-row .itrav-bn-img{box-shadow:0 2px 6px rgba(26,26,26,.12);}",
-    ".itrav-bn-row .itrav-bn-ph{font-size:18px;}",
     ".itrav-bn-row .itrav-bn-title{font-size:17px;font-weight:600;margin:0 0 3px;}",
     ".itrav-bn-row .itrav-bn-by{margin:0;}",
     "button.itrav-bn-more{-webkit-appearance:none;appearance:none;font-family:inherit;font-size:15px;font-weight:600;",
@@ -203,13 +214,14 @@
     "@media (max-width:640px){",
     ".itrav-bn-card{grid-template-columns:88px minmax(0,1fr);grid-template-areas:\"img head\" \"desc desc\";",
     "column-gap:16px;row-gap:14px;padding:18px;align-items:center;}",
-    ".itrav-bn-card .itrav-bn-ph{font-size:22px;}",
+    ".itrav-bn-card .itrav-bn-ph{font-size:9px;}",
     ".itrav-bn-title{font-size:18px;}",
     ".itrav-bn-top{grid-template-columns:48px minmax(0,1fr);gap:12px;}",
-    ".itrav-bn-row .itrav-bn-ph{font-size:15px;}",
     ".itrav-bn-row .itrav-bn-title{font-size:16px;}",
     "button.itrav-bn-more{grid-column:2;justify-self:start;padding:2px 0;}",
     ".itrav-bn-body{padding:0 0 16px;}",
+    "a.itrav-bn-cta{display:block;font-size:17px;padding:15px 20px;}",
+    ".itrav-bn-cta-wrap{margin:0 0 36px;}",
     "}",
     "@media (prefers-reduced-motion:reduce){button.itrav-bn-more::after{transition:none;}}"
   ].join("");
@@ -256,15 +268,29 @@
     el.addEventListener("error", function (ev) {
       var img = ev.target;
       if (!img || img.tagName !== "IMG") return;
-      var fallback = img.classList.contains("itrav-photo") ? "itrav-initials"
-        : img.classList.contains("itrav-bn-img") ? "itrav-bn-ph" : "";
-      if (!fallback) return;
-      var div = document.createElement("div");
-      div.className = fallback;
-      div.setAttribute("aria-hidden", "true");
-      div.textContent = img.getAttribute("data-initials") || "";
+      var div;
+      if (img.classList.contains("itrav-photo")) {
+        div = document.createElement("div");
+        div.className = "itrav-initials";
+        div.setAttribute("aria-hidden", "true");
+        div.textContent = img.getAttribute("data-initials") || "";
+      } else if (img.classList.contains("itrav-bn-img")) {
+        var wrap = document.createElement("div");
+        wrap.innerHTML = bonusTile(img.getAttribute("data-title"), img.getAttribute("data-brand"));
+        div = wrap.firstChild;
+      } else {
+        return;
+      }
       if (img.parentNode) img.parentNode.replaceChild(div, img);
     }, true);
+  }
+
+  /* Stand-in for a bonus image that is not in the repo yet: the product
+     name on a blue tile, so the page still looks finished. */
+  function bonusTile(title, brand) {
+    return '<div class="itrav-bn-ph" aria-hidden="true">' +
+             '<span class="itrav-bn-ph-brand">' + esc(brand || "") + "</span>" +
+             '<span class="itrav-bn-ph-title">' + esc(title || "") + "</span></div>";
   }
 
   /* label = the talk title, or the country for a destination expert */
@@ -535,9 +561,23 @@
     var readMore = cfg.read_more || "Read more";
     var showLess = cfg.show_less || "Show less";
 
+    var cta = cfg.cta || {};
+    var ctaOn = el.getAttribute("data-cta") !== "off" && (cta.labels || []).length;
+    var ctaHref = el.getAttribute("data-cta-href") || cta.href || "#checkout";
+    var ctaCount = 0;
+
     function img(b) {
-      return '<img class="itrav-bn-img" src="' + BASE + "images/bonuses/" + esc(b.slug) + '.jpg" alt="' +
-             esc(b.title) + '" loading="lazy" data-initials="' + esc(initials(b.brand || b.title)) + '">';
+      if (!b.image) return bonusTile(b.title, b.brand);
+      return '<img class="itrav-bn-img" src="' + BASE + "images/bonuses/" + encodeURIComponent(b.image) +
+             '" alt="' + esc(b.title) + '" loading="lazy" data-title="' + esc(b.title) +
+             '" data-brand="' + esc(b.brand) + '">';
+    }
+    /* Labels take turns in the order schedule.json lists them. */
+    function ctaButton() {
+      if (!ctaOn) return "";
+      var label = cta.labels[ctaCount++ % cta.labels.length];
+      return '<div class="itrav-bn-cta-wrap"><a class="itrav-bn-cta" href="' + esc(ctaHref) + '">' +
+             esc(label) + "</a></div>";
     }
     function by(b) {
       return '<p class="itrav-bn-by">' + (b.brand ? esc(cfg.by_label || "by") + " " + esc(b.brand) : "") +
@@ -569,9 +609,14 @@
     });
     sections.push(other);
 
+    /* A button after the featured cards and between category sections -
+       not after the last one, where the page's own content takes over. */
+    var filled = sections.filter(function (sec) { return sec.items.length; });
+    if (featured.length && filled.length) html += ctaButton();
+
     var i = 0;
-    sections.forEach(function (sec) {
-      if (!sec.items.length) return;
+    filled.forEach(function (sec, k) {
+      if (k > 0) html += ctaButton();
       html += '<div class="itrav-bn-cat"><h3 class="itrav-bn-cat-h">' + esc(sec.label) + "</h3>" +
         sec.items.map(function (b) {
           var id = uid + (i++);
@@ -589,6 +634,18 @@
 
     el.innerHTML = '<div class="itrav-bn">' + html + "</div>";
     el.addEventListener("click", function (ev) {
+      var go = ev.target.closest && ev.target.closest(".itrav-bn-cta");
+      if (go) {
+        var href = go.getAttribute("href") || "";
+        var target = href.charAt(0) === "#" ? document.getElementById(href.slice(1)) : null;
+        if (target) {
+          ev.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (href.charAt(0) === "#") {
+          console.warn("itrav-blocks: no element with id '" + href.slice(1) + "' for the bonus buttons to scroll to");
+        }
+        return;
+      }
       var btn = ev.target.closest && ev.target.closest(".itrav-bn-more");
       if (!btn) return;
       var open = btn.getAttribute("aria-expanded") === "true";
