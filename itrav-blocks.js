@@ -166,10 +166,10 @@
     ".itrav-bn-card>.itrav-bn-desc{grid-area:desc;min-width:0;}",
     ".itrav-bn-body[hidden]{display:none !important;}",
     ".itrav-bn-cta-wrap{text-align:center;margin:0 0 44px;}",
-    "a.itrav-bn-cta{display:inline-block;font-family:inherit;background:#F3C180;color:#1a1a1a !important;",
+    "a.itrav-bn-cta{display:inline-block;font-family:inherit;background:#F3C180;color:#fff !important;",
     "font-size:18px;font-weight:700;padding:16px 34px;border-radius:4.5px;text-decoration:none !important;",
     "line-height:1.25;letter-spacing:normal;text-transform:none;border:0;box-shadow:none;transition:opacity .15s ease;}",
-    "a.itrav-bn-cta:hover{opacity:.88;color:#1a1a1a !important;}",
+    "a.itrav-bn-cta:hover{opacity:.88;color:#fff !important;}",
     "a.itrav-bn-cta:focus-visible{outline:2px solid #657a9d;outline-offset:3px;}",
     ".itrav-bn-card{display:grid;grid-template-columns:160px minmax(0,1fr);grid-template-areas:\"img head\" \"img desc\";",
     "column-gap:28px;row-gap:0;align-items:start;",
@@ -633,6 +633,7 @@
     });
 
     el.innerHTML = '<div class="itrav-bn">' + html + "</div>";
+    fitHeight(el);
     el.addEventListener("click", function (ev) {
       var go = ev.target.closest && ev.target.closest(".itrav-bn-cta");
       if (go) {
@@ -653,7 +654,69 @@
       btn.setAttribute("aria-expanded", open ? "false" : "true");
       btn.textContent = open ? readMore : showLess;
       if (body) body.hidden = open;
+      if (el._itravFit) el._itravFit();
     });
+  }
+
+  /* Page builders put an HTML element in a box the editor sizes by hand,
+     which clips the block whenever bonuses are added or Read more opens.
+     So the block sizes its own container, in whichever form it finds:
+       - inside a frame: set the frame to the content height, and let any
+         wrapper that was exactly the frame's size grow with it;
+       - on the page itself: let any ancestor that is clipping it grow.
+     It re-fits on every size change (images loading, Read more, resizing)
+     and logs which case applied, for debugging in the browser console. */
+  function fitHeight(el) {
+    var frame = null;
+    try { frame = window.frameElement; } catch (e) { frame = null; }
+    var mode = frame ? "frame" : (window.self !== window.top ? "foreign-frame" : "page");
+    if (mode === "foreign-frame") {
+      console.warn("itrav-blocks: inside a frame this page cannot resize; set the box height by hand");
+      return;
+    }
+    console.log("itrav-blocks: fitting bonus block height (" + mode + ")");
+
+    function unclip(node) {
+      node.style.setProperty("height", "auto", "important");
+      node.style.setProperty("max-height", "none", "important");
+      node.style.setProperty("overflow-y", "visible", "important");
+    }
+
+    function fitFrame() {
+      if (!el.offsetHeight) return;          // not laid out yet; never collapse the frame
+      var doc = document.documentElement;
+      var bottom = el.getBoundingClientRect().bottom + (window.pageYOffset || doc.scrollTop || 0);
+      var want = Math.ceil(bottom + 16);
+      var before = frame.getBoundingClientRect().height;
+      if (Math.abs(before - want) < 2) return;
+      frame.style.setProperty("height", want + "px", "important");
+      frame.style.setProperty("max-height", "none", "important");
+      var p = frame.parentElement;
+      for (var i = 0; p && i < 6 && p.tagName !== "BODY"; i++, p = p.parentElement) {
+        if (p.getBoundingClientRect().height > before + 4) break;   // a real section, not the box
+        unclip(p);
+      }
+    }
+
+    function fitPage() {
+      var p = el.parentElement;
+      for (var i = 0; p && i < 10 && p.tagName !== "BODY" && p.tagName !== "HTML"; i++, p = p.parentElement) {
+        if (p.scrollHeight > p.clientHeight + 2) unclip(p);
+      }
+    }
+
+    var fit = mode === "frame" ? fitFrame : fitPage;
+    var queued = false;
+    el._itravFit = function () {
+      if (queued) return;
+      queued = true;
+      (window.requestAnimationFrame || setTimeout)(function () { queued = false; fit(); });
+    };
+    el._itravFit();
+    el.addEventListener("load", el._itravFit, true);    // each image as it arrives
+    if (window.ResizeObserver) new ResizeObserver(el._itravFit).observe(el);
+    window.addEventListener("resize", el._itravFit);
+    setTimeout(el._itravFit, 1500);
   }
 
   /* Which JSON files each block needs - a page only fetches what its own
