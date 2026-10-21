@@ -1,5 +1,5 @@
 ---
-# Rebuilds speakers.json and sessions.json from Airtable and commits them.
+# Rebuilds speakers.json, sessions.json and bonuses.json from Airtable and commits them.
 #
 # To run it: Actions tab -> "Publish page data from Airtable" (left sidebar)
 # -> "Run workflow" button -> Run workflow. That button is the whole point.
@@ -47,14 +47,15 @@ jobs:
 
       - name: Show what changed
         run: |
-          git --no-pager diff --stat -- speakers.json sessions.json
-          echo "--- speakers.json / sessions.json diff ---"
-          git --no-pager diff -- speakers.json sessions.json | head -200
+          git --no-pager diff --stat -- speakers.json sessions.json bonuses.json
+          echo "--- page data diff ---"
+          git --no-pager diff -- speakers.json sessions.json bonuses.json | head -200
 
       - name: Commit
         if: ${{ !inputs.dry_run }}
         run: |
-          if git diff --quiet -- speakers.json sessions.json; then
+          # status, not diff: diff ignores a file that is new to the repo
+          if [ -z "$(git status --porcelain -- speakers.json sessions.json bonuses.json)" ]; then
             echo "Airtable matches what is already published. Nothing to commit."
             echo "Nothing changed - the published files already match Airtable." \
               >> "$GITHUB_STEP_SUMMARY"
@@ -62,7 +63,7 @@ jobs:
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add speakers.json sessions.json
+          git add speakers.json sessions.json bonuses.json
           git commit -m "Publish page data from Airtable"
           # Someone may have pushed while this ran; rebase rather than fail.
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}"

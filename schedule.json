@@ -90,5 +90,28 @@
     "watch_label": "Watch",
     "soon_label": "Coming soon",
     "_note": "Rows show watch_label and link to the session's Squarespace Page from Airtable as soon as that field is filled, so links can be tested before launch. No field yet = soon_label, greyed and unclickable. Access during and after the event is controlled by setting the session page active/inactive in Squarespace; an inactive page redirects to the expired page with the upgrade offer. The per-day Coming Soon / Watch Now / Expired button below each day's list is maintained by hand in Squarespace and is deliberately not generated here."
+  },
+  "bonuses": {
+    "_note": "First Class Pass bonus block on the ThriveCart sales pages. Category values must match the Category field in Contributor Submission exactly; this list sets the section order and headings. featured_count is how many top-ranked bonuses get full cards (a page can override it with data-featured).",
+    "featured_count": 4,
+    "categories": [
+      {
+        "value": "Destination",
+        "label": "Itineraries & destination guides"
+      },
+      {
+        "value": "Travel resource",
+        "label": "Travel planning resources"
+      },
+      {
+        "value": "Discount",
+        "label": "Exclusive discounts"
+      }
+    ],
+    "other_label": "More bonuses",
+    "by_label": "by",
+    "sponsor_label": "Sponsor",
+    "read_more": "Read more",
+    "show_less": "Show less"
   }
 }

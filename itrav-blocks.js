@@ -8,6 +8,10 @@
 
    Blocks available:
      schedule  - day-by-day lineup (registration page + schedule overview)
+     directory - speaker directory
+     day       - one day's session list (data-day="1|2|3")
+     bonuses   - First Class Pass bonuses on the ThriveCart sales pages
+                 (data-featured="4" overrides how many get full cards)
 
    Data attributes:
      data-cta="off"        hides all CTA buttons
@@ -16,7 +20,8 @@
    Content sources (served from GitHub Pages; edits appear within ~1 min):
      speakers.json  - the people directory
      sessions.json  - what is presented, by whom, on which day
-     schedule.json  - day themes, live calls, CTA config
+     schedule.json  - day themes, live calls, CTA config, bonus labels
+     bonuses.json   - approved First Class Pass bonuses
    ============================================================ */
 (function () {
   "use strict";
@@ -147,7 +152,66 @@
 
     "@media (max-width:480px){.itrav-grid{grid-template-columns:repeat(2,1fr);gap:24px 10px;}",
     ".itrav-photo,.itrav-initials{width:84px;height:84px;}",
-    ".itrav-initials{font-size:25px;line-height:78px;}}"
+    ".itrav-initials{font-size:25px;line-height:78px;}}",
+
+    /* ---- First Class Pass bonuses (ThriveCart pages) ----
+       ThriveCart styles bare elements, so every property that matters is
+       set explicitly here rather than inherited. */
+    ".itrav-bn{max-width:1000px;margin:0 auto;text-align:left;color:#1a1a1a;}",
+    ".itrav-bn-feat{display:grid;gap:22px;margin:0 0 44px;}",
+    ".itrav-bn-card>.itrav-bn-img,.itrav-bn-card>.itrav-bn-ph{grid-area:img;}",
+    ".itrav-bn-card>.itrav-bn-head{grid-area:head;min-width:0;}",
+    ".itrav-bn-card>.itrav-bn-desc{grid-area:desc;min-width:0;}",
+    ".itrav-bn-body[hidden]{display:none !important;}",
+    ".itrav-bn-card{display:grid;grid-template-columns:160px minmax(0,1fr);grid-template-areas:\"img head\" \"img desc\";",
+    "column-gap:28px;row-gap:0;align-items:start;",
+    "background:#f6f5f3;border-radius:8px;padding:26px;}",
+    ".itrav-bn-img,.itrav-bn-ph{display:block;width:100%;max-width:100%;aspect-ratio:1/1;border-radius:4px;margin:0;}",
+    ".itrav-bn-img{object-fit:cover;background:#fff;box-shadow:0 4px 12px rgba(26,26,26,.12);}",
+    ".itrav-bn-ph{background:#657a9d;color:#fff;font-family:inherit;font-weight:700;font-size:30px;",
+    "display:flex;align-items:center;justify-content:center;letter-spacing:1px;}",
+    ".itrav-bn-title{font-family:inherit;font-size:21px;font-weight:700;color:#1a1a1a;margin:0 0 6px;line-height:1.3;text-transform:none;letter-spacing:normal;}",
+    ".itrav-bn-by{font-family:inherit;font-size:14px;color:#777;margin:0 0 12px;line-height:1.4;}",
+    ".itrav-bn-sponsor{display:inline-block;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:1.2px;",
+    "text-transform:uppercase;color:#657a9d;border:1.5px solid #657a9d;border-radius:3px;padding:3px 6px 2px;",
+    "margin-left:8px;vertical-align:middle;line-height:1.2;}",
+    ".itrav-bn-desc{font-family:inherit;font-size:16px;line-height:1.6;color:#444;}",
+    ".itrav-bn-desc p{font-family:inherit;font-size:16px;line-height:1.6;color:#444;margin:0 0 10px;}",
+    ".itrav-bn-desc ul,.itrav-bn-desc ol{margin:0 0 10px;padding:0 0 0 22px;}",
+    ".itrav-bn-desc ul{list-style:disc outside;}",
+    ".itrav-bn-desc ol{list-style:decimal outside;}",
+    ".itrav-bn-desc li{font-family:inherit;font-size:16px;line-height:1.55;color:#444;margin:0 0 4px;padding:0;}",
+    ".itrav-bn-desc strong{color:#1a1a1a;font-weight:700;}",
+    ".itrav-bn-cat{margin:0 0 40px;}",
+    ".itrav-bn-cat:last-child{margin-bottom:0;}",
+    ".itrav-bn-cat-h{font-family:inherit;font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 4px;padding:0 0 8px;",
+    "border-bottom:2px solid #1a1a1a;line-height:1.3;text-transform:none;letter-spacing:normal;}",
+    ".itrav-bn-row{border-bottom:1px solid #e9e7e4;}",
+    ".itrav-bn-top{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 0;}",
+    ".itrav-bn-row .itrav-bn-img{box-shadow:0 2px 6px rgba(26,26,26,.12);}",
+    ".itrav-bn-row .itrav-bn-ph{font-size:18px;}",
+    ".itrav-bn-row .itrav-bn-title{font-size:17px;font-weight:600;margin:0 0 3px;}",
+    ".itrav-bn-row .itrav-bn-by{margin:0;}",
+    "button.itrav-bn-more{-webkit-appearance:none;appearance:none;font-family:inherit;font-size:15px;font-weight:600;",
+    "color:#657a9d;background:none;border:0;box-shadow:none;padding:8px 0 8px 8px;margin:0;width:auto;min-height:0;",
+    "cursor:pointer;white-space:nowrap;text-transform:none;letter-spacing:normal;line-height:1.3;}",
+    "button.itrav-bn-more:hover{color:#4e6180;background:none;}",
+    "button.itrav-bn-more:focus-visible{outline:2px solid #657a9d;outline-offset:2px;border-radius:3px;}",
+    "button.itrav-bn-more::after{content:\" \\25BE\";display:inline-block;transition:transform .2s ease;}",
+    "button.itrav-bn-more[aria-expanded=\"true\"]::after{transform:rotate(180deg);}",
+    ".itrav-bn-body{padding:0 0 18px 80px;}",
+    "@media (max-width:640px){",
+    ".itrav-bn-card{grid-template-columns:88px minmax(0,1fr);grid-template-areas:\"img head\" \"desc desc\";",
+    "column-gap:16px;row-gap:14px;padding:18px;align-items:center;}",
+    ".itrav-bn-card .itrav-bn-ph{font-size:22px;}",
+    ".itrav-bn-title{font-size:18px;}",
+    ".itrav-bn-top{grid-template-columns:48px minmax(0,1fr);gap:12px;}",
+    ".itrav-bn-row .itrav-bn-ph{font-size:15px;}",
+    ".itrav-bn-row .itrav-bn-title{font-size:16px;}",
+    "button.itrav-bn-more{grid-column:2;justify-self:start;padding:2px 0;}",
+    ".itrav-bn-body{padding:0 0 16px;}",
+    "}",
+    "@media (prefers-reduced-motion:reduce){button.itrav-bn-more::after{transition:none;}}"
   ].join("");
 
   function injectCSS() {
@@ -186,13 +250,17 @@
   }
 
   /* Image load errors do not bubble, but they do capture - so one listener on
-     the block catches every missing headshot without any inline handler. */
+     the block catches every missing headshot or bonus image without any
+     inline handler. */
   function photoFallback(el) {
     el.addEventListener("error", function (ev) {
       var img = ev.target;
-      if (!img || img.tagName !== "IMG" || !img.classList.contains("itrav-photo")) return;
+      if (!img || img.tagName !== "IMG") return;
+      var fallback = img.classList.contains("itrav-photo") ? "itrav-initials"
+        : img.classList.contains("itrav-bn-img") ? "itrav-bn-ph" : "";
+      if (!fallback) return;
       var div = document.createElement("div");
-      div.className = "itrav-initials";
+      div.className = fallback;
       div.setAttribute("aria-hidden", "true");
       div.textContent = img.getAttribute("data-initials") || "";
       if (img.parentNode) img.parentNode.replaceChild(div, img);
@@ -451,7 +519,94 @@
     }).join("") + "</div>";
   }
 
-  var RENDERERS = { schedule: renderSchedule, directory: renderDirectory, day: renderDay };
+  /* ---------- block: bonuses ----------
+     Top-ranked bonuses get full cards; the rest sit in category lists with
+     the description one tap away. Every contributor's title, brand and
+     image stays visible without a click. Order is Display ranking from
+     Airtable; category order and headings come from schedule.json. */
+  function renderBonuses(el, data) {
+    var list = (data.bonuses && data.bonuses.bonuses) || [];
+    if (!list.length) return;
+    var cfg = (data.schedule && data.schedule.bonuses) || {};
+    var cats = cfg.categories || [];
+    var n = parseInt(el.getAttribute("data-featured"), 10);
+    if (isNaN(n)) n = cfg.featured_count == null ? 4 : cfg.featured_count;
+    var uid = "itrav-bn-" + Math.random().toString(36).slice(2, 8) + "-";
+    var readMore = cfg.read_more || "Read more";
+    var showLess = cfg.show_less || "Show less";
+
+    function img(b) {
+      return '<img class="itrav-bn-img" src="' + BASE + "images/bonuses/" + esc(b.slug) + '.jpg" alt="' +
+             esc(b.title) + '" loading="lazy" data-initials="' + esc(initials(b.brand || b.title)) + '">';
+    }
+    function by(b) {
+      return '<p class="itrav-bn-by">' + (b.brand ? esc(cfg.by_label || "by") + " " + esc(b.brand) : "") +
+             (b.sponsor ? '<span class="itrav-bn-sponsor">' + esc(cfg.sponsor_label || "Sponsor") + "</span>" : "") +
+             "</p>";
+    }
+
+    var featured = list.slice(0, Math.max(0, n));
+    var rest = list.slice(featured.length);
+    var html = "";
+
+    if (featured.length) {
+      html += '<div class="itrav-bn-feat">' + featured.map(function (b) {
+        return '<div class="itrav-bn-card">' + img(b) +
+                 '<div class="itrav-bn-head"><h3 class="itrav-bn-title">' + esc(b.title) + "</h3>" + by(b) + "</div>" +
+                 '<div class="itrav-bn-desc">' + (b.description_html || "") + "</div>" +
+               "</div>";
+      }).join("") + "</div>";
+    }
+
+    /* Sections in the configured order, then anything whose category is
+       not configured, so nobody silently disappears. */
+    var sections = cats.map(function (c) { return { label: c.label, items: [], value: c.value }; });
+    var other = { label: cfg.other_label || "More bonuses", items: [] };
+    rest.forEach(function (b) {
+      var hit = null;
+      sections.forEach(function (sec) { if (sec.value === b.category) hit = sec; });
+      (hit || other).items.push(b);
+    });
+    sections.push(other);
+
+    var i = 0;
+    sections.forEach(function (sec) {
+      if (!sec.items.length) return;
+      html += '<div class="itrav-bn-cat"><h3 class="itrav-bn-cat-h">' + esc(sec.label) + "</h3>" +
+        sec.items.map(function (b) {
+          var id = uid + (i++);
+          var hasDesc = !!b.description_html;
+          return '<div class="itrav-bn-row"><div class="itrav-bn-top">' + img(b) +
+                   '<div><p class="itrav-bn-title">' + esc(b.title) + "</p>" + by(b) + "</div>" +
+                   (hasDesc ? '<button type="button" class="itrav-bn-more" aria-expanded="false" aria-controls="' +
+                     id + '">' + esc(readMore) + "</button>" : "") +
+                 "</div>" +
+                 (hasDesc ? '<div class="itrav-bn-body itrav-bn-desc" id="' + id + '" hidden>' +
+                   b.description_html + "</div>" : "") +
+               "</div>";
+        }).join("") + "</div>";
+    });
+
+    el.innerHTML = '<div class="itrav-bn">' + html + "</div>";
+    el.addEventListener("click", function (ev) {
+      var btn = ev.target.closest && ev.target.closest(".itrav-bn-more");
+      if (!btn) return;
+      var open = btn.getAttribute("aria-expanded") === "true";
+      var body = document.getElementById(btn.getAttribute("aria-controls"));
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+      btn.textContent = open ? readMore : showLess;
+      if (body) body.hidden = open;
+    });
+  }
+
+  /* Which JSON files each block needs - a page only fetches what its own
+     blocks use, so a ThriveCart sales page never loads the speaker data. */
+  var RENDERERS = {
+    schedule: { fn: renderSchedule, files: ["speakers", "sessions", "schedule"] },
+    directory: { fn: renderDirectory, files: ["speakers", "schedule"] },
+    day: { fn: renderDay, files: ["speakers", "sessions", "schedule"] },
+    bonuses: { fn: renderBonuses, files: ["bonuses", "schedule"] }
+  };
 
   function getJSON(file) {
     return fetch(BASE + file, { cache: "no-store" }).then(function (r) {
@@ -461,19 +616,32 @@
   }
 
   function boot() {
-    var blocks = [].slice.call(document.querySelectorAll(".itrav-block[data-block]"));
+    /* data-itrav-done stops a block rendering twice if the loader ends up on
+       a page more than once (an HTML element plus a tracking-code field). */
+    var blocks = [].slice.call(document.querySelectorAll(".itrav-block[data-block]"))
+      .filter(function (el) {
+        return RENDERERS[el.getAttribute("data-block")] && !el.getAttribute("data-itrav-done");
+      });
     if (!blocks.length) return;
+    blocks.forEach(function (el) { el.setAttribute("data-itrav-done", "1"); });
     injectCSS();
 
-    Promise.all([getJSON("speakers.json"), getJSON("sessions.json"), getJSON("schedule.json")])
+    var need = [];
+    blocks.forEach(function (el) {
+      RENDERERS[el.getAttribute("data-block")].files.forEach(function (f) {
+        if (need.indexOf(f) === -1) need.push(f);
+      });
+    });
+
+    Promise.all(need.map(function (f) { return getJSON(f + ".json"); }))
       .then(function (res) {
-        var data = { speakers: res[0], sessions: res[1], schedule: res[2] };
+        var data = {};
+        need.forEach(function (f, i) { data[f] = res[i]; });
         blocks.forEach(function (el) {
-          var fn = RENDERERS[el.getAttribute("data-block")];
-          if (!fn) return;
+          var r = RENDERERS[el.getAttribute("data-block")];
           if (el.getAttribute("data-fullbleed") !== "off") el.className += " itrav-fullbleed";
           photoFallback(el);
-          try { fn(el, data); }
+          try { r.fn(el, data); }
           catch (e) { console.error("itrav-blocks render failed:", e); }
         });
       })

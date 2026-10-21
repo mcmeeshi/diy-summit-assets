@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build speakers.json and sessions.json from Airtable.
+"""Build speakers.json, sessions.json and bonuses.json from Airtable.
 
 Run by .github/workflows/publish-page-data.yml, which is triggered by the
 "Run workflow" button on the repo's Actions tab (or on a schedule).
@@ -35,6 +35,7 @@ TABLES = {
     "speakers": "tbl3Rd8YmbRulsT0I",   # Summit Speakers
     "rsvp": "tbl3GUUz1HoTZ8wPR",       # Presenter RSVP
     "topics": "tblECEvjfx8E5DG84",     # Presentation Topics
+    "bonuses": "tbljyR77IdURVWOwX",    # Contributor Submission
 }
 
 CYCLE = "2027"
@@ -53,6 +54,14 @@ KIND_RANK = {"single": 0, "compilation": 1, "live_panel": 2}
 # else: the renderer reads "kind" out of sessions.json and never re-derives it.
 GROUP_MARKERS = ["\U0001F465"]                       # 👥 = multi-speaker session
 LIVE_SESSION_PREFIXES = ["live panel:", "live call:"]  # + a marker = that day's Zoom call
+
+# First Class Pass bonuses (Contributor Submission). A bonus is published when
+# Product Test Status says it is approved, unless its Category is one of the
+# excluded values (Michelle's own bonuses get their own feature on the page).
+BONUS_APPROVED = "Approved for First Class Pass"
+BONUS_EXCLUDED_CATEGORIES = {"Separate callout on page"}
+BONUS_SPONSOR_FIELD = "Sponsor?"   # checkbox; ticked = SPONSOR label
+BONUS_IMAGE_DIR = "images/bonuses"
 
 
 # --------------------------------------------------------------- fetching --
@@ -276,6 +285,124 @@ def build(speaker_rows, rsvp_rows, topic_rows):
     return speakers, sessions, link_report
 
 
+# ---------------------------------------------------------------- bonuses --
+
+_ESCAPABLE = r"\\`*_{}\[\]()#+\-.!~>|"
+
+
+def _inline(text):
+    """Escape HTML, then apply the few inline marks Airtable rich text uses.
+    Links keep their text but lose the href: an outbound link on a checkout
+    page sends buyers away before they pay."""
+    held = []
+
+    def hold(m):
+        held.append(m.group(1))
+        return f"\x00{len(held) - 1}\x00"
+
+    t = re.sub(r"\\([" + _ESCAPABLE + r"])", hold, text)
+    t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+    t = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", t)
+    t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+    t = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", t)
+    t = re.sub(r"(?<!\w)_(?!\s)(.+?)(?<!\s)_(?!\w)", r"<em>\1</em>", t)
+    t = re.sub(r"\x00(\d+)\x00", lambda m: held[int(m.group(1))]
+               .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"), t)
+    return t
+
+
+def rich_to_html(md):
+    """Airtable rich text (markdown) -> a small, safe HTML subset:
+    p, ul/ol/li, strong, em. Each line is its own paragraph, because that is
+    how contributors' line breaks read in Airtable. A line starting with a
+    dash is a bullet even when Airtable escaped it as "\\-"."""
+    out, items, kind = [], [], None
+
+    def flush():
+        nonlocal items, kind
+        if items:
+            out.append(f"<{kind}>" + "".join(f"<li>{i}</li>" for i in items) + f"</{kind}>")
+        items, kind = [], None
+
+    for raw in str(md or "").replace("\r", "").split("\n"):
+        line = raw.replace("\u00a0", " ").strip()
+        if not line:
+            flush()
+            continue
+        bullet = re.match(r"^(?:\\?[-*\u2022])\s+(.*)$", line)
+        number = re.match(r"^\d+[.)]\s+(.*)$", line)
+        if bullet or number:
+            want = "ul" if bullet else "ol"
+            if kind and kind != want:
+                flush()
+            kind = want
+            items.append(_inline((bullet or number).group(1).strip()))
+            continue
+        flush()
+        line = re.sub(r"^#+\s+", "", line)
+        out.append(f"<p>{_inline(line)}</p>")
+    flush()
+    return "".join(out)
+
+
+def build_bonuses(rows):
+    """Approved, non-excluded Contributor Submission records, in Display
+    ranking order (blank sinks to the bottom). Pure, so it can be tested."""
+    bonuses, issues = [], {"no_title": [], "no_category": [], "no_brand": [],
+                           "no_rank": [], "no_description": [], "duplicate_slug": []}
+    seen = {}
+    for r in rows:
+        status = f(r, "Product Test Status") or ""
+        if status != BONUS_APPROVED:
+            continue
+        category = str(f(r, "Category") or "").strip()
+        if category in BONUS_EXCLUDED_CATEGORIES:
+            continue
+        title = str(f(r, "Product") or "").strip()
+        if not title:
+            issues["no_title"].append(r["id"])
+            continue
+        brand = str(f(r, "Brand") or "").strip()
+        rank = f(r, "Display ranking", None)
+        try:
+            rank = int(rank) if rank not in (None, "") else None
+        except (TypeError, ValueError):
+            rank = None
+        description = rich_to_html(f(r, "Product description"))
+
+        slug = slugify(title)
+        if slug in seen:
+            issues["duplicate_slug"].append(title)
+            n = 2
+            while f"{slug}-{n}" in seen:
+                n += 1
+            slug = f"{slug}-{n}"
+        seen[slug] = True
+
+        if not category:
+            issues["no_category"].append(title)
+        if not brand:
+            issues["no_brand"].append(title)
+        if rank is None:
+            issues["no_rank"].append(title)
+        if not description:
+            issues["no_description"].append(title)
+
+        bonuses.append({
+            "slug": slug,
+            "title": title,
+            "brand": brand,
+            "category": category,
+            "sponsor": bool(f(r, BONUS_SPONSOR_FIELD, False)),
+            "rank": rank,
+            "description_html": description,
+            "airtable_id": r["id"],
+        })
+
+    bonuses.sort(key=lambda b: (b["rank"] if b["rank"] is not None else 99999, b["title"].lower()))
+    return bonuses, issues
+
+
 # ---------------------------------------------------------------- reports --
 
 IMAGE_DIR = "images/speakers"
@@ -379,6 +506,55 @@ def report(speakers, sessions, link_report):
     return "\n".join(lines)
 
 
+def bonus_image_audit(bonuses):
+    """Same idea as headshot_audit: images/bonuses/<slug>.jpg, where the slug
+    comes from the Product name. Renaming a product orphans its image."""
+    files = sorted(x for x in os.listdir(BONUS_IMAGE_DIR) if not x.startswith(".")) \
+        if os.path.isdir(BONUS_IMAGE_DIR) else []
+    stems = {os.path.splitext(x)[0]: x for x in files if os.path.splitext(x)[1].lower() == ".jpg"}
+    wrong_type = [x for x in files if os.path.splitext(x)[1].lower() != ".jpg"]
+    slugs = {b["slug"] for b in bonuses}
+    missing = [f"{b['title']} → `{b['slug']}.jpg`" for b in bonuses if b["slug"] not in stems]
+    orphans = [x for stem, x in sorted(stems.items()) if stem not in slugs]
+    return missing, orphans, wrong_type
+
+
+def bonus_report(bonuses, issues):
+    def j(rows):
+        return ", ".join(rows) or "none"
+
+    by_cat = {}
+    for b in bonuses:
+        by_cat[b["category"] or "(no category)"] = by_cat.get(b["category"] or "(no category)", 0) + 1
+    lines = [
+        "", "## First Class Pass bonuses", "",
+        f"**{len(bonuses)} bonuses published** — "
+        + (" · ".join(f"{k}: {v}" for k, v in by_cat.items()) or "none yet")
+        + f" · Sponsor label: {sum(1 for b in bonuses if b['sponsor'])}",
+        "",
+        f"_Only records with Product Test Status = {BONUS_APPROVED} are published. "
+        "Excluded categories: " + ", ".join(sorted(BONUS_EXCLUDED_CATEGORIES)) + "._",
+        "", "### Worth a look", "",
+        f"- Approved but no Product name, skipped ({len(issues['no_title'])}): {j(issues['no_title'])}",
+        f"- No Category, shown in a section at the end ({len(issues['no_category'])}): {j(issues['no_category'])}",
+        f"- No Display ranking, sinks to the bottom ({len(issues['no_rank'])}): {j(issues['no_rank'])}",
+        f"- No Brand ({len(issues['no_brand'])}): {j(issues['no_brand'])}",
+        f"- No description ({len(issues['no_description'])}): {j(issues['no_description'])}",
+        f"- Two bonuses with the same Product name, second got a -2 slug ({len(issues['duplicate_slug'])}): {j(issues['duplicate_slug'])}",
+    ]
+    missing, orphans, wrong_type = bonus_image_audit(bonuses)
+    lines += ["", "### Bonus images in the repo", "",
+              f"- No image file in `{BONUS_IMAGE_DIR}/` ({len(missing)}): {j(missing)}",
+              f"- Image files matching no bonus ({len(orphans)}): {j(orphans)}"]
+    if wrong_type:
+        lines.append(f"- Wrong file type, will never load ({len(wrong_type)}): {j(wrong_type)}"
+                     " — the page only loads `.jpg`")
+    if missing and orphans:
+        lines += ["", "> **A product was probably renamed in Airtable.** Rename its image file "
+                  "to the new name shown above. Until then that bonus shows initials."]
+    return "\n".join(lines)
+
+
 # ------------------------------------------------------------------- main --
 
 def main():
@@ -391,6 +567,7 @@ def main():
 
     rows = {k: fetch_table(token, tid) for k, tid in TABLES.items()}
     speakers, sessions, link_report = build(rows["speakers"], rows["rsvp"], rows["topics"])
+    bonuses, bonus_issues = build_bonuses(rows["bonuses"])
 
     if not speakers:
         raise SystemExit(
@@ -430,7 +607,21 @@ def main():
         "sessions": sessions,
     })
 
-    summary = report(speakers, sessions, link_report)
+    write_json("bonuses.json", {
+        "updated": today, "cycle": CYCLE,
+        "_generated_by": generated,
+        "_field_notes": {
+            "source": f"Contributor Submission records with Product Test Status = {BONUS_APPROVED}, minus the excluded categories.",
+            "rank": "Display ranking. Lowest numbers are featured first; blank sinks to the bottom.",
+            "category": "Matched against schedule.json -> bonuses.categories for the section headings and order.",
+            "sponsor": f"The '{BONUS_SPONSOR_FIELD}' checkbox. Ticked shows a SPONSOR label.",
+            "image": f"Not stored here. The renderer loads {BONUS_IMAGE_DIR}/{{slug}}.jpg and falls back to brand initials.",
+            "description_html": "Converted from the rich text field. Links keep their text but not the URL, so buyers are not sent off the checkout page.",
+        },
+        "bonuses": bonuses,
+    })
+
+    summary = report(speakers, sessions, link_report) + "\n" + bonus_report(bonuses, bonus_issues)
     print(summary)
     path = os.environ.get("GITHUB_STEP_SUMMARY")
     if path:
