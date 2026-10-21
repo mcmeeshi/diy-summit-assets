@@ -665,27 +665,47 @@
     bonuses: { fn: renderBonuses, files: ["bonuses", "schedule"] }
   };
 
+  /* One request per file per page, however many times boot() runs. */
+  var cache = {};
   function getJSON(file) {
-    return fetch(BASE + file, { cache: "no-store" }).then(function (r) {
-      if (!r.ok) throw new Error(file + ": HTTP " + r.status);
-      return r.json();
+    if (!cache[file]) {
+      cache[file] = fetch(BASE + file, { cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw new Error(file + ": HTTP " + r.status);
+        return r.json();
+      });
+    }
+    return cache[file];
+  }
+
+  /* ThriveCart's HTML element deletes any <script> on save, so on those
+     pages the loader lives in the product's Tracking code field and the
+     element holds only <div id="itrav-bonuses"></div> - an id survives
+     ThriveCart's save where a class or data attribute might not. */
+  var ID_BLOCKS = { "itrav-bonuses": "bonuses" };
+
+  function blockType(el) {
+    return el.getAttribute("data-block") || ID_BLOCKS[el.id] || "";
+  }
+
+  function findBlocks() {
+    var sel = ".itrav-block[data-block]";
+    Object.keys(ID_BLOCKS).forEach(function (id) { sel += ",#" + id; });
+    return [].slice.call(document.querySelectorAll(sel)).filter(function (el) {
+      return RENDERERS[blockType(el)] && !el.getAttribute("data-itrav-done");
     });
   }
 
   function boot() {
     /* data-itrav-done stops a block rendering twice if the loader ends up on
-       a page more than once (an HTML element plus a tracking-code field). */
-    var blocks = [].slice.call(document.querySelectorAll(".itrav-block[data-block]"))
-      .filter(function (el) {
-        return RENDERERS[el.getAttribute("data-block")] && !el.getAttribute("data-itrav-done");
-      });
+       a page more than once. */
+    var blocks = findBlocks();
     if (!blocks.length) return;
     blocks.forEach(function (el) { el.setAttribute("data-itrav-done", "1"); });
     injectCSS();
 
     var need = [];
     blocks.forEach(function (el) {
-      RENDERERS[el.getAttribute("data-block")].files.forEach(function (f) {
+      RENDERERS[blockType(el)].files.forEach(function (f) {
         if (need.indexOf(f) === -1) need.push(f);
       });
     });
@@ -695,7 +715,7 @@
         var data = {};
         need.forEach(function (f, i) { data[f] = res[i]; });
         blocks.forEach(function (el) {
-          var r = RENDERERS[el.getAttribute("data-block")];
+          var r = RENDERERS[blockType(el)];
           if (el.getAttribute("data-fullbleed") !== "off") el.className += " itrav-fullbleed";
           photoFallback(el);
           try { r.fn(el, data); }
@@ -707,9 +727,25 @@
       });
   }
 
+  /* Page builders (ThriveCart included) may draw their content after the
+     page has loaded, so keep looking for new blocks for a minute. */
+  function watch() {
+    if (!window.MutationObserver || !document.body) return;
+    var pending = false;
+    var obs = new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      setTimeout(function () { pending = false; boot(); }, 50);
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+    setTimeout(function () { obs.disconnect(); }, 60000);
+  }
+
+  function start() { boot(); watch(); }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
+    document.addEventListener("DOMContentLoaded", start);
   } else {
-    boot();
+    start();
   }
 })();
