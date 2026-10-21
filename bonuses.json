@@ -2,5 +2,34 @@
   "updated": "2026-10-21",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
-  "bonuses": []
+  "_field_notes": {
+    "source": "Contributor Submission records with Product Test Status = Approved for First Class Pass, minus the excluded categories.",
+    "rank": "Display ranking. Lowest numbers are featured first; blank sinks to the bottom.",
+    "category": "Matched against schedule.json -> bonuses.categories for the section headings and order.",
+    "sponsor": "The 'Sponsor?' checkbox. Ticked shows a SPONSOR label.",
+    "image": "Filename of the first Product Img attachment. The renderer loads images/bonuses/<image> and shows a name tile when it is missing.",
+    "description_html": "Converted from the rich text field. Links keep their text but not the URL, so buyers are not sent off the checkout page."
+  },
+  "bonuses": [
+    {
+      "title": "30 Days Free - Intentional Travelers Toolkit Membership",
+      "image": "Toolkit Membership Mockup 2025.jpg",
+      "brand": "Intentional Travelers",
+      "category": "Destination",
+      "sponsor": false,
+      "rank": null,
+      "description_html": "<p>Unlock the secrets to crafting unforgettable itineraries, discovering hidden gems, and enjoying seamless travels—all while saving time and avoiding costly pitfalls.</p><p>Enjoy full access all of Michelle's travel courses with our growing library of video tutorials, checklists, destination resources, and monthly travel tips, at no cost for the first 30 days.</p><ul><li>Learn the secrets to <strong>making the most of your time and trip budget</strong></li><li>Harness simple tools to <strong>find hidden gems</strong> in any destination</li><li>Gain confidence that you're <strong>not missing out</strong> on better experiences elsewhere in your destination</li><li><strong>Eliminate hours</strong> of fruitless trip research on the internet with <strong>shortcuts</strong> for creating your own custom itineraries</li><li>Arrive in new destinations with <strong>more confidence and ease</strong></li></ul>",
+      "airtable_id": "recZheC7klQ8yE1eH"
+    },
+    {
+      "title": "Map of Recommended Destinations for 2027",
+      "image": "6.jpg",
+      "brand": "Summit",
+      "category": "Travel resource",
+      "sponsor": false,
+      "rank": null,
+      "description_html": "<p>Our 2027 summit destination experts revealed their top destinations for first time visits this year. In this interactive map, you'll be able to reference each of their recommended locations all in one place.</p>",
+      "airtable_id": "recsakdSgTldWN14D"
+    }
+  ]
 }
