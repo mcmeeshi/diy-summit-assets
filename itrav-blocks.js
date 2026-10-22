@@ -160,13 +160,16 @@
        ThriveCart styles bare elements, so every property that matters is
        set explicitly here rather than inherited. */
     ".itrav-bn{max-width:1000px;margin:0 auto;text-align:left;color:#1a1a1a;}",
+    /* Montserrat on the sales pages. !important because ThriveCart's own
+       element styles (Inter) out-rank a plain class rule. */
+    ".itrav-bn,.itrav-bn *{font-family:\"Montserrat\",\"Helvetica Neue\",Arial,sans-serif !important;}",
     ".itrav-bn-feat{display:grid;gap:22px;margin:0 0 44px;}",
     ".itrav-bn-card>.itrav-bn-img,.itrav-bn-card>.itrav-bn-ph{grid-area:img;}",
     ".itrav-bn-card>.itrav-bn-head{grid-area:head;min-width:0;}",
     ".itrav-bn-card>.itrav-bn-desc{grid-area:desc;min-width:0;}",
     ".itrav-bn-body[hidden]{display:none !important;}",
     ".itrav-bn-cta-wrap{text-align:center;margin:0 0 44px;}",
-    "a.itrav-bn-cta{display:inline-block;font-family:inherit;background:#F3C180;color:#fff !important;",
+    "a.itrav-bn-cta{display:inline-block;background:#F3C180;color:#fff !important;",
     "font-size:18px;font-weight:700;padding:16px 34px;border-radius:4.5px;text-decoration:none !important;",
     "line-height:1.25;letter-spacing:normal;text-transform:none;border:0;box-shadow:none;transition:opacity .15s ease;}",
     "a.itrav-bn-cta:hover{opacity:.88;color:#fff !important;}",
@@ -176,34 +179,34 @@
     "background:#f6f5f3;border-radius:8px;padding:26px;}",
     ".itrav-bn-img,.itrav-bn-ph{display:block;width:100%;max-width:100%;aspect-ratio:1/1;border-radius:4px;margin:0;}",
     ".itrav-bn-img{object-fit:cover;background:#fff;box-shadow:0 4px 12px rgba(26,26,26,.12);}",
-    ".itrav-bn-ph{background:linear-gradient(160deg,#657a9d,#4e6180);color:#fff;font-family:inherit;",
+    ".itrav-bn-ph{background:linear-gradient(160deg,#657a9d,#4e6180);color:#fff;",
     "display:flex;flex-direction:column;justify-content:space-between;padding:10%;overflow:hidden;font-size:15px;}",
     ".itrav-bn-ph-brand{font-size:.62em;letter-spacing:.06em;text-transform:uppercase;opacity:.9;line-height:1.3;}",
     ".itrav-bn-ph-title{font-weight:700;line-height:1.2;display:-webkit-box;-webkit-box-orient:vertical;",
     "-webkit-line-clamp:6;overflow:hidden;}",
     ".itrav-bn-row .itrav-bn-ph span{display:none;}",
-    ".itrav-bn-title{font-family:inherit;font-size:21px;font-weight:700;color:#1a1a1a;margin:0 0 6px;line-height:1.3;text-transform:none;letter-spacing:normal;}",
-    ".itrav-bn-by{font-family:inherit;font-size:14px;color:#777;margin:0 0 12px;line-height:1.4;}",
-    ".itrav-bn-sponsor{display:inline-block;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:1.2px;",
+    ".itrav-bn-title{font-size:21px;font-weight:700;color:#1a1a1a;margin:0 0 6px;line-height:1.3;text-transform:none;letter-spacing:normal;}",
+    ".itrav-bn-by{font-size:14px;color:#777;margin:0 0 12px;line-height:1.4;}",
+    ".itrav-bn-sponsor{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.2px;",
     "text-transform:uppercase;color:#657a9d;border:1.5px solid #657a9d;border-radius:3px;padding:3px 6px 2px;",
     "margin-left:8px;vertical-align:middle;line-height:1.2;}",
-    ".itrav-bn-desc{font-family:inherit;font-size:16px;line-height:1.6;color:#444;}",
-    ".itrav-bn-desc p{font-family:inherit;font-size:16px;line-height:1.6;color:#444;margin:0 0 10px;}",
+    ".itrav-bn-desc{font-size:16px;line-height:1.6;color:#444;}",
+    ".itrav-bn-desc p{font-size:16px;line-height:1.6;color:#444;margin:0 0 10px;}",
     ".itrav-bn-desc ul,.itrav-bn-desc ol{margin:0 0 10px;padding:0 0 0 22px;}",
     ".itrav-bn-desc ul{list-style:disc outside;}",
     ".itrav-bn-desc ol{list-style:decimal outside;}",
-    ".itrav-bn-desc li{font-family:inherit;font-size:16px;line-height:1.55;color:#444;margin:0 0 4px;padding:0;}",
+    ".itrav-bn-desc li{font-size:16px;line-height:1.55;color:#444;margin:0 0 4px;padding:0;}",
     ".itrav-bn-desc strong{color:#1a1a1a;font-weight:700;}",
     ".itrav-bn-cat{margin:0 0 40px;}",
     ".itrav-bn-cat:last-child{margin-bottom:0;}",
-    ".itrav-bn-cat-h{font-family:inherit;font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 4px;padding:0 0 8px;",
+    ".itrav-bn-cat-h{font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 4px;padding:0 0 8px;",
     "border-bottom:2px solid #1a1a1a;line-height:1.3;text-transform:none;letter-spacing:normal;}",
     ".itrav-bn-row{border-bottom:1px solid #e9e7e4;}",
     ".itrav-bn-top{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 0;}",
     ".itrav-bn-row .itrav-bn-img{box-shadow:0 2px 6px rgba(26,26,26,.12);}",
     ".itrav-bn-row .itrav-bn-title{font-size:17px;font-weight:600;margin:0 0 3px;}",
     ".itrav-bn-row .itrav-bn-by{margin:0;}",
-    "button.itrav-bn-more{-webkit-appearance:none;appearance:none;font-family:inherit;font-size:15px;font-weight:600;",
+    "button.itrav-bn-more{-webkit-appearance:none;appearance:none;font-size:15px;font-weight:600;",
     "color:#657a9d;background:none;border:0;box-shadow:none;padding:8px 0 8px 8px;margin:0;width:auto;min-height:0;",
     "cursor:pointer;white-space:nowrap;text-transform:none;letter-spacing:normal;line-height:1.3;}",
     "button.itrav-bn-more:hover{color:#4e6180;background:none;}",
@@ -550,9 +553,24 @@
      the description one tap away. Every contributor's title, brand and
      image stays visible without a click. Order is Display ranking from
      Airtable; category order and headings come from schedule.json. */
+  /* Loads Montserrat once per page, unless the page already has it. */
+  function loadMontserrat() {
+    if (document.getElementById("itrav-montserrat")) return;
+    var links = document.querySelectorAll('link[href*="fonts.googleapis.com"]');
+    for (var i = 0; i < links.length; i++) {
+      if (/family=Montserrat[^&]*wght@[^&]*400[^&]*600[^&]*700/.test(links[i].href)) return;
+    }
+    var l = document.createElement("link");
+    l.id = "itrav-montserrat";
+    l.rel = "stylesheet";
+    l.href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap";
+    document.head.appendChild(l);
+  }
+
   function renderBonuses(el, data) {
     var list = (data.bonuses && data.bonuses.bonuses) || [];
     if (!list.length) return;
+    loadMontserrat();
     var cfg = (data.schedule && data.schedule.bonuses) || {};
     var cats = cfg.categories || [];
     var n = parseInt(el.getAttribute("data-featured"), 10);
