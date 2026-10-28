@@ -18,6 +18,8 @@
 
    Data attributes:
      data-cta="off"        hides all CTA buttons
+     data-cta="waitlist"   schedule buttons use schedule.json -> ctas.waitlist
+                           (any name in ctas works) instead of the main cta
      data-fullbleed="off"  day bands stay at content width
 
    Content sources (served from GitHub Pages; edits appear within ~1 min):
@@ -343,10 +345,26 @@
     var sessions = (data.sessions && data.sessions.sessions) || [];
     var sched = data.schedule || {};
     var days = sched.days || [];
+    /* data-cta="on" uses the main cta; any other value except "off" picks a
+       named alternative from schedule.json -> ctas (e.g. "waitlist"), so two
+       pages can point at different forms at once. Unset fields fall back to
+       the main cta. */
+    var ctaMode = el.getAttribute("data-cta") || "on";
     var cta = sched.cta || {};
+    if (ctaMode !== "on" && ctaMode !== "off") {
+      var alt = (sched.ctas || {})[ctaMode];
+      if (alt) {
+        var merged = {};
+        Object.keys(cta).forEach(function (k) { merged[k] = cta[k]; });
+        Object.keys(alt).forEach(function (k) { merged[k] = alt[k]; });
+        cta = merged;
+      } else {
+        console.warn("itrav-blocks: no ctas." + ctaMode + " in schedule.json; using the main cta");
+      }
+    }
     var ph = sched.placeholders || {};
     var intro = sched.compilation_intro || "";
-    var ctaOn = el.getAttribute("data-cta") !== "off";
+    var ctaOn = ctaMode !== "off";
     var html = "";
 
     function lookup(slugs) {
