@@ -1,11 +1,11 @@
 {
-  "updated": "2026-10-20",
+  "updated": "2026-10-28",
   "cycle": "2027",
   "region": "Asia",
   "cta": {
     "label": "Save my free seat",
-    "href": "https://diy-trip-summit.ck.page/6dad53ca77",
-    "formkit_uid": "6dad53ca77",
+    "href": "https://diy-trip-summit.kit.com/b8828ec521",
+    "formkit_uid": "b8828ec521",
     "note": "formkit_uid opens the ConvertKit modal; href is the fallback if the CK script is not on the page. label_live is used only on the buttons under the live call boxes. Swap href and formkit_uid when moving from waitlist to registration.",
     "label_live": "Yes, send me the links!"
   },
@@ -54,7 +54,7 @@
         "topic": "Best Tools and Tricks for Asia Travel",
         "time": "",
         "note": "Register for Summit to get the Zoom link",
-        "cta_after": true,
+        "cta_after": false,
         "_placeholder": "Topic is a placeholder - confirm before launch"
       }
     }
