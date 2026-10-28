@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-21",
+  "updated": "2026-10-28",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
@@ -30,7 +30,8 @@
         "deborah",
         "helen-foster",
         "tanya-korteling",
-        "linawati-ismail"
+        "linawati-ismail",
+        "dave-christopher"
       ]
     },
     {
@@ -95,7 +96,7 @@
     },
     {
       "id": "rec5OINTtDaA7cUlM",
-      "title": "Creative accommodation ideas",
+      "title": "Creative Accommodation Ideas",
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
@@ -156,7 +157,7 @@
     },
     {
       "id": "recYL87ldqwH87nEW",
-      "title": "5 sweet spots to fly to Asia with points",
+      "title": "5 Sweet Spots to Fly to Asia With Points",
       "day": 2,
       "kind": "single",
       "sort_rank": 1,
@@ -264,7 +265,7 @@
     },
     {
       "id": "rec1iXKqA8dt3B7XF",
-      "title": "Live panel: PLAN (Day 2)",
+      "title": "Live Panel: PLAN (Day 2)",
       "day": 2,
       "kind": "live_panel",
       "sort_rank": 2,

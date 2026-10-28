@@ -3,10 +3,39 @@
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
-    "source": "Sponsors table records with 'Logo on site' ticked.",
-    "order": "'Logo order', lowest first; blank sorts alphabetically after the numbered ones.",
-    "link": "'Logo link', else 'Website' (reported). Empty = logo not clickable.",
+    "source": "Sponsors table records with Status = Paid.",
+    "order": "'⚙️ Order On Website', lowest first; blank sorts alphabetically after the numbered ones.",
+    "link": "'Website'. Empty = logo not clickable.",
     "logo": "Not stored. The renderer loads images/sponsors/<slug>.png and shows the name as text when it is missing."
   },
-  "sponsors": []
+  "sponsors": [
+    {
+      "name": "Intentional Travelers Toolkit Membership",
+      "slug": "intentional-travelers-toolkit-membership",
+      "link": "https://intentionaltravelers.com/intentional-travelers-toolkit-membership/",
+      "order": 1.0,
+      "airtable_id": "reccT9A2YK1vXKk1s"
+    },
+    {
+      "name": "Medjet",
+      "slug": "medjet",
+      "link": "https://medjet.com/DIY",
+      "order": 2.0,
+      "airtable_id": "recJcXSzj88D5UoPt"
+    },
+    {
+      "name": "Daily Drop",
+      "slug": "daily-drop",
+      "link": "https://www.dailydrop.com/pro?via=intentionaltravel",
+      "order": 3.0,
+      "airtable_id": "rec4XaPYjyfM9RkVQ"
+    },
+    {
+      "name": "HeyJedd Events",
+      "slug": "heyjedd-events",
+      "link": "https://heyjedd.com",
+      "order": 4.0,
+      "airtable_id": "recNYD8Mkog65X4cc"
+    }
+  ]
 }

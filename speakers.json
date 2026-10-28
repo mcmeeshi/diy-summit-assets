@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-21",
+  "updated": "2026-10-28",
   "cycle": "2027",
   "region": "Asia",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
@@ -115,14 +115,14 @@
       "brand": "Daily Drop Pro",
       "role": "sponsor",
       "country": "",
-      "link": "https://www.dailydrop.com/?via=intentionaltravel",
+      "link": "https://www.dailydrop.com/pro?via=intentionaltravel",
       "photo": "",
-      "bio": "",
-      "has_rsvp": false,
-      "has_headshot": false,
+      "bio": "Daniel sources Daily Drop's points and miles deals and is the friendly voice of the support desk. He splits time between Vietnam and the American Midwest with his family in tow, and has a lengthy travel portfolio - 86 countries visited, from Uruguay to Uzbekistan, with some bucket list flights along the way. His first points redemption was for the United Island Hopper through Guam, Micronesia and the Marshall Islands, and he loves a great fifth-freedom flight. Changi Airport is his happy place (he's one of those people who check in 24 hours early for a flight to plane spot) and he's just as happy in economy or first class—so long as he's getting the very best deal.",
+      "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recOikcqPr1RBUH54",
       "talk_titles": [
-        "5 sweet spots to fly to Asia with points"
+        "5 Sweet Spots to Fly to Asia With Points"
       ]
     },
     {
@@ -139,6 +139,22 @@
       "airtable_id": "recVFQN2eQ7Qt6K81",
       "talk_titles": [
         "Splurge or Save: Budgeting Tips For Your Asia Trip"
+      ]
+    },
+    {
+      "slug": "dave-christopher",
+      "name": "Dave Christopher",
+      "brand": "",
+      "role": "expert",
+      "country": "the Philippines",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "has_rsvp": false,
+      "has_headshot": false,
+      "airtable_id": "recljiiM7KMYWUmBZ",
+      "talk_titles": [
+        "Gem Destinations in Asia for First Time Visitors"
       ]
     },
     {
@@ -251,7 +267,7 @@
       "has_headshot": true,
       "airtable_id": "recIgyEkxETIiF2w7",
       "talk_titles": [
-        "Creative accommodation ideas"
+        "Creative Accommodation Ideas"
       ]
     },
     {
@@ -420,7 +436,7 @@
       "brand": "Daily Drop",
       "role": "sponsor",
       "country": "",
-      "link": "https://www.dailydrop.com/team/megan-johnston",
+      "link": "https://www.dailydrop.com/pro?via=intentionaltravel",
       "photo": "",
       "bio": "Megan is the Community Manager at Daily Drop. She grew up going on many road trips with her family but didn’t actually leave the country (or own a passport!) until she was 23. That first international trip truly had her hooked. Her love and knowledge of travel hacking actually came by accident. A serendipitous visit to an airport lounge sparked a conversation with a couple who were travel hacking their way around the world. Megan found that learning and sharing travel tips and wins with others was (and still is) more valuable than any Google search!",
       "has_rsvp": true,
@@ -498,14 +514,14 @@
     {
       "slug": "preethi-chandrasekhar",
       "name": "Preethi Chandrasekhar",
-      "brand": "",
+      "brand": "TheEagerTraveler",
       "role": "speaker",
       "country": "",
-      "link": "",
+      "link": "https://www.instagram.com/eagertravele/?hl=en",
       "photo": "",
-      "bio": "",
-      "has_rsvp": false,
-      "has_headshot": false,
+      "bio": "Preethi Chandrasekhar is a travel writer, photographer, speaker, and founder of TheEagerTraveler, a brand that inspires people to explore the outdoors, embrace adventure, and travel beyond their comfort zones. Born in India and raised  in San Francisco, she brings a unique perspective to storytelling, championing greater representation in travel and outdoor spaces. Through practical travel guides, immersive storytelling, and women’s group trips, she helps travelers build confidence and meaningful connections. Her work centers on the belief that travel can create space for joy, personal growth, and a deeper connection with the world.",
+      "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recYNmfWzQGHi4iX6",
       "talk_titles": [
         "DIY Hybrid: Using Day Tours and Self-Guided Packages in Asia"
