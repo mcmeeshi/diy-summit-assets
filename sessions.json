@@ -273,8 +273,7 @@
       "page_url": "",
       "speakers": [
         "chris-christensen",
-        "kathy-buckworth",
-        "paula-barnes"
+        "kathy-buckworth"
       ]
     },
     {
@@ -394,7 +393,8 @@
       "display_order": 110,
       "page_url": "",
       "speakers": [
-        "malia-yoshioka"
+        "malia-yoshioka",
+        "paula-barnes"
       ]
     }
   ]
