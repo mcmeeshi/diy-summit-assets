@@ -69,13 +69,14 @@ BONUS_SPONSOR_FIELD = "Sponsor?"   # checkbox; ticked = SPONSOR label
 # so whoever uploads them to the repo never has to rename anything.
 BONUS_IMAGE_DIR = "images/bonuses"
 
-# Sponsor logo strip (Sponsors table). Only ticked records are published, so
-# the outreach prospects in the same table never reach the site. Untick
-# everyone at the start of a new cycle.
-SPONSOR_SHOW_FIELD = "Logo on site"     # checkbox: ticked = logo shows on every page
-SPONSOR_LINK_FIELD = "Logo link"        # URL the logo opens; this cycle's link, often an affiliate link
-SPONSOR_ORDER_FIELD = "Logo order"      # optional number; blank sorts alphabetically after the numbered ones
-SPONSOR_FALLBACK_LINK_FIELD = "Website" # used, with a warning, only when Logo link is blank
+# Sponsor logo strip (Sponsors table). Only records whose Status is Paid are
+# published, so the outreach prospects in the same table never reach the site.
+# In-kind sponsors must be set to Paid too, and last cycle's sponsors who are
+# not returning must be moved off Paid at the start of a new cycle.
+SPONSOR_STATUS_FIELD = "Status"
+SPONSOR_STATUS_SHOWN = "Paid"
+SPONSOR_LINK_FIELD = "Website"                      # URL the logo opens
+SPONSOR_ORDER_FIELD = "\u2699\ufe0f Order On Website"  # ⚙️ Order On Website; blank sorts alphabetically after the numbered ones
 # Logos go in images/sponsors/<slug>.png - slug from Company, same rule as
 # speakers ("Vim & Vigr" -> vim-vigr). PNG so transparent backgrounds survive.
 SPONSOR_LOGO_DIR = "images/sponsors"
@@ -434,11 +435,11 @@ def build_bonuses(rows):
 
 
 def build_sponsors(rows):
-    """Ticked Sponsors records, in Logo order then alphabetical. Pure."""
-    sponsors, issues = [], {"no_link": [], "fallback_link": [], "slug_clash": []}
+    """Paid Sponsors records, in website order then alphabetical. Pure."""
+    sponsors, issues = [], {"no_link": [], "tracking": [], "no_order": [], "slug_clash": []}
     seen = {}
     for r in rows:
-        if not f(r, SPONSOR_SHOW_FIELD, False):
+        if f(r, SPONSOR_STATUS_FIELD) != SPONSOR_STATUS_SHOWN:
             continue
         name = str(f(r, "Company") or "").strip()
         if not name:
@@ -448,17 +449,19 @@ def build_sponsors(rows):
 
         link, notes = normalize_url(f(r, SPONSOR_LINK_FIELD))
         if not link:
-            link, notes = normalize_url(f(r, SPONSOR_FALLBACK_LINK_FIELD))
-            if link:
-                issues["fallback_link"].append(f"{name} → `{link}`")
-            else:
-                issues["no_link"].append(name)
+            issues["no_link"].append(name)
+        elif re.search(r"[?&](srsltid|utm_[a-z]+|gclid|fbclid)=", link, flags=re.I):
+            # Copied from a search result rather than the sponsor's own link.
+            # Reported, never stripped - an affiliate link can look similar.
+            issues["tracking"].append(f"{name} → `{link}`")
 
         order = f(r, SPONSOR_ORDER_FIELD, None)
         try:
             order = float(order) if order not in (None, "") else None
         except (TypeError, ValueError):
             order = None
+        if order is None:
+            issues["no_order"].append(name)
 
         sponsors.append({"name": name, "slug": slug, "link": link,
                          "order": order, "airtable_id": r["id"]})
@@ -474,28 +477,30 @@ def sponsor_report(sponsors, issues, field_missing):
 
     lines = ["", "## Sponsor logos", ""]
     if field_missing:
-        lines += [f"> **The Sponsors table has no `{SPONSOR_SHOW_FIELD}` field yet**, so no logos "
-                  "were published. Add it (checkbox), tick the sponsors to show, and run this again."]
+        lines += [f"> **Airtable rejected the filter on `{SPONSOR_STATUS_FIELD}`** - the field was probably "
+                  "renamed. No logos were changed. Update SPONSOR_STATUS_FIELD in scripts/publish.py."]
         return "\n".join(lines)
 
-    lines.append(f"**{len(sponsors)} logos published**, in this order: "
-                 + (", ".join(s["name"] for s in sponsors) or "none - tick "
-                    f"`{SPONSOR_SHOW_FIELD}` on the Sponsors table"))
+    lines.append(f"**{len(sponsors)} logos published** (Status = {SPONSOR_STATUS_SHOWN}), in this order: "
+                 + (", ".join(s["name"] for s in sponsors) or "none"))
     files = set(x for x in os.listdir(SPONSOR_LOGO_DIR) if not x.startswith(".")) \
         if os.path.isdir(SPONSOR_LOGO_DIR) else set()
-    missing = [f"{s['name']} (`{s['slug']}.png`)" for s in sponsors if s["slug"] + ".png" not in files]
     orphans = sorted(f"`{x}`" for x in files if x not in {s["slug"] + ".png" for s in sponsors})
+    lines += ["", "### Logo filenames", "",
+              f"Upload to `{SPONSOR_LOGO_DIR}/` as transparent PNGs named exactly:", ""]
+    lines += [f"- `{s['slug']}.png` - {s['name']}"
+              + ("" if s["slug"] + ".png" in files else " **(not uploaded yet)**") for s in sponsors]
     lines += [
         "", "### Worth a look", "",
-        f"- No `{SPONSOR_LINK_FIELD}`, so the logo uses `{SPONSOR_FALLBACK_LINK_FIELD}` - "
-        f"check it is the link you want ({len(issues['fallback_link'])}): {j(issues['fallback_link'])}",
-        f"- No link at all, logo is not clickable ({len(issues['no_link'])}): {j(issues['no_link'])}",
+        f"- No `{SPONSOR_LINK_FIELD}`, logo is not clickable ({len(issues['no_link'])}): {j(issues['no_link'])}",
+        f"- Link carries search or ad tracking - probably not the link you meant "
+        f"({len(issues['tracking'])}): {j(issues['tracking'])}",
+        f"- No `{SPONSOR_ORDER_FIELD}`, sorted alphabetically after the numbered ones "
+        f"({len(issues['no_order'])}): {j(issues['no_order'])}",
         f"- **Two sponsors share a slug** - one logo file would show for both "
         f"({len(issues['slug_clash'])}): {j(issues['slug_clash'])}",
         "", "### Logo files in the repo", "",
-        f"- Waiting to be uploaded to `{SPONSOR_LOGO_DIR}/` - shows the name as text until then "
-        f"({len(missing)}): {j(missing)}",
-        f"- Files no ticked sponsor uses - harmless, last cycle's logos stay here for reuse "
+        f"- Files no current sponsor uses - harmless, last cycle's logos stay here for reuse "
         f"({len(orphans)}): {j(orphans)}",
     ]
     return "\n".join(lines)
@@ -665,7 +670,9 @@ def main():
     speakers, sessions, link_report = build(rows["speakers"], rows["rsvp"], rows["topics"])
     bonuses, bonus_issues = build_bonuses(rows["bonuses"])
     try:
-        sponsor_rows = fetch_table(token, SPONSORS_TABLE, formula="{" + SPONSOR_SHOW_FIELD + "}")
+        sponsor_rows = fetch_table(
+            token, SPONSORS_TABLE,
+            formula="{" + SPONSOR_STATUS_FIELD + "}='" + SPONSOR_STATUS_SHOWN + "'")
         sponsor_field_missing = False
     except FieldMissing:
         sponsor_rows, sponsor_field_missing = [], True
@@ -730,9 +737,9 @@ def main():
             "updated": today, "cycle": CYCLE,
             "_generated_by": generated,
             "_field_notes": {
-                "source": f"Sponsors table records with '{SPONSOR_SHOW_FIELD}' ticked.",
+                "source": f"Sponsors table records with {SPONSOR_STATUS_FIELD} = {SPONSOR_STATUS_SHOWN}.",
                 "order": f"'{SPONSOR_ORDER_FIELD}', lowest first; blank sorts alphabetically after the numbered ones.",
-                "link": f"'{SPONSOR_LINK_FIELD}', else '{SPONSOR_FALLBACK_LINK_FIELD}' (reported). Empty = logo not clickable.",
+                "link": f"'{SPONSOR_LINK_FIELD}'. Empty = logo not clickable.",
                 "logo": f"Not stored. The renderer loads {SPONSOR_LOGO_DIR}/<slug>.png and shows the name as text when it is missing.",
             },
             "sponsors": sponsors,

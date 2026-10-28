@@ -25,7 +25,7 @@
      sessions.json  - what is presented, by whom, on which day
      schedule.json  - day themes, live calls, CTA config, bonus labels
      bonuses.json   - approved First Class Pass bonuses
-     sponsors.json  - sponsors ticked "Logo on site" in Airtable
+     sponsors.json  - Sponsors table records with Status = Paid
    ============================================================ */
 (function () {
   "use strict";
