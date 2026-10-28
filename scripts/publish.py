@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build speakers.json, sessions.json and bonuses.json from Airtable.
+"""Build speakers.json, sessions.json, bonuses.json and sponsors.json from Airtable.
 
 Run by .github/workflows/publish-page-data.yml, which is triggered by the
 "Run workflow" button on the repo's Actions tab (or on a schedule).
@@ -38,6 +38,10 @@ TABLES = {
     "bonuses": "tbljyR77IdURVWOwX",    # Contributor Submission
 }
 
+# Sponsors is fetched separately (see main), filtered to ticked records only,
+# because the table also holds every outreach prospect ever pitched.
+SPONSORS_TABLE = "tblSbKXbeJh6qnANH"
+
 CYCLE = "2027"
 REGION = "Asia"
 
@@ -65,14 +69,33 @@ BONUS_SPONSOR_FIELD = "Sponsor?"   # checkbox; ticked = SPONSOR label
 # so whoever uploads them to the repo never has to rename anything.
 BONUS_IMAGE_DIR = "images/bonuses"
 
+# Sponsor logo strip (Sponsors table). Only ticked records are published, so
+# the outreach prospects in the same table never reach the site. Untick
+# everyone at the start of a new cycle.
+SPONSOR_SHOW_FIELD = "Logo on site"     # checkbox: ticked = logo shows on every page
+SPONSOR_LINK_FIELD = "Logo link"        # URL the logo opens; this cycle's link, often an affiliate link
+SPONSOR_ORDER_FIELD = "Logo order"      # optional number; blank sorts alphabetically after the numbered ones
+SPONSOR_FALLBACK_LINK_FIELD = "Website" # used, with a warning, only when Logo link is blank
+# Logos go in images/sponsors/<slug>.png - slug from Company, same rule as
+# speakers ("Vim & Vigr" -> vim-vigr). PNG so transparent backgrounds survive.
+SPONSOR_LOGO_DIR = "images/sponsors"
+
 
 # --------------------------------------------------------------- fetching --
 
-def fetch_table(token, table_id):
-    """Every record in one table, following pagination."""
+class FieldMissing(Exception):
+    """The formula named a field the table does not have (Airtable 422)."""
+
+
+def fetch_table(token, table_id, formula=None):
+    """Every record in one table, following pagination. With formula, only
+    the matching records - and FieldMissing if the formula names a field the
+    table does not have, so the caller can report it instead of failing."""
     records, offset = [], None
     while True:
         params = {"pageSize": "100"}
+        if formula:
+            params["filterByFormula"] = formula
         if offset:
             params["offset"] = offset
         url = (
@@ -85,6 +108,8 @@ def fetch_table(token, table_id):
                 payload = json.load(resp)
         except urllib.error.HTTPError as err:
             body = err.read().decode("utf-8", "replace")[:400]
+            if formula and err.code == 422 and "UNKNOWN_FIELD_NAME" in body:
+                raise FieldMissing(body)
             raise SystemExit(
                 f"Airtable returned {err.code} for table {table_id}.\n{body}\n\n"
                 "401 or 403 usually means the token is missing, expired, or has no "
@@ -408,6 +433,74 @@ def build_bonuses(rows):
     return bonuses, issues
 
 
+def build_sponsors(rows):
+    """Ticked Sponsors records, in Logo order then alphabetical. Pure."""
+    sponsors, issues = [], {"no_link": [], "fallback_link": [], "slug_clash": []}
+    seen = {}
+    for r in rows:
+        if not f(r, SPONSOR_SHOW_FIELD, False):
+            continue
+        name = str(f(r, "Company") or "").strip()
+        if not name:
+            continue
+        slug = slugify(name)
+        seen.setdefault(slug, []).append(name)
+
+        link, notes = normalize_url(f(r, SPONSOR_LINK_FIELD))
+        if not link:
+            link, notes = normalize_url(f(r, SPONSOR_FALLBACK_LINK_FIELD))
+            if link:
+                issues["fallback_link"].append(f"{name} → `{link}`")
+            else:
+                issues["no_link"].append(name)
+
+        order = f(r, SPONSOR_ORDER_FIELD, None)
+        try:
+            order = float(order) if order not in (None, "") else None
+        except (TypeError, ValueError):
+            order = None
+
+        sponsors.append({"name": name, "slug": slug, "link": link,
+                         "order": order, "airtable_id": r["id"]})
+
+    issues["slug_clash"] = [" / ".join(n) for n in seen.values() if len(n) > 1]
+    sponsors.sort(key=lambda s: (s["order"] is None, s["order"] or 0, s["name"].lower()))
+    return sponsors, issues
+
+
+def sponsor_report(sponsors, issues, field_missing):
+    def j(rows):
+        return ", ".join(rows) or "none"
+
+    lines = ["", "## Sponsor logos", ""]
+    if field_missing:
+        lines += [f"> **The Sponsors table has no `{SPONSOR_SHOW_FIELD}` field yet**, so no logos "
+                  "were published. Add it (checkbox), tick the sponsors to show, and run this again."]
+        return "\n".join(lines)
+
+    lines.append(f"**{len(sponsors)} logos published**, in this order: "
+                 + (", ".join(s["name"] for s in sponsors) or "none - tick "
+                    f"`{SPONSOR_SHOW_FIELD}` on the Sponsors table"))
+    files = set(x for x in os.listdir(SPONSOR_LOGO_DIR) if not x.startswith(".")) \
+        if os.path.isdir(SPONSOR_LOGO_DIR) else set()
+    missing = [f"{s['name']} (`{s['slug']}.png`)" for s in sponsors if s["slug"] + ".png" not in files]
+    orphans = sorted(f"`{x}`" for x in files if x not in {s["slug"] + ".png" for s in sponsors})
+    lines += [
+        "", "### Worth a look", "",
+        f"- No `{SPONSOR_LINK_FIELD}`, so the logo uses `{SPONSOR_FALLBACK_LINK_FIELD}` - "
+        f"check it is the link you want ({len(issues['fallback_link'])}): {j(issues['fallback_link'])}",
+        f"- No link at all, logo is not clickable ({len(issues['no_link'])}): {j(issues['no_link'])}",
+        f"- **Two sponsors share a slug** - one logo file would show for both "
+        f"({len(issues['slug_clash'])}): {j(issues['slug_clash'])}",
+        "", "### Logo files in the repo", "",
+        f"- Waiting to be uploaded to `{SPONSOR_LOGO_DIR}/` - shows the name as text until then "
+        f"({len(missing)}): {j(missing)}",
+        f"- Files no ticked sponsor uses - harmless, last cycle's logos stay here for reuse "
+        f"({len(orphans)}): {j(orphans)}",
+    ]
+    return "\n".join(lines)
+
+
 # ---------------------------------------------------------------- reports --
 
 IMAGE_DIR = "images/speakers"
@@ -571,6 +664,12 @@ def main():
     rows = {k: fetch_table(token, tid) for k, tid in TABLES.items()}
     speakers, sessions, link_report = build(rows["speakers"], rows["rsvp"], rows["topics"])
     bonuses, bonus_issues = build_bonuses(rows["bonuses"])
+    try:
+        sponsor_rows = fetch_table(token, SPONSORS_TABLE, formula="{" + SPONSOR_SHOW_FIELD + "}")
+        sponsor_field_missing = False
+    except FieldMissing:
+        sponsor_rows, sponsor_field_missing = [], True
+    sponsors, sponsor_issues = build_sponsors(sponsor_rows)
 
     if not speakers:
         raise SystemExit(
@@ -624,7 +723,23 @@ def main():
         "bonuses": bonuses,
     })
 
-    summary = report(speakers, sessions, link_report) + "\n" + bonus_report(bonuses, bonus_issues)
+    # An empty list is a valid result here (no sponsors ticked yet), unlike
+    # speakers - but never overwrite live logos because the field went missing.
+    if not sponsor_field_missing:
+        write_json("sponsors.json", {
+            "updated": today, "cycle": CYCLE,
+            "_generated_by": generated,
+            "_field_notes": {
+                "source": f"Sponsors table records with '{SPONSOR_SHOW_FIELD}' ticked.",
+                "order": f"'{SPONSOR_ORDER_FIELD}', lowest first; blank sorts alphabetically after the numbered ones.",
+                "link": f"'{SPONSOR_LINK_FIELD}', else '{SPONSOR_FALLBACK_LINK_FIELD}' (reported). Empty = logo not clickable.",
+                "logo": f"Not stored. The renderer loads {SPONSOR_LOGO_DIR}/<slug>.png and shows the name as text when it is missing.",
+            },
+            "sponsors": sponsors,
+        })
+
+    summary = (report(speakers, sessions, link_report) + "\n" + bonus_report(bonuses, bonus_issues)
+               + "\n" + sponsor_report(sponsors, sponsor_issues, sponsor_field_missing))
     print(summary)
     path = os.environ.get("GITHUB_STEP_SUMMARY")
     if path:

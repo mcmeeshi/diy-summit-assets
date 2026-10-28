@@ -14,6 +14,7 @@
                  (data-featured="4" overrides how many get full cards;
                   data-cta-href="#id" overrides where the buttons scroll;
                   data-cta="off" hides the buttons)
+     sponsors  - sponsor logo strip, same on every page it is pasted on
 
    Data attributes:
      data-cta="off"        hides all CTA buttons
@@ -24,6 +25,7 @@
      sessions.json  - what is presented, by whom, on which day
      schedule.json  - day themes, live calls, CTA config, bonus labels
      bonuses.json   - approved First Class Pass bonuses
+     sponsors.json  - sponsors ticked "Logo on site" in Airtable
    ============================================================ */
 (function () {
   "use strict";
@@ -78,6 +80,14 @@
     ".itrav-live .itrav-tba{color:#999;font-style:italic;font-weight:400;}",
 
     ".itrav-cta-wrap{text-align:center;margin:30px 0 0;}",
+
+    /* sponsor logos: centred rows of five, so a short last row stays balanced */
+    ".itrav-sp{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;row-gap:30px;}",
+    ".itrav-sp-item{flex:0 0 20%;height:150px;padding:8px 18px;display:flex;align-items:center;justify-content:center;text-decoration:none;}",
+    "a.itrav-sp-item:hover{opacity:.8;}",
+    "a.itrav-sp-item:focus-visible{outline:2px solid #657a9d;outline-offset:2px;}",
+    ".itrav-sp-logo{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;}",
+    ".itrav-sp-name{font-family:inherit;font-size:18px;font-weight:700;color:#657a9d;text-align:center;line-height:1.3;}",
     ".itrav-cta{display:inline-block;font-family:inherit;background:#F2C181;color:#1A1A1A !important;",
     "font-size:16px;font-weight:700;letter-spacing:.8px;padding:16px 38px;border-radius:6px;",
     "text-transform:uppercase;text-decoration:none !important;line-height:1.2;",
@@ -226,7 +236,9 @@
     "a.itrav-bn-cta{display:block;font-size:17px;padding:15px 20px;}",
     ".itrav-bn-cta-wrap{margin:0 0 36px;}",
     "}",
-    "@media (prefers-reduced-motion:reduce){button.itrav-bn-more::after{transition:none;}}"
+    "@media (prefers-reduced-motion:reduce){button.itrav-bn-more::after{transition:none;}}",
+    "@media (max-width:900px){.itrav-sp-item{flex-basis:33.333%;height:130px;}}",
+    "@media (max-width:480px){.itrav-sp-item{flex-basis:50%;height:105px;padding:6px 12px;}}",
   ].join("");
 
   function injectCSS() {
@@ -277,6 +289,10 @@
         div.className = "itrav-initials";
         div.setAttribute("aria-hidden", "true");
         div.textContent = img.getAttribute("data-initials") || "";
+      } else if (img.classList.contains("itrav-sp-logo")) {
+        div = document.createElement("span");
+        div.className = "itrav-sp-name";
+        div.textContent = img.getAttribute("alt") || "";
       } else if (img.classList.contains("itrav-bn-img")) {
         var wrap = document.createElement("div");
         wrap.innerHTML = bonusTile(img.getAttribute("data-title"), img.getAttribute("data-brand"));
@@ -676,6 +692,22 @@
     });
   }
 
+  /* Sponsor logos. Who shows, in what order and where each links all come
+     from Airtable via sponsors.json, so one edit updates every page. The
+     logo is images/sponsors/<slug>.png by convention - uploading a correctly
+     named file is the whole job. A missing file shows the name as text. */
+  function renderSponsors(el, data) {
+    var list = (data.sponsors && data.sponsors.sponsors) || [];
+    if (!list.length) return;
+    el.innerHTML = '<div class="itrav-sp">' + list.map(function (s) {
+      var img = '<img class="itrav-sp-logo" src="' + BASE + "images/sponsors/" + esc(s.slug) +
+                '.png" alt="' + esc(s.name) + '" loading="lazy">';
+      return s.link
+        ? '<a class="itrav-sp-item" href="' + esc(s.link) + '" target="_blank" rel="sponsored noopener">' + img + "</a>"
+        : '<div class="itrav-sp-item">' + img + "</div>";
+    }).join("") + "</div>";
+  }
+
   /* Page builders put an HTML element in a box the editor sizes by hand,
      which clips the block whenever bonuses are added or Read more opens.
      So the block sizes its own container, in whichever form it finds:
@@ -743,7 +775,8 @@
     schedule: { fn: renderSchedule, files: ["speakers", "sessions", "schedule"] },
     directory: { fn: renderDirectory, files: ["speakers", "schedule"] },
     day: { fn: renderDay, files: ["speakers", "sessions", "schedule"] },
-    bonuses: { fn: renderBonuses, files: ["bonuses", "schedule"] }
+    bonuses: { fn: renderBonuses, files: ["bonuses", "schedule"] },
+    sponsors: { fn: renderSponsors, files: ["sponsors"] }
   };
 
   /* One request per file per page, however many times boot() runs. */

@@ -1,0 +1,12 @@
+{
+  "updated": "2026-10-28",
+  "cycle": "2027",
+  "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
+  "_field_notes": {
+    "source": "Sponsors table records with 'Logo on site' ticked.",
+    "order": "'Logo order', lowest first; blank sorts alphabetically after the numbered ones.",
+    "link": "'Logo link', else 'Website' (reported). Empty = logo not clickable.",
+    "logo": "Not stored. The renderer loads images/sponsors/<slug>.png and shows the name as text when it is missing."
+  },
+  "sponsors": []
+}
