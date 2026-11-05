@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-11-05",
   "cycle": "2027",
   "region": "Asia",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
@@ -74,7 +74,7 @@
       "has_headshot": true,
       "airtable_id": "rec2LhLgyyGEfuyxi",
       "talk_titles": [
-        "How to Find $50ish/night Hotels"
+        "Tokyo, Singapore & Beyond: How to Find $50ish/Night Hotels in Expensive Cities (No Credit Card Points Needed)"
       ]
     },
     {
@@ -101,7 +101,7 @@
       "country": "",
       "link": "https://amateurtraveler.com",
       "photo": "",
-      "bio": "Chris is the award-winning creator of AmateurTraveler.com. Amateur Traveler is a popular online travel podcast and blog that focuses primarily on travel destinations. The podcast, which is 21+ years old, has 1000+ episodes and was downloaded over 1.98 million times in 2025. Chris is in the Podcast Hall of Fame.\n\nIn 2025, 52 different episodes of the Amateur Traveler were available on the entertainment systems of 8 different airlines",
+      "bio": "Chris is the award-winning creator of AmateurTraveler.com. Amateur Traveler is a popular online travel podcast and blog that focuses primarily on travel destinations. The podcast, which is 21+ years old, has 1000+ episodes and was downloaded over 1.98 million times in 2025. Chris is in the Podcast Hall of Fame.\n\nIn 2025, 52 different episodes of the Amateur Traveler were available on the entertainment systems of 8 different airlines.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recj3rDexvuZZmMzD",
@@ -133,7 +133,7 @@
       "country": "",
       "link": "https://travelingcheesehead.com",
       "photo": "",
-      "bio": "Dannelle Fraser Gay, known as The Traveling Cheesehead, is an award-winning travel writer, television host, podcaster, author, and professional chef with a passion for uncovering unforgettable destinations, unique experiences, and incredible food. Her television series, The Traveling Cheesehead Visits, airs on 91 stations across five states, while her travel writing, podcast, and social media platforms inspire audiences to explore beyond the ordinary. She is also the founder and editor of The Adapted Adventurer, an accessibility-focused travel publication dedicated to making travel more inclusive for everyone. Through authentic storytelling, engaging video content, and a loyal community of travelers, Dannelle helps destinations and brands connect with audiences ready to discover their next adventure.",
+      "bio": "Dannelle Fraser Gay, known as The Traveling Cheesehead, is an award-winning travel writer, television host, podcaster, author, and professional chef with a passion for uncovering unforgettable destinations, unique experiences, and incredible food. Her television series, The Traveling Cheesehead Visits, airs on 91 stations across five states, while her travel writing, podcast, and social media platforms inspire audiences to explore beyond the ordinary. She is also the founder and editor of The Adapted Adventurer, an accessibility-focused travel publication dedicated to making travel more inclusive for everyone.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recVFQN2eQ7Qt6K81",
@@ -142,16 +142,16 @@
       ]
     },
     {
-      "slug": "dave-christopher",
-      "name": "Dave Christopher",
-      "brand": "",
+      "slug": "dave-and-abby",
+      "name": "Dave and Abby",
+      "brand": "Dave On Arrival",
       "role": "expert",
       "country": "the Philippines",
-      "link": "",
+      "link": "https://www.youtube.com/DaveOnArrival",
       "photo": "",
-      "bio": "",
-      "has_rsvp": false,
-      "has_headshot": false,
+      "bio": "Dave has run the travel YouTube channel, Dave On Arrival, for 10 years showcasing the unique and extraordinary experiences that only traveling beyond your comfort zone can offer. He met Abby in the Philippines while he was on assignment in Manila in 2022 and decided to make the city his home base as their relationship grew. They now travel through the many provinces of the Philippines and take regular trips to other Asian countries to showcase the amazingly diverse cultures, food, and traditions that Asia has to offer.",
+      "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recljiiM7KMYWUmBZ",
       "talk_titles": [
         "Gem Destinations in Asia for First Time Visitors"
@@ -181,7 +181,7 @@
       "country": "",
       "link": "https://explorewitherin.com/",
       "photo": "",
-      "bio": "Erin Holmes is the founder of Explore With Erin, an established travel blog sharing stories, destination guides and travel inspiration from more than 80 countries. With over 14 years of experience in travel blogging, content creation and influencer marketing, Erin works with tourism boards, hotels and travel brands to create engaging, SEO-driven content that inspires travellers and delivers long-term value. She is also a speaker, sharing her expertise in travel blogging, digital marketing and creator partnerships, and hosts small-group international trips that bring like-minded travellers together for immersive, locally connected experiences. Through her blog, social media platforms, and hosted adventures, Erin helps brands connect with audiences while inspiring people to see more of the world.",
+      "bio": "Erin Holmes is the founder of Explore With Erin, a travel blog sharing stories, destination guides and inspiration from more than 80 countries. With over 14 years of travel blogging behind her, she also hosts small-group international trips that bring like-minded travellers together for immersive, locally connected experiences.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recxvxba0QbzZh4gi",
@@ -245,7 +245,7 @@
       "country": "",
       "link": "https://intentionaltravelers.com",
       "photo": "",
-      "bio": "test diy",
+      "bio": "Jedd Chang is the co-founder of Intentional Travelers. He grew up in Hawaii and started traveling internationally after marrying Michelle in 2008. In 2011 they left their traditional jobs to serve as Peace Corps Volunteers in rural Jamaica, and they have been location-independent since 2014, traveling across more than 30 countries. A natural extrovert and technology buff with a background in communications and customer service, Jedd helps travelers use smart tools to plan with less stress.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recjZz5yacXn1lxss",
@@ -267,7 +267,7 @@
       "has_headshot": true,
       "airtable_id": "recIgyEkxETIiF2w7",
       "talk_titles": [
-        "Creative Accommodation Ideas"
+        "House-sitting in Asia (and beyond)"
       ]
     },
     {
@@ -374,7 +374,7 @@
       "country": "Malaysia",
       "link": "https://www.malaysia.travel/explore/choose-your-malaysia-mix",
       "photo": "",
-      "bio": "Linawati Ismail is Deputy Director, Americas at Tourism Malaysia.\n\nMalaysia Tourism Promotion Board, also known as Tourism Malaysia, is an agency under the Ministry of Tourism, Arts and Culture Malaysia (MOTAC). It focuses on promoting Malaysia as a preferred tourism destination and has, since its establishment, played a significant role in strengthening the country’s presence and competitiveness in the global tourism landscape.\n\nVisit Malaysia 2026/2027 (VM2026/2027) underscores Malaysia’s commitment to sustainable tourism development, in line with the United Nations Sustainable Development Goals (UNSDGs). The campaign aims to showcase the nation’s diverse natural attractions, rich cultural heritage, and vibrant tourism offerings, while driving inclusive growth and long-term value for local communities and industry stakeholders.",
+      "bio": "Linawati Ismail is Deputy Director, Americas at Tourism Malaysia, the country's official tourism promotion board. She helps travelers from the Americas discover Malaysia's natural attractions, cultural heritage and food, and is part of the team behind Visit Malaysia 2026/2027.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recIhAsvoFffcRxFA",
@@ -390,7 +390,7 @@
       "country": "",
       "link": "https://lindsaydoeslanguages.com/",
       "photo": "",
-      "bio": "Lindsay Does Languages makes language learning feel easy without it taking over your life. Through personal language coaching suitable for all languages at any level, you can finally move beyond the first page of your coursebook and have something to show for that Duolingo streak you've been keeping so dutifully! Lindsay has studied 15+ languages to a decent level in the past (even if some take a little tuning back into!) and has dabbled in many more - often for travel. She is currently slow travelling in Asia.",
+      "bio": "Lindsay Dow is the language coach behind Lindsay Does Languages, helping learners of any language and level make real progress without it taking over their lives. She has studied 15+ languages, many of them for travel, and is currently slow traveling in Asia.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recCkKx3Tv5MKjleO",
@@ -471,7 +471,7 @@
       "country": "",
       "link": "https://www.youtube.com/@TheFreedomStrategy",
       "photo": "",
-      "bio": "Paul and Heather share practical strategies to help you explore the world with confidence, comfort, and zero fluff on The Freedom Strategy YouTube Channel. Why limit yourself to just one way to travel? We believe the ultimate retirement lifestyle embraces it all—exploring across the roads, the rails, and the waves.",
+      "bio": "Paul and Heather share practical strategies to help you explore the world with confidence, comfort, and zero fluff on The Freedom Strategy YouTube Channel. Why limit yourself to just one way to travel? They believe the ultimate retirement lifestyle embraces it all—exploring across the roads, the rails, and the waves.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "reclBNdPRFNy2EQy4",
@@ -482,14 +482,14 @@
     {
       "slug": "paula-barnes",
       "name": "Paula Barnes",
-      "brand": "Truly Expat",
+      "brand": "Truly Expat Travel",
       "role": "speaker",
       "country": "",
-      "link": "",
+      "link": "https://www.trulyexpattravel.com",
       "photo": "",
-      "bio": "",
-      "has_rsvp": false,
-      "has_headshot": false,
+      "bio": "Paula is the founder of Truly Expat Travel, a travel brand spanning a blog, podcast, YouTube channel, Pinterest and Instagram. After eight postings across Asia, she now calls Hong Kong home (again!).\n\nWhen her son finished school, Paula packed a bag and started travelling solo. She hasn't stopped since. Now she helps women over 50 find the confidence to go and see the world.\n\nExpect real, honest tips, zero anxiety and plenty of laughs. Paula also hosts female group trips, where strangers become friends and half the group is planning the next adventure before this one's even over.\n\nHer motto? Travel isn't ending, it's just beginning.",
+      "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recMcQ240O0kCSQvH",
       "talk_titles": [
         "Expert Panelist"
@@ -519,7 +519,7 @@
       "country": "",
       "link": "https://www.instagram.com/eagertravele/?hl=en",
       "photo": "",
-      "bio": "Preethi Chandrasekhar is a travel writer, photographer, speaker, and founder of TheEagerTraveler, a brand that inspires people to explore the outdoors, embrace adventure, and travel beyond their comfort zones. Born in India and raised  in San Francisco, she brings a unique perspective to storytelling, championing greater representation in travel and outdoor spaces. Through practical travel guides, immersive storytelling, and women’s group trips, she helps travelers build confidence and meaningful connections. Her work centers on the belief that travel can create space for joy, personal growth, and a deeper connection with the world.",
+      "bio": "Preethi Chandrasekhar is a travel writer, photographer, speaker, and founder of TheEagerTraveler, a brand that inspires people to explore the outdoors, embrace adventure, and travel beyond their comfort zones. Born in India and raised in San Francisco, she brings a unique perspective to storytelling, championing greater representation in travel and outdoor spaces. Through practical travel guides, immersive storytelling, and women’s group trips, she helps travelers build confidence and meaningful connections. Her work centers on the belief that travel can create space for joy, personal growth, and a deeper connection with the world.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recYNmfWzQGHi4iX6",
@@ -567,7 +567,7 @@
       "country": "",
       "link": "https://medjetassist.com/",
       "photo": "",
-      "bio": "Sheri Howell spent 14 years at MTV (“during the good years”), where as VP Music & Talent she helped evolve a \"little niche music television channel\" into one of the most internationally recognized brands in history. She currently oversees all aspects of marketing for Medjet, the premier global air medical transport and security response membership program for travelers. “I love Medjet and cannot believe I wasn’t a member my whole life.\"",
+      "bio": "Sheri Howell leads marketing for Medjet, the air medical transport and security response membership for travelers. Before Medjet, she spent 14 years at MTV as VP Music & Talent. She's a Medjet member herself and says she can't believe she wasn't one her whole life.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recp5wFwC2eJ2zBCt",
@@ -663,7 +663,7 @@
       "country": "China",
       "link": "https://www.youtube.com/@Vickipedia_China",
       "photo": "",
-      "bio": "Chinese creator and founder of Vickipedia China, helping international travelers discover and navigate China with more confidence. A former marketer, global traveler to 20+ countries, and local friend sharing practical travel advice, real experiences, and a more human side of China. Making China feel less unfamiliar, one story at a time.",
+      "bio": "Vicki is a Chinese creator and the founder of Vickipedia China, helping international travelers discover and navigate China with more confidence. A former marketer who has traveled to 20+ countries, she shares practical advice, real experiences and a more human side of China.",
       "has_rsvp": true,
       "has_headshot": true,
       "airtable_id": "recoYNkEu4dzUejVg",
