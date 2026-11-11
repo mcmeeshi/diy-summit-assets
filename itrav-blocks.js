@@ -900,6 +900,15 @@
           '" allowfullscreen="true" scrolling="no"></iframe></div>'
       : '<div class="itrav-ss-video itrav-ss-soon">' + esc(cfg.video_soon || "Video coming soon") + "</div>";
 
+    /* Pre-filled with this session's record in the FORMS base Topics table
+       (schedule.json -> session_page.feedback_topics); plain form otherwise. */
+    var feedback = cfg.feedback_form_url || "";
+    var topicRec = (cfg.feedback_topics || {})[sess.id];
+    if (feedback && topicRec) {
+      feedback += (feedback.indexOf("?") > -1 ? "&" : "?") + "prefill_" +
+                  encodeURIComponent(cfg.feedback_prefill_field || "Presentation") + "=" +
+                  encodeURIComponent(topicRec);
+    }
     var meta = "";
     if (!learn) {
       meta = '<div class="itrav-ss-meta">' +
@@ -907,9 +916,9 @@
           ? "<p><strong>" + esc(cfg.questions_lead || "") + "</strong> " +
               ext(cfg.questions_href, cfg.questions_link_text || "") + "</p>"
           : "") +
-        ((sess.feedback_url || cfg.feedback_fallback_href)
+        (feedback
           ? "<p><strong>" + esc(cfg.feedback_lead || "") + "</strong> " +
-              ext(sess.feedback_url || cfg.feedback_fallback_href, cfg.feedback_link_text || "") + "</p>"
+              ext(feedback, cfg.feedback_link_text || "") + "</p>"
           : "") +
         "</div>";
     }

@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
-"""Build speakers.json, sessions.json, bonuses.json, sponsors.json and
-email-list.html from Airtable, and keep the feedback form's Topics list in step.
+"""Build speakers.json, sessions.json, bonuses.json and sponsors.json from Airtable.
 
 Run by .github/workflows/publish-page-data.yml, which is triggered by the
 "Run workflow" button on the repo's Actions tab (or on a schedule).
 
-Environment variables (repository secrets, never in this file):
-  AIRTABLE_TOKEN        data.records:read on the Summit '27 base.
-  AIRTABLE_FORMS_TOKEN  data.records:read + data.records:write on the
-                        Summit '27 FORMS base ONLY. Used to add each session to
-                        the feedback form's Topics table and build its pre-filled
-                        feedback link. Optional: without it, links are skipped.
-  DRY_RUN               "true" = report only. Nothing is written to the FORMS
-                        base either; the report lists what would be.
+Needs one environment variable: AIRTABLE_TOKEN, a personal access token with
+data.records:read on the Summit '27 base. It is stored as a repository secret,
+never in this file.
 
 NOT written here: schedule.json. That is hand-maintained config - day themes,
 live call headings and topics, CTA labels, directory grouping. This script
@@ -29,7 +23,6 @@ import json
 import os
 import re
 import sys
-import time
 import unicodedata
 import urllib.error
 import urllib.parse
@@ -95,24 +88,6 @@ SPONSOR_LOGO_DIR = "images/sponsors"
 # code or watch link, only the video ID is kept.
 VIDEO_FIELD = "Screenpal Video"
 
-# Speaker feedback form, in the Summit '27 FORMS base. Each session needs a
-# record in its Topics table; the form's Presentation field links to it, and the
-# feedback link pre-fills that record. FORMS_KEY_FIELD holds the Presentation
-# Topics record ID, so a renamed title updates the same Topics record instead of
-# starting a new one. The script only ever creates and renames Topics records -
-# it never deletes, and never touches the Speaker Feedback responses.
-FORMS_BASE_ID = "appryEO5ICnP0xQGG"
-FORMS_TOPICS_TABLE = "tblEeW0yNTMptx2pB"
-FORMS_NAME_FIELD = "Name"
-FORMS_LINK_FIELD = "Full link"
-FORMS_KEY_FIELD = "Summit Topic ID"
-FEEDBACK_FORM_URL = "https://airtable.com/appryEO5ICnP0xQGG/shroI9vTrGLIvPlMj"
-FEEDBACK_PREFILL_FIELD = "Presentation"
-
-# Daily presentation list for emails (email-list.html, served by GitHub Pages).
-EMAIL_LIST_FILE = "email-list.html"
-DAY_WORDS = {1: "One", 2: "Two", 3: "Three"}
-
 
 # --------------------------------------------------------------- fetching --
 
@@ -120,7 +95,7 @@ class FieldMissing(Exception):
     """The formula named a field the table does not have (Airtable 422)."""
 
 
-def fetch_table(token, table_id, formula=None, base=BASE_ID):
+def fetch_table(token, table_id, formula=None):
     """Every record in one table, following pagination. With formula, only
     the matching records - and FieldMissing if the formula names a field the
     table does not have, so the caller can report it instead of failing."""
@@ -132,7 +107,7 @@ def fetch_table(token, table_id, formula=None, base=BASE_ID):
         if offset:
             params["offset"] = offset
         url = (
-            f"https://api.airtable.com/v0/{base}/{table_id}"
+            f"https://api.airtable.com/v0/{BASE_ID}/{table_id}"
             f"?{urllib.parse.urlencode(params)}"
         )
         req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
@@ -144,10 +119,9 @@ def fetch_table(token, table_id, formula=None, base=BASE_ID):
             if formula and err.code == 422 and "UNKNOWN_FIELD_NAME" in body:
                 raise FieldMissing(body)
             raise SystemExit(
-                f"Airtable returned {err.code} for table {table_id} in base {base}.\n{body}\n\n"
+                f"Airtable returned {err.code} for table {table_id}.\n{body}\n\n"
                 "401 or 403 usually means the token is missing, expired, or has no "
-                "access to this base. Check the AIRTABLE_TOKEN (or, for the FORMS base, "
-                "AIRTABLE_FORMS_TOKEN) repository secret."
+                "access to this base. Check the AIRTABLE_TOKEN repository secret."
             )
         records.extend(payload.get("records", []))
         offset = payload.get("offset")
@@ -176,16 +150,6 @@ def clean_title(t):
     t = re.sub(r"^[^\w(]+", "", str(t or ""))              # leading emoji / marker
     t = re.sub(r"\s*\(Destination Experts\)\s*$", "", t)   # group suffix
     return re.sub(r"\s+", " ", t).strip()
-
-
-def title_icon(raw_title):
-    """The day emoji at the start of a title (💡 / 📝 / 🧳), minus any group
-    marker. Used to prefix each line of the email list, as in past cycles."""
-    m = re.match(r"^([^\w(]+)", str(raw_title or ""))
-    lead = m.group(1) if m else ""
-    for marker in GROUP_MARKERS:
-        lead = lead.replace(marker, "")
-    return lead.strip()
 
 
 def session_kind(raw_title):
@@ -318,7 +282,6 @@ def build(speaker_rows, rsvp_rows, topic_rows):
         sessions.append({
             "id": row["id"],
             "title": clean_title(raw_title),
-            "icon": title_icon(raw_title),
             "day": day,
             "kind": session_kind(raw_title),
             "sort_rank": min(ROLE_RANK[p["role"]] for p in cast),
@@ -680,12 +643,23 @@ def session_page_report(sessions, issues, schedule):
 
     pages = [s for s in sessions if s["kind"] != "live_panel"]
     cfg = (schedule or {}).get("session_page", {})
+    fb = cfg.get("feedback_topics") or {}
+    no_fb = [s["title"] for s in pages if not fb.get(s["id"])]
+    by_url = {}
+    for s in pages:
+        if s.get("page_url"):
+            by_url.setdefault(s["page_url"].rstrip("/").lower(), []).append(s["title"])
+    clash = [f"`{u}` ({' / '.join(t)})" for u, t in by_url.items() if len(t) > 1]
     lines = [
         "", "## Session pages", "",
         f"**{len(pages)} session pages** - video: {sum(1 for s in pages if s.get('video_id'))}, "
         f"page URL: {sum(1 for s in pages if s.get('page_url'))}, "
-        f"feedback link: {sum(1 for s in pages if s.get('feedback_url'))}",
+        f"pre-filled feedback link: {len(pages) - len(no_fb)}",
         "", "### Worth a look", "",
+        f"- **Two sessions share a Squarespace Page** - same first name on the same day; one page would "
+        f"show the wrong session ({len(clash)}): {j(clash)}",
+        f"- No pre-filled feedback link yet, the plain form is shown - ask Claude to build the feedback "
+        f"links ({len(no_fb)}): {j(no_fb)}",
         f"- No video yet, the page shows \"coming soon\" ({len(issues['no_video'])}): {j(issues['no_video'])}",
         f"- **Video field filled but unreadable** ({len(issues['bad_video'])}): {j(issues['bad_video'])}",
         f"- No Video Submission linked to the topic ({len(issues['no_submission'])}): {j(issues['no_submission'])}",
@@ -702,185 +676,6 @@ def session_page_report(sessions, issues, schedule):
     for key, label in (("bonus_href", "upgrade button link"), ("login_href", "\"Log in here\" link")):
         if not str(cfg.get(key) or "").strip():
             lines.append(f"- **schedule.json → session_page.{key} is empty** - the bonus {label} is hidden until it is set")
-    return "\n".join(lines)
-
-
-# --------------------------------------------------------- feedback links --
-
-def airtable_write(token, base, table_id, method, records):
-    """POST (create) or PATCH (update) up to 10 records. Returns the records."""
-    body = json.dumps({"records": records, "typecast": False}).encode("utf-8")
-    req = urllib.request.Request(
-        f"https://api.airtable.com/v0/{base}/{table_id}", data=body, method=method,
-        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.load(resp).get("records", [])
-    finally:
-        time.sleep(0.25)   # Airtable allows 5 requests a second per base
-
-
-def feedback_link(record_id):
-    return f"{FEEDBACK_FORM_URL}?prefill_{urllib.parse.quote(FEEDBACK_PREFILL_FIELD)}={record_id}"
-
-
-def plan_feedback_topics(sessions, topic_rows):
-    """Pure: what to create and rename in the FORMS Topics table, and the
-    links already known. Keyed on FORMS_KEY_FIELD, never on the title."""
-    by_key = {}
-    for r in topic_rows:
-        key = str(f(r, FORMS_KEY_FIELD) or "").strip()
-        if key:
-            by_key.setdefault(key, r)
-    wanted = [s for s in sessions if s["kind"] != "live_panel"]
-    links, creates, updates = {}, [], []
-    for s in wanted:
-        r = by_key.get(s["id"])
-        if r is None:
-            creates.append(s)
-            continue
-        links[s["id"]] = feedback_link(r["id"])
-        change = {}
-        if f(r, FORMS_NAME_FIELD) != s["title"]:
-            change[FORMS_NAME_FIELD] = s["title"]
-        if f(r, FORMS_LINK_FIELD) != links[s["id"]]:
-            change[FORMS_LINK_FIELD] = links[s["id"]]
-        if change:
-            updates.append({"id": r["id"], "fields": change, "title": s["title"]})
-    ids = {s["id"] for s in wanted}
-    orphans = [str(f(r, FORMS_NAME_FIELD) or r["id"]) for k, r in by_key.items() if k not in ids]
-    blank = sum(1 for r in topic_rows
-                if not str(f(r, FORMS_KEY_FIELD) or "").strip() and not str(f(r, FORMS_NAME_FIELD) or "").strip())
-    unkeyed = [str(f(r, FORMS_NAME_FIELD)) for r in topic_rows
-               if not str(f(r, FORMS_KEY_FIELD) or "").strip() and str(f(r, FORMS_NAME_FIELD) or "").strip()]
-    return links, creates, updates, orphans, blank, unkeyed
-
-
-def sync_feedback_topics(token, sessions, dry_run):
-    """Make sure every session has a Topics record in the FORMS base, then
-    return {session id: pre-filled feedback link} and the report lines."""
-    lines = ["", "## Feedback links", ""]
-    if not token:
-        lines.append("> **Skipped - AIRTABLE_FORMS_TOKEN is not set.** No feedback links were built; "
-                     "session pages show the plain feedback form instead.")
-        return {}, "\n".join(lines)
-
-    rows = fetch_table(token, FORMS_TOPICS_TABLE, base=FORMS_BASE_ID)
-    links, creates, updates, orphans, blank, unkeyed = plan_feedback_topics(sessions, rows)
-
-    if dry_run:
-        lines += [f"_Report only - nothing written to the FORMS base._", "",
-                  f"- Would add to Topics ({len(creates)}): " + (", ".join(s["title"] for s in creates) or "none"),
-                  f"- Would rename or fix the link on ({len(updates)}): " + (", ".join(u["title"] for u in updates) or "none")]
-    else:
-        try:
-            for i in range(0, len(creates), 10):
-                batch = creates[i:i + 10]
-                made = airtable_write(token, FORMS_BASE_ID, FORMS_TOPICS_TABLE, "POST", [
-                    {"fields": {FORMS_NAME_FIELD: s["title"], FORMS_KEY_FIELD: s["id"]}} for s in batch])
-                for s, rec in zip(batch, made):
-                    links[s["id"]] = feedback_link(rec["id"])
-                    updates.append({"id": rec["id"], "fields": {FORMS_LINK_FIELD: links[s["id"]]},
-                                    "title": None})
-            for i in range(0, len(updates), 10):
-                airtable_write(token, FORMS_BASE_ID, FORMS_TOPICS_TABLE, "PATCH",
-                               [{"id": u["id"], "fields": u["fields"]} for u in updates[i:i + 10]])
-        except urllib.error.HTTPError as err:
-            body = err.read().decode("utf-8", "replace")[:300]
-            hint = ""
-            if "UNKNOWN_FIELD_NAME" in body:
-                hint = (f" A field is missing from the Topics table - it needs `{FORMS_NAME_FIELD}`, "
-                        f"`{FORMS_LINK_FIELD}` and `{FORMS_KEY_FIELD}` (single line text).")
-            elif err.code in (401, 403):
-                hint = " Check that AIRTABLE_FORMS_TOKEN has data.records:write on the FORMS base."
-            lines.append(f"> **Writing to the FORMS base failed ({err.code}).**{hint} `{body}`")
-        renamed = [u["title"] for u in updates if u["title"]]
-        lines += [f"- Added to Topics ({len(creates)}): " + (", ".join(s["title"] for s in creates) or "none"),
-                  f"- Renamed or link fixed ({len(renamed)}): " + (", ".join(renamed) or "none")]
-    lines += [
-        f"- Topics records for sessions no longer published - never deleted automatically "
-        f"({len(orphans)}): " + (", ".join(orphans) or "none"),
-        f"- Topics records from before this automation (no `{FORMS_KEY_FIELD}`): {blank} blank"
-        + (f", plus named: {', '.join(unkeyed)}" if unkeyed else "")
-        + " - safe to delete by hand if no feedback is linked to them",
-    ]
-    return links, "\n".join(lines)
-
-
-# ------------------------------------------------------------ email list --
-
-def _join_names(names):
-    names = [n for n in names if n]
-    if len(names) <= 1:
-        return names[0] if names else ""
-    return ", ".join(names[:-1]) + " and " + names[-1]
-
-
-def email_list_entries(sessions, speakers):
-    """Per day, the lines for the daily presentation list. Pure."""
-    by_slug = {p["slug"]: p for p in speakers}
-    days = {}
-    for s in sessions:
-        cast = [by_slug[x] for x in s["speakers"] if x in by_slug]
-        if s["kind"] == "live_panel":
-            prefix = "Live panel" if s["title"].lower().startswith("live panel") else "Live call"
-            days.setdefault(s["day"], {"items": [], "live": []})["live"].append(
-                f"{prefix}: " + _join_names([p["name"] for p in cast]))
-            continue
-        if s["kind"] == "compilation":
-            experts = [p for p in cast if p["role"] == "expert"]
-            who = f"featuring {len(experts)} Destination Experts"
-        else:
-            who = _join_names([p["name"] for p in cast])
-        featured = any(p["role"] == "sponsor" for p in cast)
-        days.setdefault(s["day"], {"items": [], "live": []})["items"].append({
-            "icon": s.get("icon", ""), "text": f"{s['title']} - {who}" + ("*" if featured else ""),
-            "url": s.get("page_url", ""), "featured": featured,
-        })
-    return days
-
-
-def email_list_html(days, schedule):
-    themes = {d.get("n"): d.get("theme", "") for d in (schedule or {}).get("days", [])}
-    e = lambda t: (str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
-    out = []
-    for n in sorted(days):
-        out.append(f"<p><strong>Day {DAY_WORDS.get(n, n)}: {e(themes.get(n, ''))}</strong></p>")
-        for it in days[n]["items"]:
-            label = f"{e(it['icon'])} " if it["icon"] else ""
-            if it["url"]:
-                out.append(f'<p>{label}<a href="{e(it["url"])}">{e(it["text"])}</a></p>')
-            else:
-                out.append(f"<p>🟨 {label}{e(it['text'])} <em>(no Squarespace Page yet)</em></p>")
-        if any(it["featured"] for it in days[n]["items"]):
-            out.append("<p><em>*Featured Speaker</em></p>")
-        for line in days[n]["live"]:
-            out.append(f"<p>{e(line)}</p>")
-        out.append("<p>&nbsp;</p>")
-    return (
-        "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">"
-        "<meta name=\"robots\" content=\"noindex\"><title>Daily presentation list</title>"
-        "<style>body{font-family:Arial,sans-serif;max-width:760px;margin:30px auto;padding:0 20px;line-height:1.5}"
-        ".how{background:#f6f5f3;border-left:4px solid #D4E17D;padding:10px 14px;font-size:14px;color:#444}</style>"
-        "</head><body>\n"
-        "<p class=\"how\">Generated by the Publish workflow from Airtable. Select everything below the line, "
-        "copy, and paste into the Kit editor - the links come with it. 🟨 = no Squarespace Page in "
-        "Presentation Topics yet. Fix wording in Airtable, not here.</p><hr>\n"
-        + "\n".join(out) + "\n</body></html>\n"
-    )
-
-
-def email_list_markdown(days, schedule):
-    themes = {d.get("n"): d.get("theme", "") for d in (schedule or {}).get("days", [])}
-    lines = ["", "## Daily presentation list for emails", "",
-             f"_Copy-ready version with working links: `{EMAIL_LIST_FILE}` on the Pages site._", ""]
-    for n in sorted(days):
-        lines += [f"**Day {DAY_WORDS.get(n, n)}: {themes.get(n, '')}**", ""]
-        for it in days[n]["items"]:
-            label = f"{it['icon']} " if it["icon"] else ""
-            lines.append(f"- {label}[{it['text']}]({it['url']})" if it["url"]
-                         else f"- 🟨 {label}{it['text']} _(no Squarespace Page yet)_")
-        lines += [f"- {l}" for l in days[n]["live"]] + [""]
     return "\n".join(lines)
 
 
@@ -1104,17 +899,6 @@ def main():
         rows["submissions"], bonuses, rows["bonuses"])
     link_report += page_links
 
-    dry_run = os.environ.get("DRY_RUN", "").strip().lower() == "true"
-    feedback_links, feedback_summary = sync_feedback_topics(
-        os.environ.get("AIRTABLE_FORMS_TOKEN", "").strip(), sessions, dry_run)
-    for sess in sessions:
-        if sess["kind"] != "live_panel":
-            sess["feedback_url"] = feedback_links.get(sess["id"], "")
-
-    email_days = email_list_entries(sessions, speakers)
-    with open(EMAIL_LIST_FILE, "w", encoding="utf-8") as fh:
-        fh.write(email_list_html(email_days, schedule))
-
     today = date.today().isoformat()
     generated = "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten"
 
@@ -1143,13 +927,11 @@ def main():
             "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count - counting breaks on co-presented sessions.",
             "page_url": "Squarespace Page from Airtable. Day-page rows link here as soon as it is filled.",
             "sort_rank": "0 host, 1 sponsor, 2 everyone else. Only a tiebreaker when display_order is blank.",
-            "icon": "The day emoji from the start of the title (💡/📝/🧳); prefixes each line of email-list.html.",
             "video_id": f"Screenpal video ID from '{VIDEO_FIELD}' in Presentation Topics. Empty = 'video coming soon'.",
             "video_ratio": "Aspect ratio from the pasted embed code, if it had one; the player defaults to 16:9.",
             "description_html": "Video Submissions Description, converted from rich text. On a compilation, the host's submission.",
             "presenters": "One per speaker: their free gift (Freebie title + Freebie Link), Website and Social Media from their own Video Submission. No gift = a Learn more button to their website.",
             "bonuses": "Their approved First Class Pass bonuses, matched to the speaker by email, then name, then brand.",
-            "feedback_url": "Speaker Feedback form pre-filled with this session's record in the FORMS base Topics table.",
         },
         "sessions": sessions,
     })
@@ -1185,8 +967,6 @@ def main():
 
     summary = (report(speakers, sessions, link_report)
                + "\n" + session_page_report(sessions, page_issues, schedule)
-               + "\n" + feedback_summary
-               + "\n" + email_list_markdown(email_days, schedule)
                + "\n" + bonus_report(bonuses, bonus_issues)
                + "\n" + sponsor_report(sponsors, sponsor_issues, sponsor_field_missing))
     print(summary)
