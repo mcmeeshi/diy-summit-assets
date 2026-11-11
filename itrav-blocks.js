@@ -15,6 +15,14 @@
                   data-cta-href="#id" overrides where the buttons scroll;
                   data-cta="off" hides the buttons)
      sponsors  - sponsor logo strip, same on every page it is pasted on
+     session   - one presentation page: title, video, presenter, free
+                 gift, description, feedback link, their FCP bonus. Finds
+                 its session by matching the page address to Squarespace
+                 Page in Airtable, so every page carries the same snippet.
+                 data-session="rec..." names it instead (Learn lessons);
+                 data-variant="learn" drops the title, bio, feedback line
+                 and bonus band. A Learn HTML element that loses data
+                 attributes can use id="itrav-lesson-rec..." instead.
 
    Data attributes:
      data-cta="off"        hides all CTA buttons
@@ -239,6 +247,60 @@
     ".itrav-bn-cta-wrap{margin:0 0 36px;}",
     "}",
     "@media (prefers-reduced-motion:reduce){button.itrav-bn-more::after{transition:none;}}",
+    /* ---- session page ---- */
+    ".itrav-ss-title{font-family:inherit;font-size:34px;font-weight:700;line-height:1.25;color:#1a1a1a;text-align:center;margin:0 0 26px;}",
+    ".itrav-ss-video{position:relative;width:100%;aspect-ratio:16/9;background:#1a1a1a;border-radius:4px;overflow:hidden;margin:0 0 38px;}",
+    ".itrav-ss-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}",
+    ".itrav-ss-soon{display:flex;align-items:center;justify-content:center;background:#f6f5f3;color:#888;font-family:inherit;font-size:18px;font-style:italic;}",
+    ".itrav-ss-person{display:grid;grid-template-columns:170px minmax(0,1fr) 250px;gap:28px;align-items:start;margin:0 0 30px;}",
+    ".itrav-ss-person .itrav-photo,.itrav-ss-person .itrav-initials{width:170px;height:170px;margin:0;}",
+    ".itrav-ss-person .itrav-initials{font-size:48px;line-height:164px;text-align:center;}",
+    ".itrav-ss-name{font-family:inherit;font-size:26px;font-weight:700;color:#1a1a1a;margin:0 0 4px;line-height:1.25;}",
+    ".itrav-ss-brand{font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#657a9d;margin:0 0 8px;line-height:1.35;}",
+    ".itrav-ss-links{font-family:inherit;font-size:15px;color:#666;margin:0;line-height:1.5;}",
+    ".itrav-ss-links a{color:#657a9d;text-decoration:underline;}",
+    ".itrav-ss-links a:hover{color:#4e6180;}",
+    ".itrav-ss-gift{text-align:center;}",
+    ".itrav-ss-gift-label{font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.8px;color:#1a1a1a;margin:0 0 10px;}",
+    ".itrav-ss-gift .itrav-cta{display:block;width:100%;padding:14px 16px;font-size:14px;white-space:normal;}",
+    ".itrav-ss-desc{font-family:inherit;font-size:17px;line-height:1.65;color:#333;margin:0 0 34px;}",
+    ".itrav-ss-desc p{margin:0 0 12px;}",
+    ".itrav-ss-desc ul,.itrav-ss-desc ol{margin:0 0 12px;padding:0 0 0 24px;}",
+    ".itrav-ss-desc ul{list-style:disc outside;}",
+    ".itrav-ss-desc ol{list-style:decimal outside;}",
+    ".itrav-ss-desc li{margin:0 0 4px;}",
+    ".itrav-ss-desc a{color:#657a9d;text-decoration:underline;}",
+    ".itrav-ss-meta{margin:18px 0 0;}",
+    ".itrav-ss-meta p{margin:0 0 6px;font-size:16px;}",
+    ".itrav-ss-expert-gift{font-family:inherit;font-size:14px;margin:6px 0 0;line-height:1.4;}",
+    ".itrav-ss-expert-gift a{color:#657a9d;text-decoration:underline;}",
+    ".itrav-ss-bonus{background:#657a9d;padding:46px 24px;margin:46px 0 0;}",
+    ".itrav-fullbleed .itrav-ss-bonus{width:100vw;margin-left:calc(50% - 50vw);}",
+    ".itrav-ss-bonus-item{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:34px;align-items:start;}",
+    ".itrav-ss-bonus-item+.itrav-ss-bonus-item{margin-top:40px;}",
+    ".itrav-ss-bonus .itrav-bn-img,.itrav-ss-bonus .itrav-bn-ph{width:100%;aspect-ratio:1/1;border-radius:4px;display:block;}",
+    ".itrav-ss-bonus .itrav-bn-img{object-fit:cover;background:#fff;}",
+    ".itrav-ss-bonus h3{font-family:inherit;font-size:26px;font-weight:700;color:#F2C181;margin:0 0 12px;line-height:1.25;}",
+    ".itrav-ss-bonus-desc{font-family:inherit;font-size:16px;line-height:1.6;color:#fff;margin:0 0 22px;}",
+    ".itrav-ss-bonus-desc p{margin:0 0 10px;color:#fff;}",
+    ".itrav-ss-bonus-desc ul,.itrav-ss-bonus-desc ol{margin:0 0 10px;padding:0 0 0 22px;color:#fff;}",
+    ".itrav-ss-bonus-desc ul{list-style:disc outside;}",
+    ".itrav-ss-bonus-desc strong{color:#fff;}",
+    ".itrav-ss-bonus .itrav-cta-wrap{text-align:left;margin:0 0 12px;}",
+    ".itrav-ss-login{font-family:inherit;font-size:14px;color:#fff;margin:0;}",
+    ".itrav-ss-login a{color:#fff;text-decoration:underline;}",
+    ".itrav-ss-learn .itrav-ss-person{grid-template-columns:minmax(0,1fr) 250px;}",
+    "@media (max-width:760px){",
+    ".itrav-ss-title{font-size:27px;}",
+    ".itrav-ss-person,.itrav-ss-learn .itrav-ss-person{grid-template-columns:1fr;gap:16px;text-align:center;}",
+    ".itrav-ss-person .itrav-photo,.itrav-ss-person .itrav-initials{width:140px;height:140px;margin:0 auto;}",
+    ".itrav-ss-person .itrav-initials{font-size:40px;line-height:134px;}",
+    ".itrav-ss-gift{max-width:340px;margin:0 auto;width:100%;}",
+    ".itrav-ss-bonus{padding:34px 20px;}",
+    ".itrav-ss-bonus-item{grid-template-columns:1fr;gap:20px;}",
+    ".itrav-ss-bonus .itrav-bn-img,.itrav-ss-bonus .itrav-bn-ph{max-width:220px;}",
+    ".itrav-ss-bonus .itrav-cta{width:100%;}",
+    "}",
     "@media (max-width:900px){.itrav-sp-item{flex-basis:33.333%;height:130px;}}",
     "@media (max-width:480px){.itrav-sp-item{flex-basis:50%;height:105px;padding:6px 12px;}}",
   ].join("");
@@ -726,6 +788,172 @@
     }).join("") + "</div>";
   }
 
+  /* ---------- block: session ----------
+     One presentation's page. Everything comes from Airtable through
+     sessions.json; schedule.json -> session_page holds only wording and the
+     two First Class Pass links. The page finds its own session by address,
+     so duplicating the template page and filling Squarespace Page in
+     Airtable is the whole per-page job. */
+  function pagePath(url) {
+    try {
+      return new URL(url, window.location.href).pathname.replace(/\/+$/, "").toLowerCase();
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function renderSession(el, data) {
+    var people = {};
+    ((data.speakers && data.speakers.speakers) || []).forEach(function (s) { people[s.slug] = s; });
+    var sessions = (data.sessions && data.sessions.sessions) || [];
+    var sched = data.schedule || {};
+    var cfg = sched.session_page || {};
+    var lessonId = (el.id || "").indexOf("itrav-lesson-") === 0 ? el.id.slice("itrav-lesson-".length) : "";
+    var learn = el.getAttribute("data-variant") === "learn" || !!lessonId;
+    var wanted = el.getAttribute("data-session") || lessonId;
+
+    var sess = null;
+    if (wanted) {
+      sessions.forEach(function (s) { if (s.id === wanted) sess = s; });
+    } else {
+      var here = pagePath(window.location.href);
+      sessions.forEach(function (s) {
+        if (s.page_url && pagePath(s.page_url) === here) sess = s;
+      });
+    }
+    if (!sess) {
+      console.warn("itrav-blocks: no session for " + (wanted || window.location.pathname));
+      el.innerHTML = '<p class="itrav-empty">' + esc(cfg.unlinked || "This page is not linked to a session yet.") +
+        (wanted ? "" : "<br><strong>" + esc(window.location.origin + window.location.pathname) + "</strong>") + "</p>";
+      return;
+    }
+
+    var pres = {};
+    (sess.presenters || []).forEach(function (p) { pres[p.slug] = p; });
+    var cast = (sess.speakers || []).map(function (sl) { return people[sl]; }).filter(Boolean);
+    var isComp = sess.kind === "compilation";
+    var leads = isComp ? cast.filter(function (p) { return p.role !== "expert"; }) : cast;
+    var experts = isComp ? cast.filter(function (p) { return p.role === "expert"; }) : [];
+
+    function ext(href, text, cls) {
+      return '<a' + (cls ? ' class="' + cls + '"' : "") + ' href="' + esc(href) +
+             '" target="_blank" rel="noopener">' + esc(text) + "</a>";
+    }
+
+    function giftBox(p, info) {
+      var label, text, href;
+      if (info.gift_url && info.gift_title) {
+        label = cfg.free_gift_label || "FREE GIFT:"; text = info.gift_title; href = info.gift_url;
+      } else if (info.website) {
+        label = cfg.learn_more_label || "LEARN MORE:"; text = p.brand || p.name; href = info.website;
+      } else {
+        return "<div></div>";
+      }
+      return '<div class="itrav-ss-gift"><p class="itrav-ss-gift-label">' + esc(label) + "</p>" +
+             ext(href, text, "itrav-cta") + "</div>";
+    }
+
+    function personBlock(p) {
+      var info = pres[p.slug] || {};
+      var links = [];
+      if (info.website) links.push(ext(info.website, cfg.website_label || "Website"));
+      if (info.social) links.push(ext(info.social, cfg.social_label || "Social Media"));
+      return '<div class="itrav-ss-person">' +
+               (learn ? "" : "<div>" + avatar(p) + "</div>") +
+               "<div>" +
+                 '<h2 class="itrav-ss-name">' + esc(p.name) + "</h2>" +
+                 (p.brand ? '<p class="itrav-ss-brand">' + esc(p.brand) + "</p>" : "") +
+                 (links.length ? '<p class="itrav-ss-links">' + links.join(" | ") + "</p>" : "") +
+                 (!learn && p.bio
+                   ? '<div class="itrav-acc"><button type="button" class="itrav-acc-btn">' +
+                       esc(cfg.bio_label || "Speaker Bio") + '</button><div class="itrav-acc-body">' +
+                       esc(p.bio) + "</div></div>"
+                   : "") +
+               "</div>" + giftBox(p, info) +
+             "</div>";
+    }
+
+    function expertCard(p) {
+      var info = pres[p.slug] || {};
+      var label = ((sched.directory || {}).expert_label || "{country} Expert").replace("{country}", p.country || "");
+      return '<div class="itrav-card">' + avatar(p) +
+               '<p class="itrav-card-name">' + esc(p.name) + "</p>" +
+               (p.country ? '<p class="itrav-card-brand">' + esc(label) + "</p>" : "") +
+               (p.brand
+                 ? '<p class="itrav-card-brand">' + (info.website ? ext(info.website, p.brand, "itrav-dir-link") : esc(p.brand)) + "</p>"
+                 : "") +
+               (info.gift_url && info.gift_title
+                 ? '<p class="itrav-ss-expert-gift">' + esc(cfg.expert_gift_label || "Free gift") + ": " +
+                     ext(info.gift_url, info.gift_title) + "</p>"
+                 : "") +
+             "</div>";
+    }
+
+    var html = "";
+    if (!learn && el.getAttribute("data-title") !== "off") {
+      html += '<h1 class="itrav-ss-title">' + esc(sess.title) + "</h1>";
+    }
+    var ratio = Number(sess.video_ratio) > 0 ? Number(sess.video_ratio) : 16 / 9;
+    html += sess.video_id
+      ? '<div class="itrav-ss-video" style="aspect-ratio:' + ratio + '"><iframe src="https://go.screenpal.com/player/' +
+          encodeURIComponent(sess.video_id) + '?ff=1&title=0&dcc=1" title="' + esc(sess.title) +
+          '" allowfullscreen="true" scrolling="no"></iframe></div>'
+      : '<div class="itrav-ss-video itrav-ss-soon">' + esc(cfg.video_soon || "Video coming soon") + "</div>";
+
+    var meta = "";
+    if (!learn) {
+      meta = '<div class="itrav-ss-meta">' +
+        (cfg.questions_href
+          ? "<p><strong>" + esc(cfg.questions_lead || "") + "</strong> " +
+              ext(cfg.questions_href, cfg.questions_link_text || "") + "</p>"
+          : "") +
+        ((sess.feedback_url || cfg.feedback_fallback_href)
+          ? "<p><strong>" + esc(cfg.feedback_lead || "") + "</strong> " +
+              ext(sess.feedback_url || cfg.feedback_fallback_href, cfg.feedback_link_text || "") + "</p>"
+          : "") +
+        "</div>";
+    }
+    var desc = '<div class="itrav-ss-desc">' + (sess.description_html || "") + meta + "</div>";
+    var persons = leads.map(personBlock).join("");
+
+    /* Page: presenter first, then the description (the template's order).
+       Learn lesson: description first, then the gift and links. */
+    html += learn ? desc + persons : persons + desc;
+
+    if (experts.length) {
+      var intro = sched.compilation_intro || "";
+      html += (intro ? '<div class="itrav-sub"><p>' + esc(intro) + "</p></div>" : "") +
+              '<div class="itrav-grid">' + experts.map(expertCard).join("") + "</div>";
+    }
+
+    if (!learn && (sess.bonuses || []).length) {
+      html += '<div class="itrav-ss-bonus">' + sess.bonuses.map(function (b) {
+        var pic = b.image
+          ? '<img class="itrav-bn-img" src="' + BASE + "images/bonuses/" + encodeURIComponent(b.image) +
+              '" alt="' + esc(b.title) + '" loading="lazy" data-title="' + esc(b.title) +
+              '" data-brand="' + esc(b.brand) + '">'
+          : bonusTile(b.title, b.brand);
+        return '<div class="itrav-ss-bonus-item"><div>' + pic + "</div><div>" +
+                 "<h3>" + esc(b.title) + "</h3>" +
+                 '<div class="itrav-ss-bonus-desc">' + (b.description_html || "") + "</div>" +
+                 (cfg.bonus_href
+                   ? '<div class="itrav-cta-wrap">' + ext(cfg.bonus_href, cfg.bonus_button || "Upgrade to get this bonus", "itrav-cta") + "</div>"
+                   : "") +
+                 (cfg.login_href
+                   ? '<p class="itrav-ss-login">' + esc(cfg.login_lead || "") + " " +
+                       ext(cfg.login_href, cfg.login_text || "Log in here") + "</p>"
+                   : "") +
+               "</div></div>";
+      }).join("") + "</div>";
+    }
+
+    el.innerHTML = '<div class="itrav-ss' + (learn ? " itrav-ss-learn" : "") + '">' + html + "</div>";
+    el.addEventListener("click", function (ev) {
+      var btn = ev.target.closest && ev.target.closest(".itrav-acc-btn");
+      if (btn) btn.parentNode.classList.toggle("open");
+    });
+  }
+
   /* Page builders put an HTML element in a box the editor sizes by hand,
      which clips the block whenever bonuses are added or Read more opens.
      So the block sizes its own container, in whichever form it finds:
@@ -794,7 +1022,8 @@
     directory: { fn: renderDirectory, files: ["speakers", "schedule"] },
     day: { fn: renderDay, files: ["speakers", "sessions", "schedule"] },
     bonuses: { fn: renderBonuses, files: ["bonuses", "schedule"] },
-    sponsors: { fn: renderSponsors, files: ["sponsors"] }
+    sponsors: { fn: renderSponsors, files: ["sponsors"] },
+    session: { fn: renderSession, files: ["speakers", "sessions", "schedule"] }
   };
 
   /* One request per file per page, however many times boot() runs. */
@@ -815,12 +1044,15 @@
      ThriveCart's save where a class or data attribute might not. */
   var ID_BLOCKS = { "itrav-bonuses": "bonuses" };
 
+  /* Same idea for Learn lessons, if their HTML element turns out to drop
+     data attributes: id="itrav-lesson-<Presentation Topics record ID>". */
   function blockType(el) {
+    if ((el.id || "").indexOf("itrav-lesson-") === 0) return "session";
     return el.getAttribute("data-block") || ID_BLOCKS[el.id] || "";
   }
 
   function findBlocks() {
-    var sel = ".itrav-block[data-block]";
+    var sel = '.itrav-block[data-block],[id^="itrav-lesson-"]';
     Object.keys(ID_BLOCKS).forEach(function (id) { sel += ",#" + id; });
     return [].slice.call(document.querySelectorAll(sel)).filter(function (el) {
       return RENDERERS[blockType(el)] && !el.getAttribute("data-itrav-done");

@@ -1,12 +1,16 @@
 ---
-# Rebuilds speakers.json, sessions.json, bonuses.json and sponsors.json from Airtable and commits them.
+# Rebuilds speakers.json, sessions.json, bonuses.json, sponsors.json and
+# email-list.html from Airtable and commits them. Also adds each session to the
+# feedback form's Topics table in the FORMS base, for the pre-filled links.
 #
 # To run it: Actions tab -> "Publish page data from Airtable" (left sidebar)
 # -> "Run workflow" button -> Run workflow. That button is the whole point.
 #
-# Needs one repository secret, AIRTABLE_TOKEN: an Airtable personal access
-# token with data.records:read on the Summit '27 base.
-# Settings -> Secrets and variables -> Actions -> New repository secret.
+# Repository secrets (Settings -> Secrets and variables -> Actions):
+#   AIRTABLE_TOKEN        data.records:read on the Summit '27 base.
+#   AIRTABLE_FORMS_TOKEN  data.records:read + data.records:write on the
+#                         Summit '27 FORMS base only. Without it the run still
+#                         works, minus the feedback links.
 #
 # It does NOT touch schedule.json. That file is hand-maintained config.
 
@@ -43,19 +47,22 @@ jobs:
       - name: Build the JSON from Airtable
         env:
           AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
+          AIRTABLE_FORMS_TOKEN: ${{ secrets.AIRTABLE_FORMS_TOKEN }}
+          # Report only also means nothing is written to the FORMS base.
+          DRY_RUN: ${{ inputs.dry_run }}
         run: python scripts/publish.py
 
       - name: Show what changed
         run: |
-          git --no-pager diff --stat -- speakers.json sessions.json bonuses.json sponsors.json
+          git --no-pager diff --stat -- speakers.json sessions.json bonuses.json sponsors.json email-list.html
           echo "--- page data diff ---"
-          git --no-pager diff -- speakers.json sessions.json bonuses.json sponsors.json | head -200
+          git --no-pager diff -- speakers.json sessions.json bonuses.json sponsors.json email-list.html | head -200
 
       - name: Commit
         if: ${{ !inputs.dry_run }}
         run: |
           # status, not diff: diff ignores a file that is new to the repo
-          if [ -z "$(git status --porcelain -- speakers.json sessions.json bonuses.json sponsors.json)" ]; then
+          if [ -z "$(git status --porcelain -- speakers.json sessions.json bonuses.json sponsors.json email-list.html)" ]; then
             echo "Airtable matches what is already published. Nothing to commit."
             echo "Nothing changed - the published files already match Airtable." \
               >> "$GITHUB_STEP_SUMMARY"
@@ -63,7 +70,7 @@ jobs:
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add speakers.json sessions.json bonuses.json sponsors.json
+          git add speakers.json sessions.json bonuses.json sponsors.json email-list.html
           git commit -m "Publish page data from Airtable"
           # Someone may have pushed while this ran; rebase rather than fail.
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
