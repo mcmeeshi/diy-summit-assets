@@ -19,10 +19,9 @@
                  gift, description, feedback link, their FCP bonus. Finds
                  its session by matching the page address to Squarespace
                  Page in Airtable, so every page carries the same snippet.
-                 data-session="rec..." names it instead (Learn lessons);
-                 data-variant="learn" drops the title, bio, feedback line
-                 and bonus band. A Learn HTML element that loses data
-                 attributes can use id="itrav-lesson-rec..." instead.
+                 data-session="rec..." names the session instead. Learn
+                 lessons do not use this block: they get static HTML from
+                 learn-blocks.html, built by the publish workflow.
 
    Data attributes:
      data-cta="off"        hides all CTA buttons
@@ -289,10 +288,9 @@
     ".itrav-ss-bonus .itrav-cta-wrap{text-align:left;margin:0 0 12px;}",
     ".itrav-ss-login{font-family:inherit;font-size:14px;color:#fff;margin:0;}",
     ".itrav-ss-login a{color:#fff;text-decoration:underline;}",
-    ".itrav-ss-learn .itrav-ss-person{grid-template-columns:minmax(0,1fr) 250px;}",
     "@media (max-width:760px){",
     ".itrav-ss-title{font-size:27px;}",
-    ".itrav-ss-person,.itrav-ss-learn .itrav-ss-person{grid-template-columns:1fr;gap:16px;text-align:center;}",
+    ".itrav-ss-person{grid-template-columns:1fr;gap:16px;text-align:center;}",
     ".itrav-ss-person .itrav-photo,.itrav-ss-person .itrav-initials{width:140px;height:140px;margin:0 auto;}",
     ".itrav-ss-person .itrav-initials{font-size:40px;line-height:134px;}",
     ".itrav-ss-gift{max-width:340px;margin:0 auto;width:100%;}",
@@ -808,9 +806,7 @@
     var sessions = (data.sessions && data.sessions.sessions) || [];
     var sched = data.schedule || {};
     var cfg = sched.session_page || {};
-    var lessonId = (el.id || "").indexOf("itrav-lesson-") === 0 ? el.id.slice("itrav-lesson-".length) : "";
-    var learn = el.getAttribute("data-variant") === "learn" || !!lessonId;
-    var wanted = el.getAttribute("data-session") || lessonId;
+    var wanted = el.getAttribute("data-session") || "";
 
     var sess = null;
     if (wanted) {
@@ -859,12 +855,12 @@
       if (info.website) links.push(ext(info.website, cfg.website_label || "Website"));
       if (info.social) links.push(ext(info.social, cfg.social_label || "Social Media"));
       return '<div class="itrav-ss-person">' +
-               (learn ? "" : "<div>" + avatar(p) + "</div>") +
+               "<div>" + avatar(p) + "</div>" +
                "<div>" +
                  '<h2 class="itrav-ss-name">' + esc(p.name) + "</h2>" +
                  (p.brand ? '<p class="itrav-ss-brand">' + esc(p.brand) + "</p>" : "") +
                  (links.length ? '<p class="itrav-ss-links">' + links.join(" | ") + "</p>" : "") +
-                 (!learn && p.bio
+                 (p.bio
                    ? '<div class="itrav-acc"><button type="button" class="itrav-acc-btn">' +
                        esc(cfg.bio_label || "Speaker Bio") + '</button><div class="itrav-acc-body">' +
                        esc(p.bio) + "</div></div>"
@@ -890,7 +886,7 @@
     }
 
     var html = "";
-    if (!learn && el.getAttribute("data-title") !== "off") {
+    if (el.getAttribute("data-title") !== "off") {
       html += '<h1 class="itrav-ss-title">' + esc(sess.title) + "</h1>";
     }
     var ratio = Number(sess.video_ratio) > 0 ? Number(sess.video_ratio) : 16 / 9;
@@ -909,9 +905,7 @@
                   encodeURIComponent(cfg.feedback_prefill_field || "Presentation") + "=" +
                   encodeURIComponent(topicRec);
     }
-    var meta = "";
-    if (!learn) {
-      meta = '<div class="itrav-ss-meta">' +
+    var meta = '<div class="itrav-ss-meta">' +
         (cfg.questions_href
           ? "<p><strong>" + esc(cfg.questions_lead || "") + "</strong> " +
               ext(cfg.questions_href, cfg.questions_link_text || "") + "</p>"
@@ -921,13 +915,11 @@
               ext(feedback, cfg.feedback_link_text || "") + "</p>"
           : "") +
         "</div>";
-    }
     var desc = '<div class="itrav-ss-desc">' + (sess.description_html || "") + meta + "</div>";
     var persons = leads.map(personBlock).join("");
 
-    /* Page: presenter first, then the description (the template's order).
-       Learn lesson: description first, then the gift and links. */
-    html += learn ? desc + persons : persons + desc;
+    /* Presenter first, then the description (the template's order). */
+    html += persons + desc;
 
     if (experts.length) {
       var intro = sched.compilation_intro || "";
@@ -935,7 +927,7 @@
               '<div class="itrav-grid">' + experts.map(expertCard).join("") + "</div>";
     }
 
-    if (!learn && (sess.bonuses || []).length) {
+    if ((sess.bonuses || []).length) {
       html += '<div class="itrav-ss-bonus">' + sess.bonuses.map(function (b) {
         var pic = b.image
           ? '<img class="itrav-bn-img" src="' + BASE + "images/bonuses/" + encodeURIComponent(b.image) +
@@ -956,7 +948,7 @@
       }).join("") + "</div>";
     }
 
-    el.innerHTML = '<div class="itrav-ss' + (learn ? " itrav-ss-learn" : "") + '">' + html + "</div>";
+    el.innerHTML = '<div class="itrav-ss">' + html + "</div>";
     el.addEventListener("click", function (ev) {
       var btn = ev.target.closest && ev.target.closest(".itrav-acc-btn");
       if (btn) btn.parentNode.classList.toggle("open");
@@ -1053,15 +1045,12 @@
      ThriveCart's save where a class or data attribute might not. */
   var ID_BLOCKS = { "itrav-bonuses": "bonuses" };
 
-  /* Same idea for Learn lessons, if their HTML element turns out to drop
-     data attributes: id="itrav-lesson-<Presentation Topics record ID>". */
   function blockType(el) {
-    if ((el.id || "").indexOf("itrav-lesson-") === 0) return "session";
     return el.getAttribute("data-block") || ID_BLOCKS[el.id] || "";
   }
 
   function findBlocks() {
-    var sel = '.itrav-block[data-block],[id^="itrav-lesson-"]';
+    var sel = ".itrav-block[data-block]";
     Object.keys(ID_BLOCKS).forEach(function (id) { sel += ",#" + id; });
     return [].slice.call(document.querySelectorAll(sel)).filter(function (el) {
       return RENDERERS[blockType(el)] && !el.getAttribute("data-itrav-done");

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build speakers.json, sessions.json, bonuses.json and sponsors.json from Airtable.
+"""Build speakers.json, sessions.json, bonuses.json, sponsors.json and
+learn-blocks.html (copy-ready HTML for each ThriveCart Learn lesson) from Airtable.
 
 Run by .github/workflows/publish-page-data.yml, which is triggered by the
 "Run workflow" button on the repo's Actions tab (or on a schedule).
@@ -679,6 +680,116 @@ def session_page_report(sessions, issues, schedule):
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------- learn blocks --
+
+LEARN_FILE = "learn-blocks.html"
+
+
+def _h(t):
+    return (str(t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;"))
+
+
+def learn_block(session, speakers, schedule):
+    """Static HTML for one ThriveCart Learn lesson: title, video, and per
+    speaker their free gift button and bio. Inline styles only and no script,
+    because Learn's HTML element may strip both <style> and <script>."""
+    cfg = (schedule or {}).get("session_page", {})
+    expert_label = ((schedule or {}).get("directory", {}) or {}).get("expert_label", "{country} Expert")
+    by_slug = {p["slug"]: p for p in speakers}
+    pres = {p["slug"]: p for p in session.get("presenters", [])}
+    cast = [by_slug[x] for x in session["speakers"] if x in by_slug]
+
+    out = ['<div style="font-family:inherit;max-width:900px;margin:0 auto;color:#1a1a1a;">',
+           f'<h2 style="font-family:inherit;font-size:28px;font-weight:700;line-height:1.3;margin:0 0 18px;">'
+           f'{_h(session["title"])}</h2>']
+    if session.get("video_id"):
+        ratio = session.get("video_ratio") or 16 / 9
+        out.append(f'<div style="position:relative;width:100%;padding-top:{round(100 / ratio, 4)}%;margin:0 0 30px;">'
+                   f'<iframe src="https://go.screenpal.com/player/{_h(session["video_id"])}?ff=1&amp;title=0&amp;dcc=1" '
+                   f'title="{_h(session["title"])}" allowfullscreen="true" scrolling="no" '
+                   'style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe></div>')
+    else:
+        out.append('<p style="background:#f6f5f3;padding:40px 20px;text-align:center;color:#888;margin:0 0 30px;">'
+                   f'{_h(cfg.get("video_soon", "Video coming soon"))}</p>')
+
+    button = ("display:inline-block;background:#F2C181;color:#1A1A1A;font-weight:700;font-size:15px;"
+              "letter-spacing:.6px;text-transform:uppercase;text-decoration:none;padding:14px 26px;"
+              "border-radius:6px;line-height:1.3;")
+    for p in cast:
+        info = pres.get(p["slug"], {})
+        sub = []
+        if p["role"] == "expert" and p.get("country"):
+            sub.append(expert_label.replace("{country}", p["country"]))
+        if p.get("brand"):
+            sub.append(p["brand"])
+        out.append('<div style="margin:0 0 28px;">')
+        out.append(f'<p style="font-family:inherit;font-size:20px;font-weight:700;margin:0 0 2px;">{_h(p["name"])}</p>')
+        if sub:
+            out.append('<p style="font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.8px;'
+                       f'text-transform:uppercase;color:#657a9d;margin:0 0 12px;">{_h(" · ".join(sub))}</p>')
+        if info.get("gift_url") and info.get("gift_title"):
+            label, text, href = cfg.get("free_gift_label", "FREE GIFT:"), info["gift_title"], info["gift_url"]
+        elif info.get("website"):
+            label, text, href = cfg.get("learn_more_label", "LEARN MORE:"), p.get("brand") or p["name"], info["website"]
+        else:
+            label = None
+        if label:
+            out.append(f'<p style="font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.8px;margin:0 0 8px;">{_h(label)}</p>'
+                       f'<p style="margin:0;"><a href="{_h(href)}" target="_blank" rel="noopener" style="{button}">'
+                       f'{_h(text)} &rarr;</a></p>')
+        if p.get("bio"):
+            paras = "".join(f'<p style="margin:0 0 10px;">{_h(x.strip())}</p>'
+                            for x in p["bio"].split("\n") if x.strip())
+            out.append('<details style="margin:16px 0 0;border-left:4px solid #D4E17D;background:#f6f5f3;'
+                       'padding:10px 14px;border-radius:3px;">'
+                       f'<summary style="cursor:pointer;font-weight:600;">{_h(cfg.get("bio_label", "Speaker Bio"))}</summary>'
+                       f'<div style="font-family:inherit;font-size:15px;line-height:1.6;color:#444;margin:10px 0 0;">{paras}</div>'
+                       '</details>')
+        out.append("</div>")
+    out.append("</div>")
+    return "\n".join(out)
+
+
+def learn_page(sessions, speakers, schedule):
+    """learn-blocks.html: one copy-ready block per presentation, for the
+    ThriveCart Learn lessons. Regenerated on every publish run."""
+    rows = []
+    for s in sessions:
+        if s["kind"] == "live_panel":
+            continue
+        block = learn_block(s, speakers, schedule)
+        names = ", ".join(next((p["name"] for p in speakers if p["slug"] == x), x)
+                          for x in s["speakers"][:3]) + (" and more" if len(s["speakers"]) > 3 else "")
+        status = ('<span class="ok">Video added</span>' if s.get("video_id")
+                  else '<span class="wait">No video yet - wait before copying</span>')
+        rows.append(
+            f'<section><h2>Day {s["day"]} &middot; {_h(s["title"])}</h2>'
+            f'<p class="meta">{_h(names)} &middot; {status}</p>'
+            f'<textarea readonly rows="6">{_h(block)}</textarea>'
+            '<p><button type="button" class="copy">Copy HTML</button></p>'
+            f'<details><summary>Preview</summary><div class="preview">{block}</div></details></section>')
+    return (
+        "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">"
+        "<meta name=\"robots\" content=\"noindex\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+        "<title>Learn lesson blocks</title><style>"
+        "body{font-family:Arial,sans-serif;max-width:900px;margin:30px auto;padding:0 20px;color:#1a1a1a}"
+        ".how{background:#f6f5f3;border-left:4px solid #D4E17D;padding:12px 16px;font-size:15px;line-height:1.5}"
+        "section{border-bottom:1px solid #e9e7e4;padding:22px 0}h2{font-size:19px;margin:0 0 4px}"
+        ".meta{color:#666;margin:0 0 10px;font-size:14px}.ok{color:#2e7d32;font-weight:700}.wait{color:#b26a00;font-weight:700}"
+        "textarea{width:100%;font:12px/1.4 monospace}button{background:#F2C181;border:0;border-radius:6px;"
+        "padding:9px 18px;font-weight:700;cursor:pointer}.preview{border:1px dashed #ccc;padding:20px;margin:10px 0}"
+        "</style></head><body>\n"
+        "<p class=\"how\"><strong>For each lesson:</strong> click <em>Copy HTML</em> and paste it into the "
+        "lesson's HTML block in ThriveCart Learn. Everything comes from Airtable - fix mistakes there, run the "
+        "Publish workflow, then copy again. Built by the Publish workflow; do not edit this page.</p>\n"
+        + "\n".join(rows) +
+        "\n<script>document.addEventListener('click',function(e){var b=e.target.closest('.copy');if(!b)return;"
+        "var t=b.closest('section').querySelector('textarea');navigator.clipboard.writeText(t.value).then(function(){"
+        "b.textContent='Copied';setTimeout(function(){b.textContent='Copy HTML';},1500);});});</script>"
+        "\n</body></html>\n")
+
+
 def sponsor_report(sponsors, issues, field_missing):
     def j(rows):
         return ", ".join(rows) or "none"
@@ -898,6 +1009,9 @@ def main():
         sessions, speakers, rows["speakers"], rows["rsvp"], rows["topics"],
         rows["submissions"], bonuses, rows["bonuses"])
     link_report += page_links
+
+    with open(LEARN_FILE, "w", encoding="utf-8") as fh:
+        fh.write(learn_page(sessions, speakers, schedule))
 
     today = date.today().isoformat()
     generated = "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten"
