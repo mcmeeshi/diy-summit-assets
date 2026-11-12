@@ -691,14 +691,22 @@ def _h(t):
 
 
 def learn_block(session, speakers, schedule):
-    """Static HTML for one ThriveCart Learn lesson: title, video, and per
-    speaker their free gift button and bio. Inline styles only and no script,
-    because Learn's HTML element may strip both <style> and <script>."""
+    """Static HTML for one ThriveCart Learn lesson: title, video, description,
+    then each speaker with their brand and social links, free gift and bio.
+    Destination experts get plain links instead of buttons. Inline styles only
+    and no script, because Learn's HTML element may strip both."""
     cfg = (schedule or {}).get("session_page", {})
     expert_label = ((schedule or {}).get("directory", {}) or {}).get("expert_label", "{country} Expert")
     by_slug = {p["slug"]: p for p in speakers}
     pres = {p["slug"]: p for p in session.get("presenters", [])}
     cast = [by_slug[x] for x in session["speakers"] if x in by_slug]
+    link = "color:#657a9d;text-decoration:underline;"
+    button = ("display:inline-block;background:#F2C181;color:#1A1A1A;font-weight:700;font-size:15px;"
+              "letter-spacing:.6px;text-transform:uppercase;text-decoration:none;padding:14px 26px;"
+              "border-radius:6px;line-height:1.3;")
+
+    def a(href, text, style=link):
+        return f'<a href="{_h(href)}" target="_blank" rel="noopener" style="{style}">{_h(text)}</a>'
 
     out = ['<div style="font-family:inherit;max-width:900px;margin:0 auto;color:#1a1a1a;">',
            f'<h2 style="font-family:inherit;font-size:28px;font-weight:700;line-height:1.3;margin:0 0 18px;">'
@@ -712,32 +720,35 @@ def learn_block(session, speakers, schedule):
     else:
         out.append('<p style="background:#f6f5f3;padding:40px 20px;text-align:center;color:#888;margin:0 0 30px;">'
                    f'{_h(cfg.get("video_soon", "Video coming soon"))}</p>')
+    if session.get("description_html"):
+        out.append('<div style="font-family:inherit;font-size:16px;line-height:1.65;color:#333;margin:0 0 30px;">'
+                   f'{session["description_html"]}</div>')
 
-    button = ("display:inline-block;background:#F2C181;color:#1A1A1A;font-weight:700;font-size:15px;"
-              "letter-spacing:.6px;text-transform:uppercase;text-decoration:none;padding:14px 26px;"
-              "border-radius:6px;line-height:1.3;")
     for p in cast:
         info = pres.get(p["slug"], {})
-        sub = []
-        if p["role"] == "expert" and p.get("country"):
-            sub.append(expert_label.replace("{country}", p["country"]))
-        if p.get("brand"):
-            sub.append(p["brand"])
+        expert = p["role"] == "expert"
         out.append('<div style="margin:0 0 28px;">')
-        out.append(f'<p style="font-family:inherit;font-size:20px;font-weight:700;margin:0 0 2px;">{_h(p["name"])}</p>')
-        if sub:
-            out.append('<p style="font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.8px;'
-                       f'text-transform:uppercase;color:#657a9d;margin:0 0 12px;">{_h(" · ".join(sub))}</p>')
-        if info.get("gift_url") and info.get("gift_title"):
-            label, text, href = cfg.get("free_gift_label", "FREE GIFT:"), info["gift_title"], info["gift_url"]
+        out.append(f'<p style="font-family:inherit;font-size:20px;font-weight:700;margin:0 0 4px;">{_h(p["name"])}</p>')
+        links = []
+        if expert and p.get("country"):
+            links.append(_h(expert_label.replace("{country}", p["country"])))
+        if p.get("brand"):
+            links.append(a(info["website"], p["brand"]) if info.get("website") else _h(p["brand"]))
         elif info.get("website"):
-            label, text, href = cfg.get("learn_more_label", "LEARN MORE:"), p.get("brand") or p["name"], info["website"]
-        else:
-            label = None
-        if label:
-            out.append(f'<p style="font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.8px;margin:0 0 8px;">{_h(label)}</p>'
-                       f'<p style="margin:0;"><a href="{_h(href)}" target="_blank" rel="noopener" style="{button}">'
-                       f'{_h(text)} &rarr;</a></p>')
+            links.append(a(info["website"], cfg.get("website_label", "Website")))
+        if info.get("social"):
+            links.append(a(info["social"], cfg.get("social_label", "Social Media")))
+        if links:
+            out.append(f'<p style="font-family:inherit;font-size:15px;margin:0 0 12px;">{" &middot; ".join(links)}</p>')
+        if info.get("gift_url") and info.get("gift_title"):
+            if expert:
+                out.append(f'<p style="font-family:inherit;font-size:15px;margin:0 0 8px;">'
+                           f'<strong>{_h(cfg.get("expert_gift_label", "Free gift"))}:</strong> '
+                           f'{a(info["gift_url"], info["gift_title"])}</p>')
+            else:
+                out.append(f'<p style="font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.8px;margin:0 0 8px;">'
+                           f'{_h(cfg.get("free_gift_label", "FREE GIFT:"))}</p>'
+                           f'<p style="margin:0;">{a(info["gift_url"], info["gift_title"] + " →", button)}</p>')
         if p.get("bio"):
             paras = "".join(f'<p style="margin:0 0 10px;">{_h(x.strip())}</p>'
                             for x in p["bio"].split("\n") if x.strip())
@@ -764,7 +775,7 @@ def learn_page(sessions, speakers, schedule):
         status = ('<span class="ok">Video added</span>' if s.get("video_id")
                   else '<span class="wait">No video yet - wait before copying</span>')
         rows.append(
-            f'<section><h2>Day {s["day"]} &middot; {_h(s["title"])}</h2>'
+            f'<section id="{s["id"]}"><h2>Day {s["day"]} &middot; {_h(s["title"])}</h2>'
             f'<p class="meta">{_h(names)} &middot; {status}</p>'
             f'<textarea readonly rows="6">{_h(block)}</textarea>'
             '<p><button type="button" class="copy">Copy HTML</button></p>'
@@ -776,7 +787,7 @@ def learn_page(sessions, speakers, schedule):
         "body{font-family:Arial,sans-serif;max-width:900px;margin:30px auto;padding:0 20px;color:#1a1a1a}"
         ".how{background:#f6f5f3;border-left:4px solid #D4E17D;padding:12px 16px;font-size:15px;line-height:1.5}"
         "section{border-bottom:1px solid #e9e7e4;padding:22px 0}h2{font-size:19px;margin:0 0 4px}"
-        ".meta{color:#666;margin:0 0 10px;font-size:14px}.ok{color:#2e7d32;font-weight:700}.wait{color:#b26a00;font-weight:700}"
+        "section:target{background:#fffbea}.meta{color:#666;margin:0 0 10px;font-size:14px}.ok{color:#2e7d32;font-weight:700}.wait{color:#b26a00;font-weight:700}"
         "textarea{width:100%;font:12px/1.4 monospace}button{background:#F2C181;border:0;border-radius:6px;"
         "padding:9px 18px;font-weight:700;cursor:pointer}.preview{border:1px dashed #ccc;padding:20px;margin:10px 0}"
         "</style></head><body>\n"

@@ -246,7 +246,17 @@
     ".itrav-bn-cta-wrap{margin:0 0 36px;}",
     "}",
     "@media (prefers-reduced-motion:reduce){button.itrav-bn-more::after{transition:none;}}",
-    /* ---- session page ---- */
+    /* ---- session page ----
+       Fonts are named here, not inherited: the site loads Aleo for headings
+       and Montserrat for text, and a Code Block does not pass either on.
+       Buttons follow the site's primary button (blue, white text); on the
+       blue bonus band they invert. */
+    ".itrav-ss{font-family:'Montserrat',sans-serif;}",
+    ".itrav-ss .itrav-ss-title,.itrav-ss .itrav-ss-name,.itrav-ss .itrav-ss-bonus h3{font-family:'Aleo',serif;}",
+    ".itrav-ss .itrav-cta{background:#657a9d;color:#fff !important;}",
+    ".itrav-ss .itrav-cta:hover{color:#fff !important;}",
+    ".itrav-ss .itrav-ss-bonus .itrav-cta{background:#fff;color:#657a9d !important;}",
+    ".itrav-ss .itrav-ss-bonus .itrav-cta:hover{color:#657a9d !important;}",
     ".itrav-ss-title{font-family:inherit;font-size:34px;font-weight:700;line-height:1.25;color:#1a1a1a;text-align:center;margin:0 0 26px;}",
     ".itrav-ss-video{position:relative;width:100%;aspect-ratio:16/9;background:#1a1a1a;border-radius:4px;overflow:hidden;margin:0 0 38px;}",
     ".itrav-ss-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}",
