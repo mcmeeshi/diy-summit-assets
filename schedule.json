@@ -150,6 +150,9 @@
     "login_lead": "Already upgraded?",
     "login_text": "Log in here",
     "login_href": "https://itravl.thrivecart.com/l/asia-2027-first-class-pass/",
+    "template_path": "/presentation-template",
+    "template_session": "",
+    "_template_note": "The template page (template_path) shows a sample session: template_session if set (a Presentation Topics record ID), else the first one with a video and description.",
     "unlinked": "This page is not linked to a session yet. Put this page's address in Squarespace Page in Presentation Topics, then run the Publish workflow."
   },
   "bonuses": {

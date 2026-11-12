@@ -253,6 +253,7 @@
        blue bonus band they invert. */
     ".itrav-ss{font-family:'Montserrat',sans-serif;}",
     ".itrav-ss .itrav-ss-title,.itrav-ss .itrav-ss-name,.itrav-ss .itrav-ss-bonus h3{font-family:'Aleo',serif;}",
+    ".itrav-ss .itrav-ss-title,.itrav-ss .itrav-ss-name{font-weight:500;color:#313D41;}",
     ".itrav-ss .itrav-cta{background:#657a9d;color:#fff !important;}",
     ".itrav-ss .itrav-cta:hover{color:#fff !important;}",
     ".itrav-ss .itrav-ss-bonus .itrav-cta{background:#fff;color:#657a9d !important;}",
@@ -819,13 +820,25 @@
     var wanted = el.getAttribute("data-session") || "";
 
     var sess = null;
+    var here = pagePath(window.location.href);
     if (wanted) {
       sessions.forEach(function (s) { if (s.id === wanted) sess = s; });
     } else {
-      var here = pagePath(window.location.href);
       sessions.forEach(function (s) {
         if (s.page_url && pagePath(s.page_url) === here) sess = s;
       });
+    }
+    /* The template page shows a sample session so layout changes can be
+       checked without duplicating it: the first one with a video and a
+       description, or schedule.json -> session_page.template_session. */
+    if (!sess && cfg.template_path && here === pagePath(cfg.template_path)) {
+      sessions.forEach(function (s) {
+        if (!sess && cfg.template_session && s.id === cfg.template_session) sess = s;
+      });
+      sessions.forEach(function (s) {
+        if (!sess && s.kind === "single" && s.video_id && s.description_html) sess = s;
+      });
+      sessions.forEach(function (s) { if (!sess && s.kind !== "live_panel") sess = s; });
     }
     if (!sess) {
       console.warn("itrav-blocks: no session for " + (wanted || window.location.pathname));
