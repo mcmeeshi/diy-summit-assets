@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-12",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
@@ -8,7 +8,12 @@
     "display_order": "From 'Display Order for Schedule' in Presentation Topics. Maintained by hand in Airtable and it is the ONLY thing to edit to reorder a day. Blank sinks to the bottom.",
     "detection": "kind comes from the 👥 marker plus a 'Live panel:'/'Live call:' title prefix, never from speaker count - counting breaks on co-presented sessions.",
     "page_url": "Squarespace Page from Airtable. Day-page rows link here as soon as it is filled.",
-    "sort_rank": "0 host, 1 sponsor, 2 everyone else. Only a tiebreaker when display_order is blank."
+    "sort_rank": "0 host, 1 sponsor, 2 everyone else. Only a tiebreaker when display_order is blank.",
+    "video_id": "Screenpal video ID from 'Screenpal Video' in Presentation Topics. Empty = 'video coming soon'.",
+    "video_ratio": "Aspect ratio from the pasted embed code, if it had one; the player defaults to 16:9.",
+    "description_html": "Video Submissions Description, converted from rich text. On a compilation, the host's submission.",
+    "presenters": "One per speaker: their free gift (Freebie title + Freebie Link), Website and Social Media from their own Video Submission. No gift = a Learn more button to their website.",
+    "bonuses": "Their approved First Class Pass bonuses, matched to the speaker by email, then name, then brand."
   },
   "sessions": [
     {
@@ -18,7 +23,7 @@
       "kind": "compilation",
       "sort_rank": 0,
       "display_order": 10,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/michelle-day-1",
       "speakers": [
         "michelle-chang",
         "jaclynn-seah",
@@ -32,7 +37,97 @@
         "tanya-korteling",
         "linawati-ismail",
         "dave-and-abby"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "michelle-chang",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://intentionaltravelers.com",
+          "social": ""
+        },
+        {
+          "slug": "jaclynn-seah",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://theoccasionaltraveller.com/",
+          "social": ""
+        },
+        {
+          "slug": "paula-morgan",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://thailandawaits.com",
+          "social": ""
+        },
+        {
+          "slug": "harry-vu",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://instagram.com/angieeadventures",
+          "social": ""
+        },
+        {
+          "slug": "vicki",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.youtube.com/@Vickipedia_China",
+          "social": ""
+        },
+        {
+          "slug": "aran",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.youtube.com/@Korea_expert",
+          "social": ""
+        },
+        {
+          "slug": "kieren-and-emily",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://baliuntold.com/",
+          "social": ""
+        },
+        {
+          "slug": "deborah",
+          "gift_title": "10 Hong Kong Hotel Mistakes",
+          "gift_url": "https://www.hongkongmadeeasy.com/hongkonghotelmistakes/",
+          "website": "https://www.hongkongmadeeasy.com/",
+          "social": "https://instagram.com/hongkongmadeeasy"
+        },
+        {
+          "slug": "helen-foster",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://japlanease.com",
+          "social": ""
+        },
+        {
+          "slug": "tanya-korteling",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.cantravelwilltravel.com",
+          "social": ""
+        },
+        {
+          "slug": "linawati-ismail",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.malaysia.travel/explore/choose-your-malaysia-mix",
+          "social": ""
+        },
+        {
+          "slug": "dave-and-abby",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.youtube.com/DaveOnArrival",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recCmY5n4LgqWYozL",
@@ -41,10 +136,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 20,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/tracy-day-1",
       "speakers": [
         "tracy-and-doug-collins"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "tracy-and-doug-collins",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://globaltravelplanning.com/about-tracy/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec21vvtSc3vhQMZq",
@@ -53,22 +161,48 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 30,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/angela-day-1",
       "speakers": [
         "angela-jane"
-      ]
+      ],
+      "video_id": "cTloVlnYuvV",
+      "video_ratio": null,
+      "description_html": "<p>Dreaming of travelling solo in Asia after 50, but unsure where to begin?</p><p>Join Angela Jane, founder of Travels of the World, for a five-step confidence plan drawn from her own experiences in Japan, Nepal, India and Bali.</p><p>Discover how to choose a trip with purpose, find your balance of independence and support, travel at your own pace and feel more prepared for arrival. You’ll leave with five questions to shape your first trip and one manageable action to take this week.</p>",
+      "presenters": [
+        {
+          "slug": "angela-jane",
+          "gift_title": "Free 50+ Travel Starter Kit",
+          "gift_url": "https://travels-of-the-world.kit.com/03a6d5c627",
+          "website": "https://travelsoftheworld.com/",
+          "social": "https://instagram.com/angela50pluslife"
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recE398g5FWMPNQi2",
-      "title": "Slow Travel",
+      "title": "Slow travel in Asia: A trip you'll really love",
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
       "display_order": 40,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/amanda-day-1",
       "speakers": [
         "amanda-kendle"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "amanda-kendle",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.notaballerina.com/podcast",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recGrCFTTfSXWWKe3",
@@ -77,10 +211,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 50,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/preethi-day-1",
       "speakers": [
         "preethi-chandrasekhar"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "preethi-chandrasekhar",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.instagram.com/eagertravele/?hl=en",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec4Fhr7oh0PeVmvy",
@@ -89,22 +236,48 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 60,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/erin-day-1",
       "speakers": [
         "erin-holmes"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "erin-holmes",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://explorewitherin.com/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec5OINTtDaA7cUlM",
-      "title": "House-sitting in Asia (and beyond)",
+      "title": "House-sitting in Asia (and Beyond)",
       "day": 1,
       "kind": "single",
       "sort_rank": 2,
       "display_order": 70,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/jen-day-1",
       "speakers": [
         "jen-and-stevo"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "jen-and-stevo",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://youtube.com/twocantravel",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recnYQZo5S7ngQdtR",
@@ -113,10 +286,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 80,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/timathea-day-1",
       "speakers": [
         "timathea-workman"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "timathea-workman",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://timathea.com/field-notes",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recPQ8ZVQ0Wqw7k6M",
@@ -125,10 +311,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 90,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/audra-day-1",
       "speakers": [
         "audra-morris"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "audra-morris",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.thenerdtraveler.com/about/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec7d5iSzeBcT0GAZ",
@@ -150,10 +349,23 @@
       "kind": "single",
       "sort_rank": 0,
       "display_order": 10,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/jedd-day-2",
       "speakers": [
         "jedd-chang"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "jedd-chang",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://intentionaltravelers.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recYL87ldqwH87nEW",
@@ -162,10 +374,23 @@
       "kind": "single",
       "sort_rank": 1,
       "display_order": 20,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/daniel-day-2",
       "speakers": [
         "daniel-burnham"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "daniel-burnham",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.dailydrop.com/pro?via=intentionaltravel",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recdULRxI81ZLPqhi",
@@ -174,10 +399,23 @@
       "kind": "single",
       "sort_rank": 1,
       "display_order": 30,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/megan-day-2",
       "speakers": [
         "megan-johnston"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "megan-johnston",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.dailydrop.com/pro?via=intentionaltravel",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recKDhKTYmQ2Qpg4V",
@@ -186,10 +424,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 40,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/kristin-day-2",
       "speakers": [
         "kristin-henning"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "kristin-henning",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://travelpast50.com/about-us/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recoZ4kXTIcMzSFNT",
@@ -198,10 +449,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 50,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/robyn-day-2",
       "speakers": [
         "robyn-dirk"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "robyn-dirk",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://twoemptypassports.com/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recuo6ceLumwLFLVy",
@@ -210,10 +474,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 60,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/ashley-day-2",
       "speakers": [
         "ashley-mccurdy"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "ashley-mccurdy",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://instagram.com/insearchoftraveler",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec0EVmQKwVM5LWnR",
@@ -222,10 +499,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 70,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/sojourner-day-2",
       "speakers": [
         "sojourner-white"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "sojourner-white",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://sojournies.com/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recToCxy9PV9J1tvv",
@@ -234,10 +524,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 80,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/jo-day-2",
       "speakers": [
         "jo-anne-dragoun"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "jo-anne-dragoun",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://retirementbestie.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recgdXsxOmCZcqYDm",
@@ -246,10 +549,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 90,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/rachel-day-2",
       "speakers": [
         "rachel-heller"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "rachel-heller",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://rachelsruminations.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recGHvMMXzJ34NLYV",
@@ -258,10 +574,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 100,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/dannelle-day-2",
       "speakers": [
         "dannelle-gay"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "dannelle-gay",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://travelingcheesehead.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec1iXKqA8dt3B7XF",
@@ -283,10 +612,23 @@
       "kind": "single",
       "sort_rank": 0,
       "display_order": 10,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/michelle-day-3",
       "speakers": [
         "michelle-chang"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "michelle-chang",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://intentionaltravelers.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "rec0vFHb0DlLYFYsF",
@@ -295,10 +637,23 @@
       "kind": "single",
       "sort_rank": 0,
       "display_order": 20,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/jedd-day-3",
       "speakers": [
         "jedd-chang"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "jedd-chang",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://intentionaltravelers.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recICDIhvsOzoKrkG",
@@ -307,10 +662,23 @@
       "kind": "single",
       "sort_rank": 1,
       "display_order": 30,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/sheri-day-3",
       "speakers": [
         "sheri-howell"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "sheri-howell",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://medjetassist.com/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recY3oQMkrZcaTmwg",
@@ -319,10 +687,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 40,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/paul-day-3",
       "speakers": [
         "paul-and-heather"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "paul-and-heather",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.youtube.com/@TheFreedomStrategy",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "reccDMJYggwV0WnMi",
@@ -331,10 +712,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 50,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/judy-day-3",
       "speakers": [
         "judy-and-kevin"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "judy-and-kevin",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://findingginamarie.com",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recqoSwfpZX0h3WYO",
@@ -343,10 +737,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 60,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/tyke-day-3",
       "speakers": [
         "tyke-tina"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "<p>Here’s the new description, about 90 words:</p><p>Travel Southeast Asia with confidence! Tina, a nurse who slow travels through the region, shares what really goes wrong for travelers and how to keep it from happening to you.</p><p>You’ll learn how to:</p><ul><li>Pack medications legally</li><li>Enjoy street food without getting sick</li><li>Handle the heat and spot heat stroke</li><li>Prevent dengue, rabies and scooter injuries</li><li>Find good care and make sure your insurance covers you</li></ul><p>Plus, download our free “Stay Healthy in SE Asia” toolkit. It lists the apps we use for air quality, doctor visits, rides, phone data and money, and it includes money-saving discount codes.</p>",
+      "presenters": [
+        {
+          "slug": "tyke-tina",
+          "gift_title": "“Stay Healthy in SE Asia” Toolkit",
+          "gift_url": "https://tykeandtinaadventures.substack.com/subscribe",
+          "website": "https://tykeandtinaadventures.com/",
+          "social": "https://www.youtube.com/@TykeandTinaAdventures"
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recQeIAWGNXWpQ0ac",
@@ -355,10 +762,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 70,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/lindsay-day-3",
       "speakers": [
         "lindsay-dow"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "lindsay-dow",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://lindsaydoeslanguages.com/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recVSNsCzkphswptH",
@@ -367,10 +787,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 80,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/lynne-day-3",
       "speakers": [
         "lynne"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "lynne",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://www.travelynne.ca/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recmpw3IOqNPusCeT",
@@ -379,10 +812,23 @@
       "kind": "single",
       "sort_rank": 2,
       "display_order": 90,
-      "page_url": "",
+      "page_url": "https://diytripsummit.com/jim-day-3",
       "speakers": [
         "jim-and-chris"
-      ]
+      ],
+      "video_id": "",
+      "video_ratio": null,
+      "description_html": "",
+      "presenters": [
+        {
+          "slug": "jim-and-chris",
+          "gift_title": "",
+          "gift_url": "",
+          "website": "https://geeksontour.com/",
+          "social": ""
+        }
+      ],
+      "bonuses": []
     },
     {
       "id": "recmoydtYl5RFluce",

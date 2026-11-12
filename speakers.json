@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-12",
   "cycle": "2027",
   "region": "Asia",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
@@ -26,7 +26,7 @@
       "has_headshot": true,
       "airtable_id": "recvrqNa7S047hOVM",
       "talk_titles": [
-        "Slow Travel"
+        "Slow travel in Asia: A trip you'll really love"
       ]
     },
     {
@@ -146,7 +146,7 @@
       "name": "Dave and Abby",
       "brand": "Dave On Arrival",
       "role": "expert",
-      "country": "the Philippines",
+      "country": "The Philippines",
       "link": "https://www.youtube.com/DaveOnArrival",
       "photo": "",
       "bio": "Dave has run the travel YouTube channel, Dave On Arrival, for 10 years showcasing the unique and extraordinary experiences that only traveling beyond your comfort zone can offer. He met Abby in the Philippines while he was on assignment in Manila in 2022 and decided to make the city his home base as their relationship grew. They now travel through the many provinces of the Philippines and take regular trips to other Asian countries to showcase the amazingly diverse cultures, food, and traditions that Asia has to offer.",
@@ -267,7 +267,7 @@
       "has_headshot": true,
       "airtable_id": "recIgyEkxETIiF2w7",
       "talk_titles": [
-        "House-sitting in Asia (and beyond)"
+        "House-sitting in Asia (and Beyond)"
       ]
     },
     {
