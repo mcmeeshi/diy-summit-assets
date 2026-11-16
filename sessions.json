@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12",
+  "updated": "2026-11-16",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
@@ -177,14 +177,7 @@
           "social": "https://instagram.com/angela50pluslife"
         }
       ],
-      "bonuses": [
-        {
-          "title": "Your First Solo Trip After 50 — The Complete Plan",
-          "image": "Summit-Product-Image-2000x2000.png",
-          "brand": "Travels Of The World",
-          "description_html": "<p>Plan your first solo trip after 50 with more confidence and less overwhelm. This 29-page PDF guide includes 10 destination ideas, an example budget, a printable budget planner, packing suggestions, safety guidance and planning checklists. You’ll also find personal advice on eating alone and handling lonely moments, plus worksheets to work through worries, prepare your arrival and record essential contacts.</p><p>Created by Angela Jane, founder of Travels of the World, drawing on her own solo travel experiences. Download, print and work through it at your own pace.</p>"
-        }
-      ]
+      "bonuses": []
     },
     {
       "id": "recE398g5FWMPNQi2",
@@ -412,14 +405,14 @@
       ],
       "video_id": "",
       "video_ratio": null,
-      "description_html": "",
+      "description_html": "<p>Ready to turn your hotel points into unforgettable stays in Asia? In this presentation, Megan from Daily Drop breaks down how to earn hotel points, where to redeem them, and how to find incredible value across Asia. Whether you're dreaming of a luxury resort, exploring vibrant cities, or stretching your points for multiple nights, you'll learn the ins and outs of hotel rewards programs, which brands offer the best opportunities, and common rookie mistakes to avoid. Walk away with practical tips, tools, and a simple game plan to turn your points into your next Asian adventure!</p>",
       "presenters": [
         {
           "slug": "megan-johnston",
-          "gift_title": "",
-          "gift_url": "",
-          "website": "https://www.dailydrop.com/pro?via=intentionaltravel",
-          "social": ""
+          "gift_title": "Daily Drop Newsletter",
+          "gift_url": "https://www.dailydrop.com/sign-up?via=intentionaltravel",
+          "website": "https://www.dailydrop.com/sign-up?via=intentionaltravel",
+          "social": "https://instagram.com/dailydrop"
         }
       ],
       "bonuses": []
@@ -847,7 +840,8 @@
       "page_url": "",
       "speakers": [
         "malia-yoshioka",
-        "paula-barnes"
+        "paula-barnes",
+        "john-and-kate"
       ]
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12",
+  "updated": "2026-11-16",
   "cycle": "2027",
   "region": "Asia",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
@@ -300,6 +300,22 @@
       "airtable_id": "recgz0b5K5EJEKYVq",
       "talk_titles": [
         "AI as Your Travel Assistant: Plan Smarter, Verify Better, Travel With Confidence"
+      ]
+    },
+    {
+      "slug": "john-and-kate",
+      "name": "John and Kate",
+      "brand": "",
+      "role": "speaker",
+      "country": "",
+      "link": "",
+      "photo": "",
+      "bio": "",
+      "has_rsvp": false,
+      "has_headshot": false,
+      "airtable_id": "recVrDXlZ8nywAP8s",
+      "talk_titles": [
+        "Expert Panelist"
       ]
     },
     {

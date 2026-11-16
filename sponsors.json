@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12",
+  "updated": "2026-11-16",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
@@ -36,6 +36,13 @@
       "link": "https://heyjedd.com",
       "order": 4.0,
       "airtable_id": "recNYD8Mkog65X4cc"
+    },
+    {
+      "name": "Vim & Vigr",
+      "slug": "vim-vigr",
+      "link": "https://vimvigr.com/?srsltid=AfmBOoqtLg7ZzkYIZ2uOZGhtmjys0EEn2xwLAOwgXMVRh4BLz26Zelyc",
+      "order": 5.0,
+      "airtable_id": "recef0FksaEXcy4Ao"
     }
   ]
 }
