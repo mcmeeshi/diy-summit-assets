@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build speakers.json, sessions.json, bonuses.json, sponsors.json,
 learn-blocks.html (copy-ready HTML for each presentation's ThriveCart Learn
-lesson) and claim-blocks.html (copy-ready HTML for each contributor's First
+lesson) and fcp-claim-blocks.html (copy-ready HTML for each contributor's First
 Class Pass bonus lesson) from Airtable.
 
 Run by .github/workflows/publish-page-data.yml, which is triggered by the
@@ -79,10 +79,10 @@ BONUS_IMAGE_DIR = "images/bonuses"
 # shown before approval so descriptions can be reviewed early. Our own bonuses
 # (the excluded categories above) are duplicated by hand each cycle instead.
 PAGES_URL = "https://mcmeeshi.github.io/diy-summit-assets"
-CLAIM_FILE = "claim-blocks.html"
+CLAIM_FILE = "fcp-claim-blocks.html"
 CLAIM_SKIPPED_STATUS = {"Not usable"}
-# Shown on "Deadline for this offer:" when Expires? is blank. Empty = that line
-# is left out, rather than inventing a deadline the contributor did not give.
+# Shown on "Deadline for this offer:" when Expires? is blank. Blank usually
+# means no expiration, so this stays empty and the line is left out.
 CLAIM_DEFAULT_DEADLINE = ""
 CLAIM_INTRO = ("To access First Class Pass premium resources, please sign up "
                "individually for each offer that interests you.")
@@ -977,7 +977,7 @@ def claim_block(c):
 
 
 def claim_page(claims, repo_images):
-    """claim-blocks.html: one copy-ready block per contributor bonus, anchored
+    """fcp-claim-blocks.html: one copy-ready block per contributor bonus, anchored
     by its Contributor Submission record ID for the Airtable link field."""
     rows = []
     for c in claims:
@@ -1044,9 +1044,9 @@ def claim_report(claims, issues):
         f"- **Description may hold claim details** — move them to Claim instructions so the sales page "
         f"stays clean ({len(issues['claim_wording'])}): {j(issues['claim_wording'])}",
         f"- Expires? date already passed ({len(issues['expired'])}): {j(issues['expired'])}",
-        f"- No Expires? date, so no expiry in the title"
-        + ("" if CLAIM_DEFAULT_DEADLINE else " and no deadline line")
-        + f" ({len(issues['no_expiry'])}): {j(issues['no_expiry'])}",
+        f"- No Expires? date, treated as no expiration (no expiry in the title"
+        + ("" if CLAIM_DEFAULT_DEADLINE else ", no deadline line")
+        + f") ({len(issues['no_expiry'])}): {j(issues['no_expiry'])}",
         f"- No Help Contact, support line left out ({len(issues['no_contact'])}): {j(issues['no_contact'])}",
         f"- Contributor name in all caps, not a confirmed speaker ({len(issues['caps_name'])}): {j(issues['caps_name'])}",
         f"- More than one Product Img — all are shown; upload each to `{BONUS_IMAGE_DIR}/` "
