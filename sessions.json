@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16",
+  "updated": "2026-11-18",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
@@ -678,7 +678,14 @@
           "social": ""
         }
       ],
-      "bonuses": []
+      "bonuses": [
+        {
+          "title": "10% off Annual MEDJET Memberships for DIY Trip Summit Attendees",
+          "image": "Medjet DIY Summit Flyer 2000x2000.png",
+          "brand": "Medjet",
+          "description_html": "<p>Save 10% on most annual MEDJET MEMBERSHIPS.</p><ul><li>Get to hospital AT HOME, not just the “nearest adequate” one most travel insurance and fancy credit card medevac benefits are limited to;</li><li>Add 24/7 security &amp; crisis response benefits, including security evacuation if necessary, by choosing MedjetHorizon.</li></ul><p>A single air medical transport from Asia can cost over $300,000. Security and natural disasters in the region are always a concern. Protect yourself! Enroll in Medjet before you go.</p><p>Offer ends 3/1/2027. Offer not available on Short Term, Diamond and some specialty memberships.</p>"
+        }
+      ]
     },
     {
       "id": "recY3oQMkrZcaTmwg",
