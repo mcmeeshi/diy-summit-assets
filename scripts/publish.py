@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Build speakers.json, sessions.json, bonuses.json, sponsors.json and
-learn-blocks.html (copy-ready HTML for each ThriveCart Learn lesson) from Airtable.
+"""Build speakers.json, sessions.json, bonuses.json, sponsors.json,
+learn-blocks.html (copy-ready HTML for each presentation's ThriveCart Learn
+lesson) and claim-blocks.html (copy-ready HTML for each contributor's First
+Class Pass bonus lesson) from Airtable.
 
 Run by .github/workflows/publish-page-data.yml, which is triggered by the
 "Run workflow" button on the repo's Actions tab (or on a schedule).
@@ -70,6 +72,21 @@ BONUS_SPONSOR_FIELD = "Sponsor?"   # checkbox; ticked = SPONSOR label
 # Bonus images keep the filename of the Product Img attachment in Airtable,
 # so whoever uploads them to the repo never has to rename anything.
 BONUS_IMAGE_DIR = "images/bonuses"
+
+# Claim blocks: one copy-ready lesson block per contributor bonus, for the
+# First Class Pass course in ThriveCart Learn (Academy from the next summit).
+# Same Contributor Submission records as the sales page, minus Not usable, and
+# shown before approval so descriptions can be reviewed early. Our own bonuses
+# (the excluded categories above) are duplicated by hand each cycle instead.
+PAGES_URL = "https://mcmeeshi.github.io/diy-summit-assets"
+CLAIM_FILE = "claim-blocks.html"
+CLAIM_SKIPPED_STATUS = {"Not usable"}
+# Shown on "Deadline for this offer:" when Expires? is blank. Empty = that line
+# is left out, rather than inventing a deadline the contributor did not give.
+CLAIM_DEFAULT_DEADLINE = ""
+CLAIM_INTRO = ("To access First Class Pass premium resources, please sign up "
+               "individually for each offer that interests you.")
+CLAIM_BUTTON = "CLAIM THIS OFFER &gt;"
 
 # Sponsor logo strip (Sponsors table). Only records whose Status is Paid are
 # published, so the outreach prospects in the same table never reach the site.
@@ -326,10 +343,11 @@ def build(speaker_rows, rsvp_rows, topic_rows):
 _ESCAPABLE = r"\\`*_{}\[\]()#+\-.!~>|"
 
 
-def _inline(text):
+def _inline(text, links=False):
     """Escape HTML, then apply the few inline marks Airtable rich text uses.
-    Links keep their text but lose the href: an outbound link on a checkout
-    page sends buyers away before they pay."""
+    By default links keep their text but lose the href: an outbound link on a
+    checkout page sends buyers away before they pay. links=True keeps them
+    (claim pages, which only buyers see), for http(s) and mailto only."""
     held = []
 
     def hold(m):
@@ -338,7 +356,14 @@ def _inline(text):
 
     t = re.sub(r"\\([" + _ESCAPABLE + r"])", hold, text)
     t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
-    t = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", t)
+    def link(m):
+        href = m.group(2).strip()
+        if links and re.match(r"(https?://|mailto:)", href, flags=re.I):
+            return (f'<a href="{href}" target="_blank" rel="noopener" '
+                    f'style="color:#657a9d;text-decoration:underline;">{m.group(1)}</a>')
+        return m.group(1)
+
+    t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", link, t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
     t = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", t)
     t = re.sub(r"(?<!\w)_(?!\s)(.+?)(?<!\s)_(?!\w)", r"<em>\1</em>", t)
@@ -347,7 +372,7 @@ def _inline(text):
     return t
 
 
-def rich_to_html(md):
+def rich_to_html(md, links=False):
     """Airtable rich text (markdown) -> a small, safe HTML subset:
     p, ul/ol/li, strong, em. Each line is its own paragraph, because that is
     how contributors' line breaks read in Airtable. A line starting with a
@@ -365,18 +390,18 @@ def rich_to_html(md):
         if not line:
             flush()
             continue
-        bullet = re.match(r"^(?:\\?[-*\u2022])\s+(.*)$", line)
+        bullet = re.match(r"^(?:\\?[-*\u2022\u00b7])\s+(.*)$", line)
         number = re.match(r"^\d+[.)]\s+(.*)$", line)
         if bullet or number:
             want = "ul" if bullet else "ol"
             if kind and kind != want:
                 flush()
             kind = want
-            items.append(_inline((bullet or number).group(1).strip()))
+            items.append(_inline((bullet or number).group(1).strip(), links))
             continue
         flush()
         line = re.sub(r"^#+\s+", "", line)
-        out.append(f"<p>{_inline(line)}</p>")
+        out.append(f"<p>{_inline(line, links)}</p>")
     flush()
     return "".join(out)
 
@@ -521,6 +546,32 @@ def _email(v):
     return str(v or "").strip().lower()
 
 
+def bonus_owner_finder(speakers, speaker_rows, rsvp_rows):
+    """Which confirmed speaker submitted a Contributor Submission record.
+    The table has no link to the speaker, so match on email (Summit Speakers
+    or RSVP), then name, then brand. Returns a function: record -> speaker
+    record ID, or None for contributors who are not speakers."""
+    by_airtable = {p["airtable_id"]: p for p in speakers}
+    owner_by_email, owner_by_name, owner_by_brand = {}, {}, {}
+    for row in speaker_rows:
+        if row["id"] in by_airtable:
+            if _email(f(row, "Email")):
+                owner_by_email[_email(f(row, "Email"))] = row["id"]
+            owner_by_name[by_airtable[row["id"]]["name"].lower()] = row["id"]
+            if by_airtable[row["id"]]["brand"]:
+                owner_by_brand[by_airtable[row["id"]]["brand"].lower()] = row["id"]
+    for r in rsvp_rows:
+        for linked in f(r, "Full Name", []) or []:
+            if linked in by_airtable and _email(f(r, "Email")):
+                owner_by_email[_email(f(r, "Email"))] = linked
+
+    def owner_of(r):
+        return (owner_by_email.get(_email(f(r, "Email")))
+                or owner_by_name.get(str(f(r, "Full Name") or "").strip().lower())
+                or owner_by_brand.get(str(f(r, "Brand") or "").strip().lower()))
+    return owner_of
+
+
 def build_session_pages(sessions, speakers, speaker_rows, rsvp_rows, topic_rows,
                         submission_rows, bonuses, bonus_rows):
     """Adds what each session page shows to the sessions, in place: video,
@@ -534,27 +585,11 @@ def build_session_pages(sessions, speakers, speaker_rows, rsvp_rows, topic_rows,
     topic_by_id = {t["id"]: t for t in topic_rows}
     by_airtable = {p["airtable_id"]: p for p in speakers}
 
-    # Who owns each bonus: Contributor Submission has no link to the speaker,
-    # so match on email (Summit Speakers or RSVP), then name, then brand.
-    owner_by_email, owner_by_name, owner_by_brand = {}, {}, {}
-    for row in speaker_rows:
-        if row["id"] in by_airtable:
-            if _email(f(row, "Email")):
-                owner_by_email[_email(f(row, "Email"))] = row["id"]
-            owner_by_name[by_airtable[row["id"]]["name"].lower()] = row["id"]
-            if by_airtable[row["id"]]["brand"]:
-                owner_by_brand[by_airtable[row["id"]]["brand"].lower()] = row["id"]
-    for r in rsvp_rows:
-        for linked in f(r, "Full Name", []) or []:
-            if linked in by_airtable and _email(f(r, "Email")):
-                owner_by_email[_email(f(r, "Email"))] = linked
+    owner_of = bonus_owner_finder(speakers, speaker_rows, rsvp_rows)
     raw_bonus = {r["id"]: r for r in bonus_rows}
     bonuses_by_speaker = {}
     for b in bonuses:
-        r = raw_bonus.get(b["airtable_id"], {})
-        owner = (owner_by_email.get(_email(f(r, "Email")))
-                 or owner_by_name.get(str(f(r, "Full Name") or "").strip().lower())
-                 or owner_by_brand.get(str(f(r, "Brand") or "").strip().lower()))
+        owner = owner_of(raw_bonus.get(b["airtable_id"], {}))
         if owner:
             bonuses_by_speaker.setdefault(owner, []).append(b)
         else:
@@ -801,6 +836,224 @@ def learn_page(sessions, speakers, schedule):
         "\n</body></html>\n")
 
 
+# ---------------------------------------------------------- claim blocks --
+
+_NO_CODE = re.compile(r"^\s*(n/?a|none|no\b|not\b|-+$)", re.I)
+# Wording that usually belongs in Claim instructions, not the description the
+# sales page also uses. Reported for the per-cycle review, never moved.
+_CLAIM_WORDING = re.compile(
+    r"coupon|promo code|discount code|\bcode\b|automatically applied|use (the|this) link|"
+    r"enrol+(ing)?\b|sign up (at|by|here)|offer ends|expires|valid (until|through)", re.I)
+
+
+def _long_date(iso):
+    try:
+        d = date.fromisoformat(str(iso)[:10])
+    except ValueError:
+        return ""
+    return f"{d:%B} {d.day}, {d.year}"
+
+
+def _contact_html(text):
+    """Help Contact is free text ("info@x.com or call 800..."): escape it and
+    turn each email address into a mailto link."""
+    return re.sub(r"[\w.+-]+@[\w-]+(\.[\w-]+)+",
+                  lambda m: f'<a href="mailto:{m.group(0)}" style="color:#657a9d;">{m.group(0)}</a>',
+                  _h(text))
+
+
+def build_claims(rows, owner_of, speakers):
+    """Contributor bonuses for the claim lessons, in Display ranking order.
+    Pure. The contributor line prefers the confirmed speaker's display name
+    (cleaner than what was typed on the form) and falls back to Full Name."""
+    by_airtable = {p["airtable_id"]: p for p in speakers}
+    today = date.today().isoformat()
+    claims = []
+    issues = {k: [] for k in ("no_link", "link_text", "claim_wording", "no_contact",
+                              "no_expiry", "expired", "caps_name", "multi_image")}
+    for r in rows:
+        status = str(f(r, "Product Test Status") or "").strip()
+        category = str(f(r, "Category") or "").strip()
+        title = str(f(r, "Product") or "").strip()
+        if status in CLAIM_SKIPPED_STATUS or category in BONUS_EXCLUDED_CATEGORIES or not title:
+            continue
+        brand = str(f(r, "Brand") or "").strip()
+        owner = owner_of(r)
+        name = by_airtable[owner]["name"] if owner in by_airtable else str(f(r, "Full Name") or "").strip()
+        if name and name == name.upper() and any(c.isalpha() for c in name):
+            issues["caps_name"].append(f"{title} ({name})")
+
+        # A Link with anything besides the URL in it (contributors leave notes
+        # there) gets no button: a guessed URL could skip a discount page.
+        raw_link = str(f(r, "Link") or "").strip()
+        link = ""
+        if re.search(r"\s", raw_link):
+            issues["link_text"].append(title)
+        elif raw_link:
+            link, _ = normalize_url(raw_link)
+        else:
+            issues["no_link"].append(title)
+
+        description_md = str(f(r, "Product description") or "")
+        hits = sorted({m.group(0).lower() for m in _CLAIM_WORDING.finditer(description_md)})
+        if hits:
+            issues["claim_wording"].append(f"{title} ({', '.join(hits)})")
+
+        expires = str(f(r, "Expires?") or "")
+        if not expires:
+            issues["no_expiry"].append(title)
+        elif expires[:10] < today:
+            issues["expired"].append(f"{title} ({expires[:10]})")
+
+        contact = str(f(r, "Help Contact") or "").strip()
+        if not contact:
+            issues["no_contact"].append(title)
+        code = str(f(r, "Coupon code") or "").strip()
+        images = [str(a.get("filename", "")).strip() for a in (f(r, "Product Img", []) or [])
+                  if str(a.get("filename", "")).strip()]
+        if len(images) > 1:
+            issues["multi_image"].append(f"{title} ({len(images)})")
+
+        rank = f(r, "Display ranking", None)
+        claims.append({
+            "id": r["id"],
+            "title": title,
+            "heading": title + (f" - Expires {_long_date(expires)}" if expires else ""),
+            "byline": (name + (f", {brand}" if brand and brand.lower() != name.lower() else "")) if name else brand,
+            "images": images,
+            "description_html": rich_to_html(description_md, links=True),
+            "instructions_html": rich_to_html(f(r, "Claim instructions"), links=True),
+            "link": link,
+            "deadline": _long_date(expires) if expires else CLAIM_DEFAULT_DEADLINE,
+            "code": "None required" if not code or _NO_CODE.match(code) else code,
+            "contact": contact,
+            "approved": status == BONUS_APPROVED,
+            "status": status or "(no Product Test Status)",
+            "in_learn": bool(f(r, "Added to Thrivecart Learn?", False)),
+            "rank": rank if isinstance(rank, (int, float)) else None,
+        })
+    claims.sort(key=lambda c: (c["rank"] if c["rank"] is not None else 99999, c["title"].lower()))
+    return claims, issues
+
+
+def claim_block(c):
+    """Static HTML for one bonus lesson: title (with expiry), image, who it is
+    from, description, claim instructions, claim button, then the reminder
+    terms. Inline styles only and no script, same as the presentation blocks."""
+    text = "font-family:inherit;font-size:16px;line-height:1.6;color:#333;"
+    out = ['<div style="font-family:inherit;max-width:900px;margin:0 auto;color:#1a1a1a;">',
+           '<h2 style="font-family:inherit;font-size:28px;font-weight:700;line-height:1.3;margin:0 0 22px;">'
+           f'{_h(c["heading"])}</h2>',
+           '<div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;">']
+    if c["images"]:
+        out.append('<div style="flex:0 1 320px;min-width:220px;">' + "".join(
+            f'<img src="{PAGES_URL}/{BONUS_IMAGE_DIR}/{urllib.parse.quote(img)}" alt="{_h(c["title"])}" '
+            'style="width:100%;height:auto;display:block;border-radius:4px;margin:0 0 14px;">'
+            for img in c["images"]) + '</div>')
+    out.append('<div style="flex:1 1 320px;min-width:0;">')
+    if c["byline"]:
+        out.append(f'<p style="font-family:inherit;font-size:16px;font-weight:700;margin:0 0 14px;">By {_h(c["byline"])}</p>')
+    if c["description_html"]:
+        out.append(f'<div style="{text}">{c["description_html"]}</div>')
+    if c["instructions_html"]:
+        out.append(f'<div style="{text}font-size:15px;text-align:center;margin:26px 0 0;">{c["instructions_html"]}</div>')
+    if c["link"]:
+        out.append('<p style="text-align:center;margin:22px 0 0;">'
+                   f'<a href="{_h(c["link"])}" target="_blank" rel="noopener" style="display:inline-block;'
+                   'background:#657a9d;color:#ffffff;font-weight:700;font-size:15px;letter-spacing:.6px;'
+                   'text-decoration:none;padding:13px 26px;border-radius:4.5px;line-height:1.3;">'
+                   f'{CLAIM_BUTTON}</a></p>')
+    out.append('</div></div>')
+    terms = [_h(CLAIM_INTRO)]
+    if c["deadline"]:
+        terms.append(f'<strong>Deadline for this offer:</strong> {_h(c["deadline"])}')
+    terms.append(f'<strong>Discount code:</strong> {_h(c["code"])}')
+    if c["contact"]:
+        terms.append(f'<strong>Customer support contact for this product:</strong> {_contact_html(c["contact"])}')
+    out.append('<p style="font-family:inherit;font-size:14px;line-height:1.6;color:#333;margin:30px 0 0;">'
+               + "<br>".join(terms) + '</p>')
+    out.append('</div>')
+    return "\n".join(out)
+
+
+def claim_page(claims, repo_images):
+    """claim-blocks.html: one copy-ready block per contributor bonus, anchored
+    by its Contributor Submission record ID for the Airtable link field."""
+    rows = []
+    for c in claims:
+        waits = []
+        if not c["approved"]:
+            waits.append(f"Not approved yet ({_h(c['status'])}) - don't add to Learn")
+        if not c["link"]:
+            waits.append("No claim link - fix in Airtable")
+        missing = [img for img in c["images"] if img not in repo_images]
+        if missing:
+            waits.append("Image not uploaded to GitHub yet")
+        if not c["images"]:
+            waits.append("No Product Img in Airtable")
+        status = ('<span class="wait">' + " · ".join(waits) + '</span>' if waits
+                  else '<span class="ok">Ready to copy</span>')
+        if c["in_learn"]:
+            status += ' · <span class="done">Added to Learn</span>'
+        block = claim_block(c)
+        rows.append(
+            f'<section id="{c["id"]}"><h2>{_h(c["title"])}</h2>'
+            f'<p class="meta">Lesson name: <strong>{_h(c["heading"])}</strong></p>'
+            f'<p class="meta">{status}</p>'
+            f'<textarea readonly rows="6">{_h(block)}</textarea>'
+            '<p><button type="button" class="copy">Copy HTML</button></p>'
+            f'<details><summary>Preview</summary><div class="preview">{block}</div></details></section>')
+    return (
+        "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">"
+        "<meta name=\"robots\" content=\"noindex\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+        "<title>First Class Pass claim blocks</title><style>"
+        "body{font-family:Arial,sans-serif;max-width:900px;margin:30px auto;padding:0 20px;color:#1a1a1a}"
+        ".how{background:#f6f5f3;border-left:4px solid #D4E17D;padding:12px 16px;font-size:15px;line-height:1.5}"
+        "section{border-bottom:1px solid #e9e7e4;padding:22px 0}h2{font-size:19px;margin:0 0 4px}"
+        "section:target{background:#fffbea}.meta{color:#666;margin:0 0 8px;font-size:14px}.ok{color:#2e7d32;font-weight:700}"
+        ".wait{color:#b26a00;font-weight:700}.done{color:#657a9d;font-weight:700}"
+        "textarea{width:100%;font:12px/1.4 monospace}button{background:#F2C181;border:0;border-radius:6px;"
+        "padding:9px 18px;font-weight:700;cursor:pointer}.preview{border:1px dashed #ccc;padding:20px;margin:10px 0}"
+        "</style></head><body>\n"
+        "<p class=\"how\"><strong>For each bonus:</strong> copy the lesson name into the lesson title, click "
+        "<em>Copy HTML</em> and paste it into the lesson's HTML block in the First Class Pass course, then tick "
+        "<em>Added to Thrivecart Learn?</em> in Airtable. Only copy bonuses marked <em>Ready to copy</em>. "
+        "Everything comes from Airtable - fix mistakes there, run the Publish workflow, then copy again. "
+        "Our own bonuses (Toolkit trial, destinations map, Country Confidence Briefs) are not here; they are "
+        "duplicated from last cycle. Built by the Publish workflow; do not edit this page.</p>\n"
+        + ("\n".join(rows) or "<p>No contributor bonuses yet.</p>") +
+        "\n<script>document.addEventListener('click',function(e){var b=e.target.closest('.copy');if(!b)return;"
+        "var t=b.closest('section').querySelector('textarea');navigator.clipboard.writeText(t.value).then(function(){"
+        "b.textContent='Copied';setTimeout(function(){b.textContent='Copy HTML';},1500);});});</script>"
+        "\n</body></html>\n")
+
+
+def claim_report(claims, issues):
+    def j(rows):
+        return ", ".join(rows) or "none"
+
+    ready = sum(1 for c in claims if c["approved"] and c["link"])
+    return "\n".join([
+        "", "## First Class Pass claim blocks", "",
+        f"**{len(claims)} contributor bonuses on {CLAIM_FILE}** — {ready} approved with a claim link "
+        f"(ready to copy), {sum(1 for c in claims if c['in_learn'])} already added to Learn.",
+        "", "### Review before copying into Learn", "",
+        f"- No claim Link ({len(issues['no_link'])}): {j(issues['no_link'])}",
+        f"- **Link field holds more than a URL, so the block has no button** — put only the URL in "
+        f"Airtable ({len(issues['link_text'])}): {j(issues['link_text'])}",
+        f"- **Description may hold claim details** — move them to Claim instructions so the sales page "
+        f"stays clean ({len(issues['claim_wording'])}): {j(issues['claim_wording'])}",
+        f"- Expires? date already passed ({len(issues['expired'])}): {j(issues['expired'])}",
+        f"- No Expires? date, so no expiry in the title"
+        + ("" if CLAIM_DEFAULT_DEADLINE else " and no deadline line")
+        + f" ({len(issues['no_expiry'])}): {j(issues['no_expiry'])}",
+        f"- No Help Contact, support line left out ({len(issues['no_contact'])}): {j(issues['no_contact'])}",
+        f"- Contributor name in all caps, not a confirmed speaker ({len(issues['caps_name'])}): {j(issues['caps_name'])}",
+        f"- More than one Product Img — all are shown; upload each to `{BONUS_IMAGE_DIR}/` "
+        f"({len(issues['multi_image'])}): {j(issues['multi_image'])}",
+    ])
+
+
 def sponsor_report(sponsors, issues, field_missing):
     def j(rows):
         return ", ".join(rows) or "none"
@@ -939,18 +1192,23 @@ def report(speakers, sessions, link_report):
     return "\n".join(lines)
 
 
-def bonus_image_audit(bonuses):
-    """Which Product Img files are not in images/bonuses/ yet, and which
-    files there no bonus uses. Names must match exactly, capitals included."""
-    files = set(x for x in os.listdir(BONUS_IMAGE_DIR) if not x.startswith(".")) \
+def repo_bonus_images():
+    return set(x for x in os.listdir(BONUS_IMAGE_DIR) if not x.startswith(".")) \
         if os.path.isdir(BONUS_IMAGE_DIR) else set()
-    wanted = {b["image"] for b in bonuses if b["image"]}
+
+
+def bonus_image_audit(bonuses, also_used=()):
+    """Which Product Img files are not in images/bonuses/ yet, and which
+    files there no bonus uses. Names must match exactly, capitals included.
+    also_used: other filenames in use (claim pages show every attachment)."""
+    files = repo_bonus_images()
+    wanted = {b["image"] for b in bonuses if b["image"]} | set(also_used)
     missing = [f"`{b['image']}` ({b['title']})" for b in bonuses if b["image"] and b["image"] not in files]
     orphans = sorted(f"`{x}`" for x in files - wanted)
     return missing, orphans
 
 
-def bonus_report(bonuses, issues):
+def bonus_report(bonuses, issues, also_used=()):
     def j(rows):
         return ", ".join(rows) or "none"
 
@@ -975,7 +1233,7 @@ def bonus_report(bonuses, issues):
         f"- **Two bonuses share an image filename** — rename one attachment in Airtable before uploading "
         f"({len(issues['shared_image'])}): {j(issues['shared_image'])}",
     ]
-    missing, orphans = bonus_image_audit(bonuses)
+    missing, orphans = bonus_image_audit(bonuses, also_used)
     lines += ["", "### Bonus images in the repo", "",
               f"- Waiting to be uploaded to `{BONUS_IMAGE_DIR}/` — these show a name tile until then "
               f"({len(missing)}): {j(missing)}",
@@ -1023,6 +1281,11 @@ def main():
 
     with open(LEARN_FILE, "w", encoding="utf-8") as fh:
         fh.write(learn_page(sessions, speakers, schedule))
+
+    claims, claim_issues = build_claims(
+        rows["bonuses"], bonus_owner_finder(speakers, rows["speakers"], rows["rsvp"]), speakers)
+    with open(CLAIM_FILE, "w", encoding="utf-8") as fh:
+        fh.write(claim_page(claims, repo_bonus_images()))
 
     today = date.today().isoformat()
     generated = "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten"
@@ -1092,7 +1355,8 @@ def main():
 
     summary = (report(speakers, sessions, link_report)
                + "\n" + session_page_report(sessions, page_issues, schedule)
-               + "\n" + bonus_report(bonuses, bonus_issues)
+               + "\n" + bonus_report(bonuses, bonus_issues, [i for c in claims for i in c["images"]])
+               + "\n" + claim_report(claims, claim_issues)
                + "\n" + sponsor_report(sponsors, sponsor_issues, sponsor_field_missing))
     print(summary)
     path = os.environ.get("GITHUB_STEP_SUMMARY")
