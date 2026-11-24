@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18",
+  "updated": "2026-11-24",
   "cycle": "2027",
   "region": "Asia",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
@@ -305,14 +305,14 @@
     {
       "slug": "john-and-kate",
       "name": "John and Kate",
-      "brand": "",
+      "brand": "none",
       "role": "speaker",
       "country": "",
-      "link": "",
+      "link": "https://none",
       "photo": "",
-      "bio": "",
-      "has_rsvp": false,
-      "has_headshot": false,
+      "bio": "John and Kate are retired teachers from Oregon.  They left the US in 2009 as Peace Corps volunteers assigned first to China and then to Jamaica.  They sold their home in 2015 and been since been engaged in slow overseas travel spending significant time in Mexico and Asia.  Their experience highlights the challenges of maintaining a nomadic lifestyle outside the US in retirement.",
+      "has_rsvp": true,
+      "has_headshot": true,
       "airtable_id": "recVrDXlZ8nywAP8s",
       "talk_titles": [
         "Expert Panelist"

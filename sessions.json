@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18",
+  "updated": "2026-11-24",
   "cycle": "2027",
   "_generated_by": "Generated from Airtable by .github/workflows/publish-page-data.yml - do not hand edit, it will be overwritten",
   "_field_notes": {
@@ -100,10 +100,10 @@
         },
         {
           "slug": "helen-foster",
-          "gift_title": "",
-          "gift_url": "",
+          "gift_title": "Japan Tips Newsletter",
+          "gift_url": "https://japlanease.com/subscribe-to-our-newsletter/",
           "website": "https://japlanease.com",
-          "social": ""
+          "social": "https://www.facebook.com/Japlanease"
         },
         {
           "slug": "tanya-korteling",
@@ -455,14 +455,14 @@
       ],
       "video_id": "",
       "video_ratio": null,
-      "description_html": "",
+      "description_html": "<p>Planning a trip to Asia with limited mobility doesn't have to be overwhelming!</p><p>In this presentation, I'll share five practical travel-planning tips, using real-life examples from my trip to Japan, to help you create a trip that works with your body and your pace.</p><p>You'll learn how to:</p><ul><li>Choose transportation that suits your needs</li><li>Recognize and respect your limits</li><li>Allow extra time to explore big cities</li><li>Use Google Maps to organize daily itineraries</li><li>Prioritize the sights that matter most</li></ul><p>Perfect for travelers with disabilities, chronic illness, or anyone who prefers a slower pace!</p>",
       "presenters": [
         {
           "slug": "robyn-dirk",
-          "gift_title": "",
-          "gift_url": "",
+          "gift_title": "10 Travel Planning Tips & Pre-Travel Checklist - Two Empty Passports",
+          "gift_url": "https://two-empty-passports.kit.com/diy-summit",
           "website": "https://twoemptypassports.com/",
-          "social": ""
+          "social": "https://www.facebook.com/twoemptypassportstravel"
         }
       ],
       "bonuses": []
@@ -775,14 +775,14 @@
       ],
       "video_id": "",
       "video_ratio": null,
-      "description_html": "",
+      "description_html": "<p>You've spent months planning your trip only to arrive and not be able to get what you want because there's a language barrier. Let's fix that.</p><p>In this session, without long lists &amp; overwhelming grammar, you'll learn how to say a lot with just a little language.</p><p>I'll cover:</p><ul><li>Which language essentials to focus on wherever you're going to always make your first interactions super easy</li><li>How to handle different scripts and writing systems (without needing to spend hours learning them perfectly!)</li><li>Why you only need to worry about one app (both before your trip &amp; during it)</li></ul>",
       "presenters": [
         {
           "slug": "lindsay-dow",
-          "gift_title": "",
-          "gift_url": "",
+          "gift_title": "How to Finally Learn That Language",
+          "gift_url": "https://lindsaydoeslanguages.com/freevideo",
           "website": "https://lindsaydoeslanguages.com/",
-          "social": ""
+          "social": "https://www.youtube.com/@LindsayDowLanguages"
         }
       ],
       "bonuses": []
